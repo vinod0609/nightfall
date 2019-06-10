@@ -16,6 +16,7 @@ As well as this file, please be sure to check out:
 
 - [The Whitepaper](./doc/whitepaper/nightfall-v1.pdf) for technical details on the protocols and
   their application herein.
+- [Primer on Nightfall Protocols](https://medium.com/@chaitanyakonda/nightfall-makes-token-transactions-on-ethereum-private-how-does-it-work-acf2ffd0aa7a) A high level explanation of how the Nightfall protocols work
 - [contributions.md](./contributing.md) to find out how to contribute code.
 - [limitations.md](./limitations.md) to understand the limitations of the current code.
 - [license.md](./license.md) to understand how we have placed this code completely in the public
