@@ -3,7 +3,6 @@ const app = express();
 const router = express.Router()
 const bodyParser = require('body-parser');
 
-
 const config = require('./config') // require the config file
 
 const logger = require('./logger');
