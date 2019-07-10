@@ -3,10 +3,13 @@ module.exports = {
   root: true,
   rules: {
     'no-console': 'off',
-    'space-before-function-paren': 'off',
+    'space-before-function-paren': ['error', 'always'],
     'no-use-before-define': 'off',
     // 'prettier/prettier': 'off',   // make prettier config off
     'quotes': ['error', 'single'],
-    'comma-dangle': ['error', 'always'],
+    'comma-dangle': ['error', 'always-multiline'],
+    'semi': 'error',
+    'no-extra-semi': 'error',
+    'indent': ['error', 2],
   }
 };
