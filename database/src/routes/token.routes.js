@@ -1,8 +1,8 @@
-const Response = require('./response/response');
-const TokenService = require('../business/token.service');
+import Response from './response/response';
+import { Erc721Service } from '../business';
 
 // initializing routes
-exports.init = router => {
+export function init (router) {
   // public non-fungible tokens
   router
     .route('/nft')
@@ -21,7 +21,7 @@ exports.init = router => {
     .patch(updateTokenHandler);
 
   router.route('/token/transaction').get(getPrivateTokenTransactions);
-};
+}
 
 // public non-fungible tokens
 /**
@@ -42,8 +42,8 @@ exports.init = router => {
  */
 async function addNFToken (req, res, next) {
   try {
-    const tokenService = new TokenService(req.user.db);
-    await tokenService.addNFToken(req.body);
+    const erc721Service = new Erc721Service(req.user.db);
+    await erc721Service.addNFToken(req.body);
     const response = new Response(200, { message: 'inserted' }, null);
     res.json(response);
   } catch (err) {
@@ -72,8 +72,8 @@ async function addNFToken (req, res, next) {
  */
 async function updateNFToken (req, res, next) {
   try {
-    const tokenService = new TokenService(req.user.db);
-    await tokenService.updateNFToken(req.body);
+    const erc721Service = new Erc721Service(req.user.db);
+    await erc721Service.updateNFToken(req.body);
     const response = new Response(200, { message: 'updated' }, null);
     res.json(response);
   } catch (err) {
@@ -99,8 +99,8 @@ async function updateNFToken (req, res, next) {
  */
 async function getNFTokens (req, res, next) {
   try {
-    const tokenService = new TokenService(req.user.db);
-    const tokens = await tokenService.getNFTokens(req.query);
+    const erc721Service = new Erc721Service(req.user.db);
+    const tokens = await erc721Service.getNFTokens(req.query);
     const response = new Response(200, tokens, null);
     res.json(response);
   } catch (err) {
@@ -120,9 +120,9 @@ async function getNFTokens (req, res, next) {
  * @param {*} res
  */
 async function getNFTTransactions (req, res, next) {
-  const tokenService = new TokenService(req.user.db);
+  const erc721Service = new Erc721Service(req.user.db);
   try {
-    const transactions = await tokenService.getNFTTransactions(req.query);
+    const transactions = await erc721Service.getNFTTransactions(req.query);
     const response = new Response(200, transactions, null);
     res.json(response);
   } catch (err) {
@@ -142,8 +142,8 @@ async function getNFTTransactions (req, res, next) {
  */
 async function getNFToken (req, res, next) {
   try {
-    const tokenService = new TokenService(req.user.db);
-    const token = await tokenService.getNFToken(req.params.token_id);
+    const erc721Service = new Erc721Service(req.user.db);
+    const token = await erc721Service.getNFToken(req.params.token_id);
     const response = new Response(200, { token }, null);
     res.json(response);
   } catch (err) {
@@ -172,8 +172,8 @@ async function getNFToken (req, res, next) {
  */
 async function addTokenHandler (req, res, next) {
   try {
-    const tokenService = new TokenService(req.user.db);
-    await tokenService.addNewToken(req.body);
+    const erc721Service = new Erc721Service(req.user.db);
+    await erc721Service.addNewToken(req.body);
     const response = new Response(200, { message: 'inserted' }, null);
     res.json(response);
   } catch (err) {
@@ -194,9 +194,9 @@ async function addTokenHandler (req, res, next) {
  * @param {*} res
  */
 async function getTokenHandler (req, res, next) {
-  const tokenService = new TokenService(req.user.db);
+  const erc721Service = new Erc721Service(req.user.db);
   try {
-    const tokens = await tokenService.getToken(req.query);
+    const tokens = await erc721Service.getToken(req.query);
     const response = new Response(200, tokens, null);
     res.json(response);
   } catch (err) {
@@ -228,9 +228,9 @@ async function getTokenHandler (req, res, next) {
  * @param {*} res
  */
 async function updateTokenHandler (req, res, next) {
-  const tokenService = new TokenService(req.user.db);
+  const erc721Service = new Erc721Service(req.user.db);
   try {
-    await tokenService.updateToken(req.body);
+    await erc721Service.updateToken(req.body);
     const response = new Response(200, { message: 'updated' }, null);
     res.json(response);
   } catch (err) {
@@ -247,11 +247,9 @@ async function updateTokenHandler (req, res, next) {
  * @param {*} res
  */
 async function getPrivateTokenTransactions (req, res, next) {
-  const tokenService = new TokenService(req.user.db);
+  const erc721Service = new Erc721Service(req.user.db);
   try {
-    const transactions = await tokenService.getPrivateTokenTransactions(
-      req.query,
-    );
+    const transactions = await erc721Service.getPrivateTokenTransactions(req.query);
     const response = new Response(200, transactions, null);
     res.json(response);
   } catch (err) {

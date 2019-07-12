@@ -1,10 +1,8 @@
-const Response = require('./response/response');
-const AccountService = require('../business/accounts.service');
-const CoinService = require('../business/coin.service');
-const TokenService = require('../business/token.service');
+import Response from './response/response';
+import { AccountService, Erc721Service, Erc20Service } from '../business';
 
 // initializing routes
-exports.init = router => {
+export function init (router) {
   // Route to get user by name, also use while login
   router.route('/login').post(getUserByName);
 
@@ -35,7 +33,7 @@ exports.init = router => {
     .post(addTokenShieldContractAddress)
     .put(updateTokenShieldContractAddress)
     .delete(deleteTokenShieldContractAddress);
-};
+}
 
 /**
  * this function is used to add ERC-20 Contract related information in user table, such as contract addresses,
@@ -52,11 +50,7 @@ async function addCoinShieldContractAddress (req, res, next) {
   const accountService = new AccountService(req.user.db);
   try {
     await accountService.addCoinShieldContractAddress(req.body);
-    const response = new Response(
-      200,
-      { message: 'Contract Information Added' },
-      null,
-    );
+    const response = new Response(200, { message: 'Contract Information Added' }, null);
     res.json(response);
   } catch (err) {
     const response = new Response(500, null, { message: err.message });
@@ -76,14 +70,8 @@ async function addCoinShieldContractAddress (req, res, next) {
 async function deleteCoinShieldContractAddress (req, res, next) {
   const accountService = new AccountService(req.user.db);
   try {
-    const status = await accountService.deleteCoinShieldContractAddress(
-      req.query,
-    );
-    const response = new Response(
-      200,
-      { message: 'Contract Information Removed', status },
-      null,
-    );
+    const status = await accountService.deleteCoinShieldContractAddress(req.query);
+    const response = new Response(200, { message: 'Contract Information Removed', status }, null);
     res.json(response);
   } catch (err) {
     const response = new Response(500, null, { message: err.message });
@@ -107,11 +95,7 @@ async function updateCoinShieldContractAddress (req, res, next) {
   const accountService = new AccountService(req.user.db);
   try {
     await accountService.updateCoinShieldContractAddress(req.body);
-    const response = new Response(
-      200,
-      { message: 'Contract Information Updated' },
-      null,
-    );
+    const response = new Response(200, { message: 'Contract Information Updated' }, null);
     res.json(response);
   } catch (err) {
     const response = new Response(500, null, { message: err.message });
@@ -135,11 +119,7 @@ async function addTokenShieldContractAddress (req, res, next) {
   const accountService = new AccountService(req.user.db);
   try {
     await accountService.addTokenShieldContractAddress(req.body);
-    const response = new Response(
-      200,
-      { message: 'Contract Information Added' },
-      null,
-    );
+    const response = new Response(200, { message: 'Contract Information Added' }, null);
     res.json(response);
   } catch (err) {
     const response = new Response(500, null, { message: err.message });
@@ -159,14 +139,8 @@ async function addTokenShieldContractAddress (req, res, next) {
 async function deleteTokenShieldContractAddress (req, res, next) {
   const accountService = new AccountService(req.user.db);
   try {
-    const status = await accountService.deleteTokenShieldContractAddress(
-      req.query,
-    );
-    const response = new Response(
-      200,
-      { message: 'Contract Information Removed', status },
-      null,
-    );
+    const status = await accountService.deleteTokenShieldContractAddress(req.query);
+    const response = new Response(200, { message: 'Contract Information Removed', status }, null);
     res.json(response);
   } catch (err) {
     const response = new Response(500, null, { message: err.message });
@@ -190,11 +164,7 @@ async function updateTokenShieldContractAddress (req, res, next) {
   const accountService = new AccountService(req.user.db);
   try {
     await accountService.updateTokenShieldContractAddress(req.body);
-    const response = new Response(
-      200,
-      { message: 'Contract Information Updated' },
-      null,
-    );
+    const response = new Response(200, { message: 'Contract Information Updated' }, null);
     res.json(response);
   } catch (err) {
     const response = new Response(500, null, { message: err.message });
@@ -214,11 +184,7 @@ async function updateWhisperIdentity (req, res, next) {
   const accountService = new AccountService(req.user.db);
   try {
     await accountService.updateWhisperIdentity(shhIdentity);
-    const response = new Response(
-      200,
-      { message: 'Whisper-key updated' },
-      null,
-    );
+    const response = new Response(200, { message: 'Whisper-key updated' }, null);
     res.json(response);
   } catch (err) {
     const response = new Response(500, null, { message: err.message });
@@ -252,11 +218,11 @@ async function getWhisperIdentity (req, res, next) {
  * @param {*} res
  */
 async function getCountHandler (req, res, next) {
-  const tokenService = new TokenService(req.user.db);
-  const coinService = new CoinService(req.user.db);
+  const erc721Service = new Erc721Service(req.user.db);
+  const erc20Service = new Erc20Service(req.user.db);
   try {
-    const tokens = await tokenService.getToken();
-    const coins = await coinService.getCoinByAccount();
+    const tokens = await erc721Service.getToken();
+    const coins = await erc20Service.getCoinByAccount();
     const coinList = coins.data;
     let totalAmount = 0;
     if (coinList.length) {

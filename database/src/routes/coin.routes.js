@@ -1,8 +1,8 @@
-const Response = require('./response/response');
-const CoinService = require('../business/coin.service');
+import Response from './response/response';
+import { Erc20Service } from '../business';
 
 // initializing routes
-exports.init = router => {
+export function init (router) {
   // public fungible tokens
   router
     .route('/ft/transaction')
@@ -19,7 +19,7 @@ exports.init = router => {
   router.route('/coin/burn').patch(burnCoinHandler);
 
   router.route('/coin/transaction').get(getPrivateCoinTransactions);
-};
+}
 
 // public fungible tokens
 /**
@@ -37,8 +37,8 @@ exports.init = router => {
  */
 async function addFTTransaction (req, res, next) {
   try {
-    const coinService = new CoinService(req.user.db);
-    await coinService.addFTokenTransaction(req.body);
+    const erc20Service = new Erc20Service(req.user.db);
+    await erc20Service.addFTokenTransaction(req.body);
     const response = new Response(200, { message: 'inserted' }, null);
     res.json(response);
   } catch (err) {
@@ -55,9 +55,9 @@ async function addFTTransaction (req, res, next) {
  * @param {*} res
  */
 async function getFTTransactions (req, res, next) {
-  const coinService = new CoinService(req.user.db);
+  const erc20Service = new Erc20Service(req.user.db);
   try {
-    const transactions = await coinService.getFTTransactions(req.query);
+    const transactions = await erc20Service.getFTTransactions(req.query);
     const response = new Response(200, transactions, null);
     res.json(response);
   } catch (err) {
@@ -85,13 +85,13 @@ async function getFTTransactions (req, res, next) {
  */
 async function addCoinHandler (req, res, next) {
   try {
-    const coinService = new CoinService(req.user.db);
+    const erc20Service = new Erc20Service(req.user.db);
 
     const { toSave } = req.body;
     if (toSave === 'receiverSide') {
-      await coinService.addNewCoinOnReceiverSide(req.body);
+      await erc20Service.addNewCoinOnReceiverSide(req.body);
     } else {
-      await coinService.addNewCoin(req.body);
+      await erc20Service.addNewCoin(req.body);
     }
 
     const response = new Response(200, { message: 'inserted' }, null);
@@ -110,9 +110,9 @@ async function addCoinHandler (req, res, next) {
  */
 async function getCoinHandler (req, res, next) {
   try {
-    const coinService = new CoinService(req.user.db);
+    const erc20Service = new Erc20Service(req.user.db);
 
-    const coins = await coinService.getCoinByAccount();
+    const coins = await erc20Service.getCoinByAccount();
 
     const response = new Response(200, coins, null);
     res.json(response);
@@ -153,9 +153,9 @@ async function getCoinHandler (req, res, next) {
  */
 async function updateCoinHandler (req, res, next) {
   try {
-    const coinService = new CoinService(req.user.db);
-    await coinService.updateCoins(req.body);
-    await coinService.addReturnCoins({
+    const erc20Service = new Erc20Service(req.user.db);
+    await erc20Service.updateCoins(req.body);
+    await erc20Service.addReturnCoins({
       ...req.body,
     });
     const response = new Response(200, { message: 'updated' }, null);
@@ -187,8 +187,8 @@ async function updateCoinHandler (req, res, next) {
  */
 async function burnCoinHandler (req, res, next) {
   try {
-    const coinService = new CoinService(req.user.db);
-    await coinService.updateBurnedCoin(req.body);
+    const erc20Service = new Erc20Service(req.user.db);
+    await erc20Service.updateBurnedCoin(req.body);
     const response = new Response(200, { message: 'updated' }, null);
     res.json(response);
   } catch (err) {
@@ -210,10 +210,8 @@ async function burnCoinHandler (req, res, next) {
  */
 async function getPrivateCoinTransactions (req, res, next) {
   try {
-    const coinService = new CoinService(req.user.db);
-    const transactions = await coinService.getPrivateCoinTransactions(
-      req.query,
-    );
+    const erc20Service = new Erc20Service(req.user.db);
+    const transactions = await erc20Service.getPrivateCoinTransactions(req.query);
     const response = new Response(200, transactions, null);
     res.json(response);
   } catch (err) {
