@@ -1,175 +1,165 @@
-let {COLLECTIONS} = require('../common/constants.json')
+import { COLLECTIONS } from '../common/constants';
+import tokenMapper from '../mappers/token';
+import { Erc721TransactionService, Erc721CommitmentTransactionService } from '.';
 
-let tokenMapper = require('../mappers/token')
+export default class TokenService {
+  constructor (_db) {
+    this.db = _db;
+    this.erc721TransactionService = new Erc721TransactionService(_db);
+    this.erc721CommitmentTransactionService = new Erc721CommitmentTransactionService(_db);
+  }
 
-let TokenTransactionService = require('./token_transaction.service')
-let PublicTokenTransactionService = require('./public_token_transaction.service')
+  // nft
+  async addNFToken (data) {
+    const { is_received } = data;
+    await this.db.saveData(COLLECTIONS.PUBLIC_TOKEN, data);
 
-module.exports = class TokenService {
-	constructor (_db) {
-		this.db = _db;
-		this.tokenTransactionService = new TokenTransactionService(_db);
-		this.publicTokenTransactionService = new PublicTokenTransactionService(_db);
-	}
+    if (is_received)
+      return this.erc721TransactionService.insertTransaction({
+        ...data,
+        type: 'received',
+      });
 
+    return this.erc721TransactionService.insertTransaction({
+      ...data,
+      type: 'minted',
+    });
+  }
 
+  async updateNFToken (data) {
+    const { token_id, is_burned, is_shielded } = data;
 
-// nft
-	async addNFToken (data) {
-		const {
-			is_minted,
-			is_received
-		} = data;
-		await this.db.saveData(COLLECTIONS.PUBLIC_TOKEN, data);
+    await this.db.updateData(
+      COLLECTIONS.PUBLIC_TOKEN,
+      {
+        token_id,
+        is_transferred: { $exists: false },
+        is_shielded: false,
+      },
+      { $set: data },
+    );
 
-		if (is_received)
-			return await this.publicTokenTransactionService.insertTransaction({ ...data, type: "received" });
-		if (is_minted)
-			return await this.publicTokenTransactionService.insertTransaction({ ...data, type: "minted" });
-	}
+    if (is_burned)
+      return this.erc721TransactionService.insertTransaction({
+        ...data,
+        type: 'burned',
+      });
+    if (is_shielded)
+      return this.erc721TransactionService.insertTransaction({
+        ...data,
+        type: 'shielded',
+      });
 
+    return this.erc721TransactionService.insertTransaction({
+      ...data,
+      type: 'transferred',
+    });
+  }
 
-	async updateNFToken (data) {
-		const {
-			token_id,
-			is_transferred,
-			is_burned,
-			is_shielded
-		} = data;
+  getNFTokens (query) {
+    if (!query || !query.pageNo || !query.limit) {
+      return this.db.getData(COLLECTIONS.PUBLIC_TOKEN, {
+        shield_contract_address: query.shield_contract_address
+          ? query.shield_contract_address
+          : null,
+        is_transferred: { $exists: false },
+        is_burned: { $exists: false },
+        is_shielded: false,
+      });
+    }
+    const { pageNo, limit } = query;
+    return this.db.getDbData(
+      COLLECTIONS.PUBLIC_TOKEN,
+      {
+        shield_contract_address: query.shield_contract_address
+          ? query.shield_contract_address
+          : null,
+        is_transferred: { $exists: false },
+        is_burned: { $exists: false },
+        is_shielded: false,
+      },
+      undefined,
+      { created_at: -1 },
+      parseInt(pageNo),
+      parseInt(limit),
+    );
+  }
 
-		await this.db.updateData(
-			COLLECTIONS.PUBLIC_TOKEN,
-			{
-				token_id,
-				is_transferred: {$exists: false},
-				is_shielded: false
-			},
-			{ '$set': data }
-		);
+  getNFToken (token_id) {
+    return this.db.findOne(COLLECTIONS.PUBLIC_TOKEN, {
+      token_id,
+      is_transferred: { $exists: false },
+    });
+  }
 
+  getNFTTransactions (query) {
+    return this.erc721TransactionService.getTransactions(query);
+  }
 
-		if (is_transferred)
-			return await this.publicTokenTransactionService.insertTransaction({ ...data, type: "transferred" });
-		if (is_burned)
-			return await this.publicTokenTransactionService.insertTransaction({ ...data, type: "burned" });
-		if (is_shielded)
-			return await this.publicTokenTransactionService.insertTransaction({ ...data, type: "shielded" });
-	}
+  // private token
+  async addNewToken (data) {
+    await this.db.saveData(COLLECTIONS.TOKEN, tokenMapper(data));
 
+    const { is_received } = data;
 
-	async getNFTokens (query) {
-		if (!query || !query.pageNo || !query.limit) {
-			return await this.db.getData(
-				COLLECTIONS.PUBLIC_TOKEN,
-				{
-					shield_contract_address: (query.shield_contract_address ? query.shield_contract_address : null),
-					is_transferred: {$exists: false},
-					is_burned: {$exists: false},
-					is_shielded:false
-				},
-			);
-		}
-		const {pageNo, limit} = query;
-		return await this.db.getDbData(
-			COLLECTIONS.PUBLIC_TOKEN,
-			{
-				shield_contract_address: (query.shield_contract_address ? query.shield_contract_address : null),
-				is_transferred: {$exists: false},
-				is_burned: {$exists: false},
-				is_shielded: false
-			},
-			null,
-			{created_at: -1},
-			parseInt(pageNo),
-			parseInt(limit)
-		);
-	}
+    if (is_received)
+      return this.erc721CommitmentTransactionService.insertTransaction({
+        ...tokenMapper(data),
+        type: 'received',
+      });
 
+    return this.erc721CommitmentTransactionService.insertTransaction({
+      ...tokenMapper(data),
+      type: 'mint',
+    });
+  }
 
-	async getNFToken (token_id) {
-		return await this.db.findOne(
-			COLLECTIONS.PUBLIC_TOKEN,
-			{
-				token_id,
-				is_transferred: {$exists: false}
-			},
-		);
-	}
+  async updateToken (data) {
+    const { A, is_burned } = data;
 
+    await this.db.updateData(
+      COLLECTIONS.TOKEN,
+      {
+        token_id: A,
+        is_transferred: { $exists: false },
+      },
+      { $set: tokenMapper(data) },
+    );
 
-	async getNFTTransactions (query) {
-		return await this.publicTokenTransactionService.getTransactions(query);
-	}
+    if (is_burned)
+      return this.erc721CommitmentTransactionService.insertTransaction({
+        ...tokenMapper(data),
+        type: 'burned',
+      });
 
+    return this.erc721CommitmentTransactionService.insertTransaction({
+      ...tokenMapper(data),
+      type: 'transfer',
+    });
+  }
 
-// private token
-	async addNewToken (data) {
+  getToken (pageination) {
+    if (!pageination || !pageination.pageNo || !pageination.limit) {
+      return this.db.getData(COLLECTIONS.TOKEN, {
+        is_transferred: { $exists: false },
+        is_burned: { $exists: false },
+      });
+    }
+    const { pageNo, limit } = pageination;
+    return this.db.getDbData(
+      COLLECTIONS.TOKEN,
+      {
+        is_transferred: { $exists: false },
+        is_burned: { $exists: false },
+      },
+      undefined,
+      { created_at: -1 },
+      parseInt(pageNo),
+      parseInt(limit),
+    );
+  }
 
-		await this.db.saveData(COLLECTIONS.TOKEN, tokenMapper(data));
-
-		const {
-			is_minted,
-			is_received
-		} = data;
-
-		if (is_received)
-			return await this.tokenTransactionService.insertTransaction({ ...tokenMapper(data), type: "received" });
-		if (is_minted)
-			return await this.tokenTransactionService.insertTransaction({ ...tokenMapper(data), type: "mint" });
-	}
-
-
-	async updateToken (data) {
-		const {
-			A,
-			is_transferred,
-			is_burned
-		} = data;
-
-		await this.db.updateData(
-			COLLECTIONS.TOKEN,
-			{
-				token_id: A,
-				is_transferred: {$exists: false}
-			},
-			{ '$set': tokenMapper(data) }
-		);
-
-		if (is_transferred)
-			return await this.tokenTransactionService.insertTransaction({ ...tokenMapper(data), type: "transfer" });
-		if (is_burned)
-			return await this.tokenTransactionService.insertTransaction({ ...tokenMapper(data), type: "burned" });
-	}
-
-
-	async getToken (pageination) {
-		if (!pageination || !pageination.pageNo || !pageination.limit) {
-			return await this.db.getData(
-				COLLECTIONS.TOKEN,
-				{
-					is_transferred: {$exists: false},
-					is_burned:{$exists: false}
-				},
-			);
-		}
-		const {pageNo, limit} = pageination;
-		return await this.db.getDbData(
-			COLLECTIONS.TOKEN,
-			{
-				is_transferred: {$exists: false},
-				is_burned:{$exists: false}
-			},
-			null,
-			{created_at: -1},
-			parseInt(pageNo),
-			parseInt(limit)
-		);
-	}
-
-
-	async getPrivateTokenTransactions(query) {
-		return await this.tokenTransactionService.getTransactions(query);
-	}
-
-
+  getPrivateTokenTransactions (query) {
+    return this.erc721CommitmentTransactionService.getTransactions(query);
+  }
 }

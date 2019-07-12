@@ -1,9 +1,9 @@
-module.exports = ({name, email, address, isAuditor, shhIdentity}) => {
-    let user = {}
-    user.name = name
-    user.email = email
-    user.address = address.toLowerCase()
-    user.is_auditor = isAuditor,
-    user.shh_identity = shhIdentity || ''
-    return user
+export default function ({ name, email, address, isAuditor, shhIdentity }) {
+  return {
+    name,
+    email,
+    address: address.toLowerCase(),
+    is_auditor: isAuditor,
+    shh_identity: shhIdentity,
+  };
 }

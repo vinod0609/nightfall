@@ -1,47 +1,43 @@
-const express = require('express');
+import express, { Router } from 'express';
+import bodyParser from 'body-parser';
+import cors from 'cors';
+import * as config from './config';
+import logger from './logger';
+import { setDB, dbConnection } from './middlewares';
+import { initializeAccountRoutes, initializeTokenRoutes, initializeCoinRoutes } from './routes';
+
+config.setEnv(process.argv[2]);
+
 const app = express();
-const router = express.Router()
-const bodyParser = require('body-parser');
-
-const config = require('./config') // require the config file
-
-const logger = require('./logger');
-
-const cors = require('cors');
-const setDB = require('./middlewares/setDBMiddleware');
-const dbConnection = require('./middlewares/dbConnectionMiddleware');
-
-config.setEnv(process.argv[2])
-let accountRouter = require('../src/routes/accounts.routes')
-let tokenRouter = require('../src/routes/token.routes')
-let coinRouter = require('../src/routes/coin.routes')
+const router = Router();
 
 app.use(cors());
 
-
-app.use(bodyParser.urlencoded({ extended: false}));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(dbConnection);
 app.use(setDB);
-app.use('/', router)
+app.use('/', router);
 
-accountRouter.init(router)
-tokenRouter.init(router)
-coinRouter.init(router)
+initializeAccountRoutes(router);
+initializeTokenRoutes(router);
+initializeCoinRoutes(router);
 
-app.use(function(err, req, res, next) {
-	logger.error(
-		`${req.method}:${req.url}
-		${JSON.stringify({error: err.message})}
-		${JSON.stringify({body: req.body})}
-		${JSON.stringify({params: req.params})}
-		${JSON.stringify({query: req.query})}
-	`);
-	err.status = err.status || 500
-    res.status(err.status).send({ hasError: true, statusCode: err.status, message: err.message , error: err});
+app.use(function (err, req, res) {
+  logger.error(
+    `${req.method}:${req.url}
+		${JSON.stringify({ error: err.message })}
+		${JSON.stringify({ body: req.body })}
+		${JSON.stringify({ params: req.params })}
+		${JSON.stringify({ query: req.query })}
+	`,
+  );
+  res
+    .status(err.status || 500)
+    .send({ hasError: true, statusCode: err.status, message: err.message, error: err });
 });
 
 const server = app.listen(80, '0.0.0.0', function () {
   console.log('zkp database RESTful API server started on ::: 80');
 });
-server.timeout = 0
+server.timeout = 0;
