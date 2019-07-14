@@ -20,7 +20,7 @@ const config = Config.getProps();
 @param {integer} index - the index of the token in the merkle tree, which we want to get from the nfTokenShield contract.
 @returns {Array[integer,Array[string,...]]} [chunkNumber, chunks[]] - where chunkNumber is the same as the input chunkNumber (returned for convenience), and chunks[] is an array of hex strings which represent token commitments (leaf nodes) or non-leaf nodes of the merkle tree.
 */
-async function getMerkleNode(account, shieldContract, index) {
+async function getMerkleNode (account, shieldContract, index) {
   // get the chunk
   const node = await shieldContract.M.call(index, { from: account });
   return node;
@@ -33,7 +33,7 @@ This function loads the verifying key data into the verifier registry smart cont
 @param {contract} verifier - an instance of the verifier smart contract
 @param {contract} verifierRegistry - an instance of the verifierRegistry smart contract
 */
-async function registerVk(vk, account, verifier, verifierRegistry) {
+async function registerVk (vk, account, verifier, verifierRegistry) {
   console.log('Registering verifying key');
   const txReceipt = await verifierRegistry.registerVk(vk, [verifier.address], {
     from: account,
@@ -53,7 +53,7 @@ This function registers the verifier with the verifier registry
 @param {contract} verifier - an instance of the verifier smart contract
 @param {contract} verifierRegistry - an instance of the verifierRegistry smart contract
 */
-async function registerVerifierContract(verifier, verifierRegistry, account) {
+async function registerVerifierContract (verifier, verifierRegistry, account) {
   const txReceipt = await verifierRegistry.registerVerifierContract(verifier.address, {
     from: account,
     gas: 6500000,
@@ -68,7 +68,7 @@ This function sets the vkId's within the Shield contract.
 @param {string} account - the account that is paying for the transactions
 @param {contract} nfTokenShield - an instance of the TokenShield contract
 */
-async function setVkIds(vkIds, account, nfTokenShield) {
+async function setVkIds (vkIds, account, nfTokenShield) {
   console.log('Setting vkIds within NFTokenShield');
   await nfTokenShield.setVkIds(
     vkIds.MintToken.vkId,
@@ -92,7 +92,7 @@ This function creates a nf token commitment.
 @param {contract} nfTokenShield - an instance of the TokenShield contract
 @return {integer} tokenIndex - the index of the z_B token within the on-chain Merkle Tree
 */
-async function mint(proof, inputs, vkId, account, nfTokenShield) {
+async function mint (proof, inputs, vkId, account, nfTokenShield) {
   const accountWith0x = utils.ensure0x(account);
   const finalInputs = [...inputs, '1'];
 
@@ -132,7 +132,7 @@ key and the transfer input vector having been input.
 @return {integer} tokenIndex - the index of the z_B token within the on-chain Merkle Tree
 @returns {object} txObject
 */
-async function transfer(proof, inputs, vkId, account, nfTokenShield) {
+async function transfer (proof, inputs, vkId, account, nfTokenShield) {
   const accountWith0x = utils.ensure0x(account);
   const finalInputs = [...inputs, 1];
 
@@ -175,7 +175,7 @@ computed.
 @param {string} proofId is a unique ID for the proof, used by the verifier contract to lookup the correct proof.
 @returns {object} burnResponse - a promise that resolves into the transaction hash
 */
-async function burn(proof, inputs, vkId, account, nfTokenShield) {
+async function burn (proof, inputs, vkId, account, nfTokenShield) {
   const accountWith0x = utils.ensure0x(account);
   const finalInputs = [...inputs, '1'];
 
@@ -203,7 +203,7 @@ async function burn(proof, inputs, vkId, account, nfTokenShield) {
 /**
 checks the details of an incoming (newly transferred token), to ensure the data we have received is correct and legitimate!!
 */
-async function checkCorrectness(A, pk, S, z, zIndex, nfTokenShield) {
+async function checkCorrectness (A, pk, S, z, zIndex, nfTokenShield) {
   console.log('Checking h(A|pk|S) = z...');
   const zCheck = utils.recursiveHashConcat(utils.strip0x(A).slice(-(config.HASHLENGTH * 2)), pk, S);
   const z_correct = zCheck === z; // eslint-disable-line camelcase

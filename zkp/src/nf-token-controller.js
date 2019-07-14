@@ -49,19 +49,19 @@ This function allocates a specific NFTokenShield contract to a particular user
 @param {string} shieldAddress - the address of the shield contract you want to point to
 @param {string} address - the Ethereum address of the user to whom this shieldAddress will apply
 */
-async function setShield(shieldAddress, address) {
+async function setShield (shieldAddress, address) {
   if (shieldAddress === undefined) shield[address] = await NFTokenShield.deployed();
   else shield[address] = await NFTokenShield.at(shieldAddress);
 }
 
-function unSetShield(address) {
+function unSetShield (address) {
   delete shield[address];
 }
 
 /**
 return the address of the shield contract
 */
-async function getShieldAddress(account) {
+async function getShieldAddress (account) {
   const nfTokenShield = shield[account] ? shield[account] : await NFTokenShield.deployed();
   return nfTokenShield.address;
 }
@@ -69,7 +69,7 @@ async function getShieldAddress(account) {
 /**
 return the name of the ERC-721 tokens
 */
-async function getNFTName(address) {
+async function getNFTName (address) {
   const nfTokenShield = shield[address] ? shield[address] : await NFTokenShield.deployed();
   const nfToken = await NFTokenMetadata.at(await nfTokenShield.getNFToken.call());
   return nfToken.name.call();
@@ -78,7 +78,7 @@ async function getNFTName(address) {
 /**
 return the symbol of the ERC-721 tokens
 */
-async function getNFTSymbol(address) {
+async function getNFTSymbol (address) {
   const nfTokenShield = shield[address] ? shield[address] : await NFTokenShield.deployed();
   const nfToken = await NFTokenMetadata.at(await nfTokenShield.getNFToken.call());
   return nfToken.symbol.call();
@@ -87,7 +87,7 @@ async function getNFTSymbol(address) {
 /**
 return the address of the ERC-721 token
 */
-async function getNFTAddress(address) {
+async function getNFTAddress (address) {
   const nfTokenShield = shield[address] ? shield[address] : await NFTokenShield.deployed();
   return nfTokenShield.getNFToken.call();
 }
@@ -95,7 +95,7 @@ async function getNFTAddress(address) {
 /**
 return the symbol of the ERC-721 tokens
 */
-async function getNFTURI(tokenID, address) {
+async function getNFTURI (tokenID, address) {
   const nfTokenShield = shield[address] ? shield[address] : await NFTokenShield.deployed();
   const nfToken = await NFTokenMetadata.at(await nfTokenShield.getNFToken.call());
   return nfToken.tokenURI.call(tokenID);
@@ -104,7 +104,7 @@ async function getNFTURI(tokenID, address) {
 /**
 return the number of tokens held by an account
 */
-async function getBalance(address) {
+async function getBalance (address) {
   const nfTokenShield = shield[address] ? shield[address] : await NFTokenShield.deployed();
   const nfToken = await NFTokenMetadata.at(await nfTokenShield.getNFToken.call());
   return nfToken.balanceOf.call(address);
@@ -113,7 +113,7 @@ async function getBalance(address) {
 /**
 return the number of tokens held by an account
 */
-async function getOwner(tokenID, address) {
+async function getOwner (tokenID, address) {
   const nfTokenShield = shield[address] ? shield[address] : await NFTokenShield.deployed();
   const nfToken = await NFTokenMetadata.at(await nfTokenShield.getNFToken.call());
   return nfToken.ownerOf.call(tokenID);
@@ -122,7 +122,7 @@ async function getOwner(tokenID, address) {
 /**
 create an ERC-721 Token in the account that calls the function
 */
-async function mintNFToken(tokenID, tokenURI, address) {
+async function mintNFToken (tokenID, tokenURI, address) {
   console.log('Minting NF Token', tokenID, address);
   const nfTokenShield = shield[address] ? shield[address] : await NFTokenShield.deployed();
   const nfToken = await NFTokenMetadata.at(await nfTokenShield.getNFToken.call());
@@ -135,7 +135,7 @@ async function mintNFToken(tokenID, tokenURI, address) {
 /**
 Transfer ERC-721 Token from the owner's account to another account
 */
-async function transferNFToken(tokenID, fromAddress, toAddress) {
+async function transferNFToken (tokenID, fromAddress, toAddress) {
   console.log(`Transferring NF Token ${tokenID}from ${fromAddress}to ${toAddress}`);
   const nfTokenShield = shield[fromAddress] ? shield[fromAddress] : await NFTokenShield.deployed();
   const nfToken = await NFTokenMetadata.at(await nfTokenShield.getNFToken.call());
@@ -148,7 +148,7 @@ async function transferNFToken(tokenID, fromAddress, toAddress) {
 /**
 create an ERC-721 Token in the account that calls the function
 */
-async function burnNFToken(tokenID, address) {
+async function burnNFToken (tokenID, address) {
   console.log('Burning NF Token', tokenID, address);
   const nfTokenShield = shield[address] ? shield[address] : await NFTokenShield.deployed();
   const nfToken = await NFTokenMetadata.at(await nfTokenShield.getNFToken.call());
@@ -161,7 +161,7 @@ async function burnNFToken(tokenID, address) {
 /**
 Add an approver for an ERC-721 Token
 */
-async function addApproverNFToken(approved, tokenID, address) {
+async function addApproverNFToken (approved, tokenID, address) {
   console.log('Adding Approver for an NF Token', approved, tokenID, address);
   const nfTokenShield = shield[address] ? shield[address] : await NFTokenShield.deployed();
   const nfToken = await NFTokenMetadata.at(await nfTokenShield.getNFToken.call());
@@ -174,7 +174,7 @@ async function addApproverNFToken(approved, tokenID, address) {
 /**
 Get an approver for an ERC-721 Token
 */
-async function getApproved(tokenID, address) {
+async function getApproved (tokenID, address) {
   console.log('Getting Approver for an NF Token', tokenID);
   const nfTokenShield = shield[address] ? shield[address] : await NFTokenShield.deployed();
   const nfToken = await NFTokenMetadata.at(await nfTokenShield.getNFToken.call());
@@ -188,7 +188,7 @@ will be called automatically by computeProof if it detects tha there is no conta
 being instantiated.
 @param {string} tar - the tar file containing all the code needed to compute the proof
 */
-async function setupComputeProof(hostDir) {
+async function setupComputeProof (hostDir) {
   container = await zokrates.runContainerMounted(hostDir);
 
   console.log(`Container id: ${container.id}`);
@@ -204,7 +204,7 @@ you.
 @param {string} tar - the tar file containing all the code needed to compute the proof
 @returns {object} proof
 */
-async function computeProof(elements, hostDir, proofDescription) {
+async function computeProof (elements, hostDir, proofDescription) {
   if (container === undefined || container === null) await setupComputeProof(hostDir);
   let timeEst;
   let startTime;
@@ -260,7 +260,7 @@ This is a convenience because the sender (Alice)
 knows S_A,pk_A,n and n so could in fact calculate the token themselves.
 @returns {Integer} z_A_index - the index of the token within the Merkle Tree.  This is required for later transfers/joins so that Alice knows which 'chunks' of the Merkle Tree she needs to 'get' from the NFTokenShield contract in order to calculate a path.
 */
-async function mint(A, pk_A, S_A, account) {
+async function mint (A, pk_A, S_A, account) {
   console.group('\nIN MINT...');
 
   console.info('Finding the relevant Shield and Verifier contracts...');
@@ -361,7 +361,7 @@ This function actually transfers a token, assuming that we have a proof.
 @returns {Integer} z_B_index - the index of the token within the Merkle Tree.  This is required for later transfers/joins so that Alice knows which 'chunks' of the Merkle Tree she needs to 'get' from the NFTokenShield contract in order to calculate a path.
 @returns {object} txObj - a promise of a blockchain transaction
 */
-async function transfer(A, pk_B, S_A, S_B, sk_A, z_A, z_A_index, account) {
+async function transfer (A, pk_B, S_A, S_B, sk_A, z_A, z_A_index, account) {
   console.group('\nIN TRANSFER...');
 
   console.log('Finding the relevant Shield and Verifier contracts');
@@ -390,7 +390,7 @@ async function transfer(A, pk_B, S_A, S_B, sk_A, z_A, z_A_index, account) {
   // Calculate new arguments for the proof:
   const n = utils.recursiveHashConcat(S_A, sk_A);
   if (n !== utils.hashConcat(S_A, sk_A))
-    throw new Error("hashConcat and recursiveHashConcat didn't agree");
+    throw new Error('hashConcat and recursiveHashConcat didn\'t agree');
   const z_B = utils.recursiveHashConcat(utils.strip0x(A).slice(-config.HASHLENGTH * 2), pk_B, S_B);
 
   // we need the Merkle path from the token commitment to the root, expressed as Elements
@@ -480,7 +480,7 @@ async function transfer(A, pk_B, S_A, S_B, sk_A, z_A, z_A_index, account) {
 this function burns a token, i.e. it recovers real NF Token (ERC 721) into the
 account specified by payTo
 */
-async function burn(A, Sk_A, S_A, z_A, z_A_index, account, payTo) {
+async function burn (A, Sk_A, S_A, z_A, z_A_index, account, payTo) {
   const payToOrDefault = payTo || account; // have the option to pay out to another address
   console.group('\nIN BURN...');
   console.log('A', A);
@@ -516,7 +516,7 @@ async function burn(A, Sk_A, S_A, z_A, z_A_index, account, payTo) {
   // Calculate new arguments for the proof:
   const Na = utils.recursiveHashConcat(S_A, Sk_A);
   if (Na !== utils.hashConcat(S_A, Sk_A))
-    throw new Error("hashConcat and recursiveHashConcat didn't agree");
+    throw new Error('hashConcat and recursiveHashConcat didn\'t agree');
   const Pk_A = utils.recursiveHashConcat(Sk_A);
   const path = await cv.computePath(account, nfTokenShield, z_A, z_A_index).then(result => {
     return {
@@ -550,7 +550,7 @@ async function burn(A, Sk_A, S_A, z_A, z_A_index, account, payTo) {
     new Element(payTo, 'field'),
     new Element(A, 'field'),
     new Element(Na, 'field'),
-    new Element(root, 'field')
+    new Element(root, 'field'),
   ]);
   console.log('inputs:');
   console.log(inputs);
@@ -595,7 +595,7 @@ async function burn(A, Sk_A, S_A, z_A, z_A_index, account, payTo) {
   return { z_A };
 }
 
-async function checkCorrectness(A, pk, S, z, zIndex, account) {
+async function checkCorrectness (A, pk, S, z, zIndex, account) {
   const nfTokenShield = shield[account] ? shield[account] : await NFTokenShield.deployed();
 
   const results = await zkp.checkCorrectness(A, pk, S, z, zIndex, nfTokenShield);

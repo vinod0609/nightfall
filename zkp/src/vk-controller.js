@@ -42,7 +42,7 @@ Loads a verification key to the Verifier Registry
 E.g. TokenMint, TokenTransfer, CoinMint, CoinBurn, AgreeContract,...
 @param {string} account - the account from which the vk's are being uploaded (also used in creating the vkId)
 */
-async function loadVk(vkJsonFile, vkDescription, account) {
+async function loadVk (vkJsonFile, vkDescription, account) {
   console.log('\nDEPLOYING VK FOR', vkDescription);
 
   // check relevant contracts are deployed:
@@ -74,7 +74,7 @@ async function loadVk(vkJsonFile, vkDescription, account) {
     fs.writeFile(config.VK_IDS, vkIdsAsJson, err => {
       if (err) {
         console.log(
-          "fs.writeFile has failed when writing the new vk information to vkIds.json. Here's the error:",
+          'fs.writeFile has failed when writing the new vk information to vkIds.json. Here\'s the error:',
         );
         reject(err);
       }
@@ -88,7 +88,7 @@ async function loadVk(vkJsonFile, vkDescription, account) {
 /**
 Reads the vkIds json from file
 */
-async function getVkIds() {
+async function getVkIds () {
   if (fs.existsSync(config.VK_IDS)) {
     console.log('Reading vkIds from json file...');
     vkIds = await new Promise((resolve, reject) => {
@@ -105,7 +105,7 @@ async function getVkIds() {
 Set the vkId's which correspond to 'mint', 'transfer', and 'burn' in the specified Shield contract
 @param {string} account - Ethereum account. MUST be the owner of the shield contracts.
 */
-async function setVkIds(account) {
+async function setVkIds (account) {
   const nfTokenShield = await NFtokenShield.deployed();
   const fTokenShield = await FtokenShield.deployed();
 
@@ -120,7 +120,7 @@ Overarching orchestrator:
 - Loads vks to the Verifier Registry
 - Sets vkIds in the Shield contracs
 */
-async function vkController() {
+async function vkController () {
   // read existing vkIds (if they exist)
   await getVkIds();
 
@@ -141,7 +141,7 @@ async function vkController() {
   console.log('VK setup complete');
 }
 
-async function runController() {
+async function runController () {
   await vkController();
 }
 

@@ -41,7 +41,7 @@ FToken.setProvider(web3.currentProvider);
 let container;
 const shield = {}; // this field holds the current Shield contract instance.
 
-async function unlockAccount(address, password) {
+async function unlockAccount (address, password) {
   await web3.eth.personal.unlockAccount(address, password, 0);
 }
 
@@ -51,19 +51,19 @@ This function allocates a specific FTokenShield contract to a particular user
 @param {string} shieldAddress - the address of the shield contract you want to point to
 @param {string} address - the Ethereum address of the user to whom this shieldAddress will apply
 */
-async function setShield(shieldAddress, address) {
+async function setShield (shieldAddress, address) {
   if (shieldAddress === undefined) shield[address] = await FTokenShield.deployed();
   else shield[address] = await FTokenShield.at(shieldAddress);
 }
 
-function unSetShield(address) {
+function unSetShield (address) {
   delete shield[address];
 }
 
 /**
 return the address of the shield contract
 */
-async function getShieldAddress(account) {
+async function getShieldAddress (account) {
   const fTokenShield = shield[account] ? shield[account] : await FTokenShield.deployed();
   return fTokenShield.address;
 }
@@ -72,7 +72,7 @@ async function getShieldAddress(account) {
 return the balance of an account
 @param {string} address - the address of the Ethereum account
 */
-async function getBalance(address) {
+async function getBalance (address) {
   const fTokenShield = shield[address] ? shield[address] : await FTokenShield.deployed();
   const fToken = await FToken.at(await fTokenShield.getFToken.call());
   return fToken.balanceOf.call(address);
@@ -81,7 +81,7 @@ async function getBalance(address) {
 /**
 return the address of the ERC-20 token
 */
-async function getFTAddress(address) {
+async function getFTAddress (address) {
   const fTokenShield = shield[address] ? shield[address] : await FTokenShield.deployed();
   return fTokenShield.getFToken.call();
 }
@@ -94,7 +94,7 @@ useful to be able to create coins for demonstration purposes.
 @param {string} amount - the amount of cryptocurrency to mint
 @param {string} address - the address of the Ethereum account
 */
-async function buyFToken(amount, address) {
+async function buyFToken (amount, address) {
   console.log('Buying ERC-20', amount, address);
   const fTokenShield = shield[address] ? shield[address] : await FTokenShield.deployed();
   const fToken = await FToken.at(await fTokenShield.getFToken.call());
@@ -111,7 +111,7 @@ to toAddress.  The tranaction fee will be taken from fromAddress
 @param {string} toAddress - the address of the Ethereum account to transfer to
 @param {string} fromAddress - the address of the Ethereum account to transfer from
 */
-async function transferFToken(amount, fromAddress, toAddress) {
+async function transferFToken (amount, fromAddress, toAddress) {
   console.log('Transferring ERC-20', amount, toAddress);
   const fTokenShield = shield[fromAddress] ? shield[fromAddress] : await FTokenShield.deployed();
   const fToken = await FToken.at(await fTokenShield.getFToken.call());
@@ -131,7 +131,7 @@ Burning a commitment recovers the original ERC-20 value.
 @param {string} amount - the amount of cryptocurrency to burn
 @param {string} address - the address of the Ethereum account
 */
-async function burnFToken(amount, address) {
+async function burnFToken (amount, address) {
   console.log('Buying ERC-20', amount, address);
   const fTokenShield = shield[address] ? shield[address] : await FTokenShield.deployed();
   const fToken = await FToken.at(await fTokenShield.getFToken.call());
@@ -147,7 +147,7 @@ is utilising.
 @param address - the address of the user (different users may us different ERC-20 contracts)
 @returns - an object containing the token symbol and name.
 */
-async function getTokenInfo(address) {
+async function getTokenInfo (address) {
   console.log('Getting ERC-20 info');
   const fTokenShield = shield[address] ? shield[address] : await FTokenShield.deployed();
   const fToken = await FToken.at(await fTokenShield.getFToken.call());
@@ -163,7 +163,7 @@ will be called automatically by computeProof if it detects tha there is no conta
 being instantiated.
 @param {string} hostDir - the directory on the host to mount into the runContainerMounted
 */
-async function setupComputeProof(hostDir) {
+async function setupComputeProof (hostDir) {
   container = await zokrates.runContainerMounted(hostDir);
   console.log(`Container id: ${container.id}`);
   console.log(`To connect to the container manually: 'docker exec -ti ${container.id} bash'`);
@@ -178,7 +178,7 @@ you.
 @param {string} hostDir - the directory on the host to mount into the runContainerMounted
 @returns the proof object
 */
-async function computeProof(elements, hostDir, proofDescription) {
+async function computeProof (elements, hostDir, proofDescription) {
   if (container === undefined || container === null) await setupComputeProof(hostDir);
   let timeEst;
   let startTime;
@@ -236,7 +236,7 @@ knows S_A,pkA,n and n so could in fact calculate the token themselves.
 This is required for later transfers/joins so that Alice knows which 'chunks' of the Merkle Tree
 she needs to 'get' from the fTokenShield contract in order to calculate a path.
 */
-async function mint(A, pkA, S_A, account) {
+async function mint (A, pkA, S_A, account) {
   console.group('\nIN MINT...');
 
   console.log('Finding the relevant Shield and Verifier contracts');
@@ -351,7 +351,7 @@ This function actually transfers a coin.
 @returns {Integer} z_F_index - the index of the token within the Merkle Tree.  This is required for later transfers/joins so that Alice knows which 'chunks' of the Merkle Tree she needs to 'get' from the fTokenShield contract in order to calculate a path.
 @returns {object} txObj - a promise of a blockchain transaction
 */
-async function transfer(
+async function transfer (
   C,
   D,
   E,
@@ -533,7 +533,7 @@ account. All values are hex strings.
 @param {string} account - the that is paying for the transaction
 @param {string} payTo - the account that the paid-out ERC-20 should be sent to (defaults to 'account')
 */
-async function burn(C, skA, S_C, zC, zCIndex, account, _payTo) {
+async function burn (C, skA, S_C, zC, zCIndex, account, _payTo) {
   let payTo = _payTo;
   if (payTo === undefined) payTo = account; // have the option to pay out to another address
   // before we can burn, we need to deploy a verifying key to mintVerifier (reusing mint for this)
@@ -598,7 +598,7 @@ async function burn(C, skA, S_C, zC, zCIndex, account, _payTo) {
     new Element(payTo, 'field'),
     new Element(C, 'field', 1),
     new Element(Nc, 'field'),
-    new Element(root, 'field')
+    new Element(root, 'field'),
   ]);
   console.log('inputs:');
   console.log(inputs);
@@ -643,7 +643,7 @@ async function burn(C, skA, S_C, zC, zCIndex, account, _payTo) {
   return { z_C: zC, z_C_index: zCIndex };
 }
 
-async function checkCorrectness(C, pk, S, z, zIndex, account) {
+async function checkCorrectness (C, pk, S, z, zIndex, account) {
   const fTokenShield = shield[account] ? shield[account] : await FTokenShield.deployed();
 
   const results = await zkp.checkCorrectness(C, pk, S, z, zIndex, fTokenShield);
