@@ -5,11 +5,11 @@ module.exports = {
     'no-console': 'off',
     'space-before-function-paren': ['error', 'always'],
     'no-use-before-define': 'off',
-    // 'prettier/prettier': 'off',   // make prettier config off
-    'quotes': ['error', 'single'],
+    'prettier/prettier': 'off',   // make prettier config off
+    quotes: ['error', 'single'],
     'comma-dangle': ['error', 'always-multiline'],
-    'semi': 'error',
+    semi: 'error',
     'no-extra-semi': 'error',
-    'indent': ['error', 2],
-  }
+    indent: ['error', 2]
+  },
 };

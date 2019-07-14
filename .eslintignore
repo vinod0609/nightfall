@@ -4,6 +4,6 @@ mochawesome-report
 ui
 accounts
 API-Gateway
-offchain
 zkp
 zkp-utils
+database
