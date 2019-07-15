@@ -1,7 +1,4 @@
 import { Schema } from 'mongoose';
-import Utils from 'zkp-utils';
-
-const utils = Utils('/app/config/stats.json');
 
 export default new Schema({
   name: { type: String, required: true },
@@ -40,11 +37,4 @@ export default new Schema({
       password: { type: String },
     },
   ],
-}).pre('save', function (next) {
-  const user = this;
-  utils.rndHex(27).then(sk => {
-    user.secretkey = sk;
-    user.publickey = utils.hash(sk);
-    next();
-  });
 });

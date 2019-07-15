@@ -26,10 +26,10 @@ export default new Schema(
 
     // transferee info
     transferee: String,
-    transferee_public_key: String,
-    transferee_salt: String,
-    transferee_token_commitment: String,
-    transferee_token_commitment_index: Number,
+    
+    transferred_salt: String,
+    transferred_token_commitment: String,
+    transferred_token_commitment_index: Number,
 
     // boolean stats
     is_minted: Boolean,

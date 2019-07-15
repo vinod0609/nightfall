@@ -1,8 +1,8 @@
 export { default as UserSchema } from './user.model';
-export { default as erc721Schema } from './public-token.model';
-export { default as erc721TransactionSchema } from './public-token-transaction.model';
-export { default as erc721CommitmentSchema } from './token.model';
-export { default as erc721CommitmentTransactionSchema } from './token-transaction.model';
-export { default as erc20TransactionSchema } from './public-coin-transaction.model';
-export { default as erc20CommitmentSchema } from './coin.model';
-export { default as erc20CommitmentTransactionSchema } from './coin-transaction.model';
+export { default as nftSchema } from './nft.model';
+export { default as nftTransactionSchema } from './nft-transaction.model';
+export { default as nftCommitmentSchema } from './nft-commitment.model';
+export { default as nftCommitmentTransactionSchema } from './nft-commitment-transaction.model';
+export { default as ftTransactionSchema } from './ft-transaction.model';
+export { default as ftCommitmentSchema } from './ft-commitment.model';
+export { default as ftCommitmentTransactionSchema } from './ft-commitment-transaction.model';

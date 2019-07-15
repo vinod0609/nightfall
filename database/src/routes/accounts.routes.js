@@ -1,39 +1,5 @@
 import Response from './response/response';
-import { AccountService, Erc721Service, Erc20Service } from '../business';
-
-// initializing routes
-export function init (router) {
-  // Route to get user by name, also use while login
-  router.route('/login').post(getUserByName);
-
-  // Route to create a public Account
-  router.route('/createAccount').post(createAccountHandler);
-
-  // Route to create a private account & get private account
-  router.route('/privateAccount').post(createPrivateAccountHandler);
-
-  // Route to get a user
-  router.route('/user').get(getUserHandler);
-
-  router.route('/count').get(getCountHandler);
-
-  router
-    .route('/user/whisperIdentity')
-    .get(getWhisperIdentity)
-    .patch(updateWhisperIdentity);
-
-  router
-    .route('/user/coinShield')
-    .post(addCoinShieldContractAddress)
-    .put(updateCoinShieldContractAddress)
-    .delete(deleteCoinShieldContractAddress);
-
-  router
-    .route('/user/tokenShield')
-    .post(addTokenShieldContractAddress)
-    .put(updateTokenShieldContractAddress)
-    .delete(deleteTokenShieldContractAddress);
-}
+import { AccountService, NftCommitmentService, FtCommitmentService } from '../business';
 
 /**
  * this function is used to add ERC-20 Contract related information in user table, such as contract addresses,
@@ -218,15 +184,14 @@ async function getWhisperIdentity (req, res, next) {
  * @param {*} res
  */
 async function getCountHandler (req, res, next) {
-  const erc721Service = new Erc721Service(req.user.db);
-  const erc20Service = new Erc20Service(req.user.db);
+  const nftCommitmentService = new NftCommitmentService(req.user.db);
+  const ftCommitmentService = new FtCommitmentService(req.user.db);
   try {
-    const tokens = await erc721Service.getToken();
-    const coins = await erc20Service.getCoinByAccount();
-    const coinList = coins.data;
+    const tokens = await nftCommitmentService.getToken();
+    const coins = await ftCommitmentService.getCoin();
     let totalAmount = 0;
-    if (coinList.length) {
-      coinList.forEach(coin => {
+    if (coins.length) {
+      coins.forEach(coin => {
         totalAmount += Number(coin.coin_value);
       });
     }
@@ -321,4 +286,39 @@ async function getUserHandler (req, res, next) {
     res.status(500).json(response);
     next(err);
   }
+}
+
+
+// initializing routes
+export default function (router) {
+  // Route to get user by name, also use while login
+  router.route('/login').post(getUserByName);
+
+  // Route to create a public Account
+  router.route('/createAccount').post(createAccountHandler);
+
+  // Route to create a private account & get private account
+  router.route('/privateAccount').post(createPrivateAccountHandler);
+
+  // Route to get a user
+  router.route('/user').get(getUserHandler);
+
+  router.route('/count').get(getCountHandler);
+
+  router
+    .route('/user/whisperIdentity')
+    .get(getWhisperIdentity)
+    .patch(updateWhisperIdentity);
+
+  router
+    .route('/user/coinShield')
+    .post(addCoinShieldContractAddress)
+    .put(updateCoinShieldContractAddress)
+    .delete(deleteCoinShieldContractAddress);
+
+  router
+    .route('/user/tokenShield')
+    .post(addTokenShieldContractAddress)
+    .put(updateTokenShieldContractAddress)
+    .delete(deleteTokenShieldContractAddress);
 }

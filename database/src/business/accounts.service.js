@@ -1,7 +1,7 @@
 import { exec } from 'child_process';
 import { getProps } from '../config';
 import { COLLECTIONS } from '../common/constants';
-import userMapper from '../mappers/user';
+import { userMapper } from '../mappers';
 
 const { mongo } = getProps();
 
@@ -39,7 +39,7 @@ export default class AccountService {
    * @returns {object} a user object
    */
   async createAccount (data) {
-    const mappedData = userMapper(data);
+    const mappedData = await userMapper(data);
     await this.db.addUser(data.name, data.password);
     await updateUserRole();
     return this.db.saveData(COLLECTIONS.USER, mappedData);
