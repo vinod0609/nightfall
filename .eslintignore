@@ -1,9 +1,7 @@
 node_modules
 mochawesome-report
+zkp/src/vkIds.json
+zkp-utils/node_modules
 
 ui
-accounts
-API-Gateway
-zkp
-zkp-utils
 database
