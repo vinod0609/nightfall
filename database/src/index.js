@@ -4,7 +4,13 @@ import cors from 'cors';
 import * as config from './config';
 import logger from './logger';
 import { setDB, dbConnection } from './middlewares';
-import { initializeAccountRoutes, initializeTokenRoutes, initializeCoinRoutes } from './routes';
+import { 
+  initializeAccountRoutes, 
+  initializeNftRoutes, 
+  initializeNftCommitmentRoutes, 
+  initializeFtRoutes, 
+  initializeFtCommitmentRoutes, 
+} from './routes';
 
 config.setEnv(process.argv[2]);
 
@@ -20,10 +26,12 @@ app.use(setDB);
 app.use('/', router);
 
 initializeAccountRoutes(router);
-initializeTokenRoutes(router);
-initializeCoinRoutes(router);
+initializeNftRoutes(router);
+initializeNftCommitmentRoutes(router);
+initializeFtRoutes(router);
+initializeFtCommitmentRoutes(router);
 
-app.use(function (err, req, res) {
+app.use(function logError (err, req, res) {
   logger.error(
     `${req.method}:${req.url}
 		${JSON.stringify({ error: err.message })}
@@ -37,7 +45,5 @@ app.use(function (err, req, res) {
     .send({ hasError: true, statusCode: err.status, message: err.message, error: err });
 });
 
-const server = app.listen(80, '0.0.0.0', function () {
-  console.log('zkp database RESTful API server started on ::: 80');
-});
+const server = app.listen(80, '0.0.0.0', () => console.log('zkp database RESTful API server started on ::: 80'));
 server.timeout = 0;
