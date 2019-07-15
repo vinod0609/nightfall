@@ -18,7 +18,7 @@ const {
 	 * @param {*} req
 	 * @param {*} res
 	 */
-export async function loginHandler(req, res, next) {
+export async function loginHandler (req, res, next) {
   const response = new Response();
 
   const { name, password } = req.body;
@@ -65,7 +65,7 @@ export async function loginHandler(req, res, next) {
 	 * @param {*} req
 	 * @param {*} res
 	 */
-export async function createAccountHandler(req, res, next) {
+export async function createAccountHandler (req, res, next) {
   const response = new Response();
 
   const { password, name, isAuditor } = req.body;
@@ -102,7 +102,7 @@ export async function createAccountHandler(req, res, next) {
 }
 
 // vk APIs
-export async function loadVks(req, res, next) {
+export async function loadVks (req, res, next) {
   const response = new Response();
 
   try {
@@ -131,16 +131,16 @@ export async function loadVks(req, res, next) {
  * @param {Object} user
  * @param {String} contractAddress
  */
-function setShieldContract(user, contractAddress) {
-  return new Promise(function(resolve, reject) {
+function setShieldContract (user, contractAddress) {
+  return new Promise(function (resolve, reject) {
     zkp
       .setTokenShield(user, { tokenShield: contractAddress })
       .then(data => resolve('token'))
-      .catch(() => console.log("Don't do anything token"));
+      .catch(() => console.log('Don\'t do anything token'));
     zkp
       .setCoinShield(user, { coinShield: contractAddress })
       .then(data => resolve('coin'))
-      .catch(() => console.log("Don't do anything coin"));
+      .catch(() => console.log('Don\'t do anything coin'));
   });
 }
 
@@ -153,7 +153,7 @@ function setShieldContract(user, contractAddress) {
 	 * @param {*} req
 	 * @param {*} res
 	*/
-export async function addContract(req, res, next) {
+export async function addContract (req, res, next) {
   const response = new Response();
 
   try {
@@ -199,7 +199,7 @@ export async function addContract(req, res, next) {
 	 * @param {*} req
 	 * @param {*} res
 	*/
-export async function updateContract(req, res, next) {
+export async function updateContract (req, res, next) {
   const response = new Response();
   const { tokenShield, coinShield } = req.body;
 
@@ -254,7 +254,7 @@ export async function updateContract(req, res, next) {
 	 * @param {*} req
 	 * @param {*} res
 	*/
-export async function deleteContract(req, res, next) {
+export async function deleteContract (req, res, next) {
   const response = new Response();
   const { token_shield, coin_shield } = req.query;
 

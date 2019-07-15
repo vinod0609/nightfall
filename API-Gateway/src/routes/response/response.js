@@ -1,7 +1,7 @@
-module.exports = function() {
+module.exports = function () {
   return {
     statusCode: '',
-    data : {}
-  } 
+    data : {},
+  }; 
 
-}
+};

@@ -17,13 +17,13 @@ module.exports = createLogger({
   level: 'debug',
   format: format.combine(format.colorize(), format.simple()),
   transports: [
-  	new transports.Console()
-  ]
+  	new transports.Console(),
+  ],
 });
 
 if (!enable_logger) {
-	module.exports = {
-		info: (message) => console.log(message),
-		error: (message) => console.error(message)
-	}
+  module.exports = {
+    info: (message) => console.log(message),
+    error: (message) => console.error(message),
+  };
 }

@@ -7,7 +7,7 @@ const Response = require('../routes/response/response');
 const accounts = require('../rest/accounts');
 const offchain = require('../rest/offchain');
 
-export async function checkCorrectnessCoin(req, res, next) {
+export async function checkCorrectnessCoin (req, res, next) {
   const response = new Response();
 
   try {
@@ -41,13 +41,13 @@ export async function checkCorrectnessCoin(req, res, next) {
 	 * @param {*} req
 	 * @param {*} res
 	 */
-export async function mintCoin(req, res, next) {
+export async function mintCoin (req, res, next) {
   const response = new Response();
 
   try {
     const { data } = await zkp.mintCoin(req.user, {
       A: req.body.A,
-      pk_A: req.body.pk_A
+      pk_A: req.body.pk_A,
     });
 
     data.coin_index = parseInt(data.coin_index, 16);
@@ -100,7 +100,7 @@ export async function mintCoin(req, res, next) {
      * @param {*} req
      * @param {*} res
      */
-export async function transferCoin(req, res, next) {
+export async function transferCoin (req, res, next) {
   const response = new Response();
   const userAddress = req.user.address;
   const userName = req.headers.name;
@@ -165,7 +165,7 @@ export async function transferCoin(req, res, next) {
      * @param {*} req
      * @param {*} res
      */
-export async function burnCoin(req, res, next) {
+export async function burnCoin (req, res, next) {
   const response = new Response();
 
   try {
@@ -179,7 +179,7 @@ export async function burnCoin(req, res, next) {
       ...req.body,
       ...data,
       account: senderAddress,
-      receiver_name: (req.body.payTo || req.user.name)
+      receiver_name: (req.body.payTo || req.user.name),
     });
 
     const user = await db.fetchUser(req.user);
