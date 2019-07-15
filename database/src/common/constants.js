@@ -1,11 +1,12 @@
+/* eslint-disable import/prefer-default-export */
 
 export const COLLECTIONS = {
   USER: 'user',
-  PUBLIC_TOKEN: 'erc_721',
-  PUBLIC_TOKEN_TRANSACTION: 'erc_721_transaction',
-  TOKEN: 'erc_721_commitment',
-  TOKEN_TRANSACTION: 'erc_721_commitment_transaction',
-  PUBLIC_COIN_TRANSACTION: 'erc_20_transaction',
-  COIN: 'erc_20_commitment',
-  COIN_TRANSACTION: 'erc_20_commitment_transaction',   
+  NFT: 'nft',
+  NFT_TRANSACTION: 'nft_transaction',
+  NFT_COMMITMENT: 'nft_commitment',
+  NFT_COMMITMENT_TRANSACTION: 'nft_commitment_transaction',
+  FT_TRANSACTION: 'ft_transaction',
+  FT_COMMITMENT: 'ft_commitment',
+  FT_COMMITMENT_TRANSACTION: 'ft_commitment_transaction',
 };

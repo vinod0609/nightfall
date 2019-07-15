@@ -2,13 +2,13 @@ import { getProps } from '../config';
 import { COLLECTIONS } from '../common/constants';
 import {
   UserSchema,
-  erc721Schema,
-  erc721TransactionSchema,
-  erc721CommitmentSchema,
-  erc721CommitmentTransactionSchema,
-  erc20TransactionSchema,
-  erc20CommitmentSchema,
-  erc20CommitmentTransactionSchema,
+  nftSchema,
+  nftTransactionSchema,
+  nftCommitmentSchema,
+  nftCommitmentTransactionSchema,
+  ftTransactionSchema,
+  ftCommitmentSchema,
+  ftCommitmentTransactionSchema,
 } from '../models';
 
 const { mongo } = getProps();
@@ -25,27 +25,24 @@ export default class DB {
     const { username, database } = this;
     this.Models = {
       user: database.model(`${username}_${COLLECTIONS.USER}`, UserSchema),
-      erc_721: database.model(`${username}_${COLLECTIONS.PUBLIC_TOKEN}`, erc721Schema),
-      erc_721_transaction: database.model(
-        `${username}_${COLLECTIONS.PUBLIC_TOKEN_TRANSACTION}`,
-        erc721TransactionSchema,
+      nft: database.model(`${username}_${COLLECTIONS.NFT}`, nftSchema),
+      nft_transaction: database.model(
+        `${username}_${COLLECTIONS.NFT_TRANSACTION}`,
+        nftTransactionSchema,
       ),
-      erc_721_commitment: database.model(
-        `${username}_${COLLECTIONS.TOKEN}`,
-        erc721CommitmentSchema,
+      nft_commitment: database.model(`${username}_${COLLECTIONS.NFT_COMMITMENT}`, nftCommitmentSchema),
+      nft_commitment_transaction: database.model(
+        `${username}_${COLLECTIONS.NFT_COMMITMENT_TRANSACTION}`,
+        nftCommitmentTransactionSchema,
       ),
-      erc_721_commitment_transaction: database.model(
-        `${username}_${COLLECTIONS.TOKEN_TRANSACTION}`,
-        erc721CommitmentTransactionSchema,
+      ft_transaction: database.model(
+        `${username}_${COLLECTIONS.FT_TRANSACTION}`,
+        ftTransactionSchema,
       ),
-      erc_20_transaction: database.model(
-        `${username}_${COLLECTIONS.PUBLIC_COIN_TRANSACTION}`,
-        erc20TransactionSchema,
-      ),
-      erc_20_commitment: database.model(`${username}_${COLLECTIONS.COIN}`, erc20CommitmentSchema),
-      erc_20_commitment_transaction: database.model(
-        `${username}_${COLLECTIONS.COIN_TRANSACTION}`,
-        erc20CommitmentTransactionSchema,
+      ft_commitment: database.model(`${username}_${COLLECTIONS.FT_COMMITMENT}`, ftCommitmentSchema),
+      ft_commitment_transaction: database.model(
+        `${username}_${COLLECTIONS.FT_COMMITMENT_TRANSACTION}`,
+        ftCommitmentTransactionSchema,
       ),
     };
   }
@@ -184,23 +181,17 @@ export default class DB {
   }
 
   addUser (name, password) {
-    return new Promise((resolve, reject) => {
-      this.database.db.addUser(
-        name,
-        password,
-        {
-          roles: [
-            {
-              role: 'read',
-              db: mongo.databaseName,
-            },
-          ],
-        },
-        function (err) {
-          if (err) return reject(err);
-          return resolve();
-        },
-      );
-    });
+    return this.database.db.addUser(
+      name,
+      password,
+      {
+        roles: [
+          {
+            role: 'read',
+            db: mongo.databaseName,
+          },
+        ],
+      },
+    );
   }
 }
