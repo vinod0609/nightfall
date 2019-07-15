@@ -76,12 +76,13 @@ const updateToken = ({name}, body) => {
   })
 }
 
-const addCoin = (details) => {
+const addCoin = ({name}, details) => {
   return new Promise((resolve, reject) => {
     let options = {
       url : host + '/coin',
       method : 'POST',
       json: true,
+      headers: {name},
       body: details
     }
 
@@ -358,10 +359,10 @@ const deleteTokenShieldContractAddress =  ({name}, qs) => {
   })
 }
 
-const getNFToken = ({name}, token_id) => {
+const getNFToken = ({name}, tokenId) => {
   return new Promise((resolve, reject) => {
     let options = {
-      url : host + '/nft/'+token_id,
+      url : host + '/nft/'+tokenId,
       method : 'GET',
       json: true,
       headers: {name}
@@ -413,6 +414,24 @@ const getNFTokens = ({name}, qs) => {
   });
 }
 
+const addCoinTransaction = ({name}, body) => {
+  return new Promise((resolve, reject) => {
+    let options = {
+      url : host + '/coin/transaction',
+      method : 'POST',
+      json: true,
+      headers: {name},
+      body
+    }
+
+    request(options, (err, res, body) => {
+      if(err)
+        reject(err)
+      resolve(body)
+    })
+  })
+}
+
 
 function convertObjToQueryString (object) {
   let str = "";
@@ -448,5 +467,6 @@ module.exports = {
   deleteTokenShieldContractAddress,
   getNFToken,
   addFTTransaction,
-  getNFTokens
+  getNFTokens,
+  addCoinTransaction
 };
