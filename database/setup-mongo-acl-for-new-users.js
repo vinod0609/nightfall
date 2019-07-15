@@ -1,22 +1,20 @@
 /* eslint-disable */
 
-const existingRole = db.getRoles().map(data => data.role);
+var existingRole = db.getRoles().map(data => data.role);
 
-db.getCollectionNames().forEach(function(c) {
+db.getCollectionNames().forEach(function(c){
   if (existingRole.indexOf(c) !== -1) return;
-  if (c.indexOf('_') === -1) return;
+  if (c.indexOf("_") === -1) return;
 
-  const username = c.split('_')[0];
-  const dbName = db.toString();
+  var username = c.split('_')[0];
+  var dbName = db.toString();
 
   db.createRole({
     role: c,
-    privileges: [
-      { resource: { db: dbName, collection: c }, actions: ['find', 'update', 'insert'] },
-    ],
-    roles: [],
+    privileges: [{ resource: { db: dbName, collection: c }, actions: [ "find", "update", "insert" ] }],
+    roles: []
   });
 
-  db.grantRolesToUser(username, [{ role: c, db: dbName }]);
-  db.revokeRolesFromUser(username, [{ role: 'read', db: dbName }]);
+  db.grantRolesToUser(username, [{ "role" : c, "db" : dbName}]);
+  db.revokeRolesFromUser(username, [{role: "read", "db": dbName}]);
 });
