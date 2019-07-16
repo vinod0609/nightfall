@@ -6,17 +6,12 @@ import { userMapper } from '../mappers';
 const { mongo } = getProps();
 
 function updateUserRole () {
-  return new Promise(function (resolve, reject) {
+  return new Promise((resolve, reject) =>
     exec(
-      `mongo nightfall --host=mongo -u ${mongo.admin} -p ${
-        mongo.adminPassword
-      } setup-mongo-acl-for-new-users.js`,
-      function (err) {
-        if (err) return reject(err);
-        return resolve();
-      },
-    );
-  });
+      `mongo nightfall --host=mongo -u ${mongo.admin} -p ${mongo.adminPassword} setup-mongo-acl-for-new-users.js`,
+      err => (err ? reject(err) : resolve()),
+    )
+  );
 }
 
 export default class AccountService {
@@ -114,147 +109,147 @@ export default class AccountService {
     return Promise.resolve({ shhIdentity });
   }
 
-  async addCoinShieldContractAddress ({ contract_name, contract_address }) {
+  async addCoinShieldContractAddress ({ contractName, contractAddress }) {
     await this.db.updateData(
       COLLECTIONS.USER,
       {
-        'coin_shield_contracts.contract_address': { $ne: contract_address },
+        'coin_shield_contracts.contract_address': { $ne: contractAddress },
       },
       {
         $push: {
           coin_shield_contracts: {
-            contract_name,
-            contract_address,
+            contract_name: contractName,
+            contract_address: contractAddress,
           },
         },
       },
     );
-    await this.selectCoinShieldContractAddress({ contract_address });
+    await this.selectCoinShieldContractAddress({ contractAddress });
   }
 
   async updateCoinShieldContractAddress ({
-    contract_name,
-    contract_address,
+    contractName,
+    contractAddress,
     isSelected,
     isCoinShieldPreviousSelected,
   }) {
     await this.db.updateData(
       COLLECTIONS.USER,
       {
-        'coin_shield_contracts.contract_address': contract_address,
+        'coin_shield_contracts.contract_address': contractAddress,
       },
       {
         $set: {
-          [contract_name !== undefined
+          [contractName !== undefined
             ? 'coin_shield_contracts.$.contract_name'
-            : undefined]: contract_name,
+            : undefined]: contractName,
         },
       },
     );
-    if (isSelected) await this.selectCoinShieldContractAddress({ contract_address });
+    if (isSelected) await this.selectCoinShieldContractAddress({ contractAddress });
     else if (isCoinShieldPreviousSelected)
-      await this.selectCoinShieldContractAddress({ contract_address: null });
+      await this.selectCoinShieldContractAddress({ contractAddress: null });
   }
 
-  selectCoinShieldContractAddress ({ contract_address }) {
+  selectCoinShieldContractAddress ({ contractAddress }) {
     return this.db.updateData(
       COLLECTIONS.USER,
       {},
       {
-        selected_coin_shield_contract: contract_address,
+        selected_coin_shield_contract: contractAddress,
       },
     );
   }
 
-  async deleteCoinShieldContractAddress ({ contract_address }) {
+  async deleteCoinShieldContractAddress ({ contractAddress }) {
     await this.db.updateData(
       COLLECTIONS.USER,
       {},
       {
         $pull: {
-          coin_shield_contracts: { contract_address },
+          coin_shield_contracts: { contractAddress },
         },
       },
     );
 
     const toUpdate = await this.db.findOne(COLLECTIONS.USER, {
-      selected_coin_shield_contract: contract_address,
+      selected_coin_shield_contract: contractAddress,
     });
 
     if (!toUpdate) return null;
-    await this.selectCoinShieldContractAddress({ contract_address: null });
+    await this.selectCoinShieldContractAddress({ contractAddress: null });
     return toUpdate;
   }
 
-  async addTokenShieldContractAddress ({ contract_name, contract_address }) {
+  async addTokenShieldContractAddress ({ contractName, contractAddress }) {
     await this.db.updateData(
       COLLECTIONS.USER,
       {
-        'token_shield_contracts.contract_address': { $ne: contract_address },
+        'token_shield_contracts.contract_address': { $ne: contractAddress },
       },
       {
         $push: {
           token_shield_contracts: {
-            contract_name,
-            contract_address,
+            contract_name: contractName,
+            contract_address: contractAddress,
           },
         },
       },
     );
-    await this.selectTokenShieldContractAddress({ contract_address });
+    await this.selectTokenShieldContractAddress({ contractAddress });
   }
 
   async updateTokenShieldContractAddress ({
-    contract_name,
-    contract_address,
+    contractName,
+    contractAddress,
     isSelected,
     isTokenShieldPreviousSelected,
   }) {
     await this.db.updateData(
       COLLECTIONS.USER,
       {
-        'token_shield_contracts.contract_address': contract_address,
+        'token_shield_contracts.contract_address': contractAddress,
       },
       {
         $set: {
-          [contract_name !== undefined
+          [contractName !== undefined
             ? 'token_shield_contracts.$.contract_name'
-            : undefined]: contract_name,
+            : undefined]: contractName,
         },
       },
     );
-    if (isSelected) await this.selectTokenShieldContractAddress({ contract_address });
+    if (isSelected) await this.selectTokenShieldContractAddress({ contractAddress });
     else if (isTokenShieldPreviousSelected)
-      await this.selectTokenShieldContractAddress({ contract_address: null });
+      await this.selectTokenShieldContractAddress({ contractAddress: null });
   }
 
-  selectTokenShieldContractAddress ({ contract_address }) {
+  selectTokenShieldContractAddress ({ contractAddress }) {
     return this.db.updateData(
       COLLECTIONS.USER,
       {},
       {
-        selected_token_shield_contract: contract_address,
+        selected_token_shield_contract: contractAddress,
       },
     );
   }
 
-  async deleteTokenShieldContractAddress ({ contract_address }) {
+  async deleteTokenShieldContractAddress ({ contractAddress }) {
     await this.db.updateData(
       COLLECTIONS.USER,
       {},
       {
         $pull: {
-          token_shield_contracts: { contract_address },
+          token_shield_contracts: { contractAddress },
         },
       },
     );
 
     const toUpdate = await this.db.findOne(COLLECTIONS.USER, {
-      selected_token_shield_contract: contract_address,
+      selected_token_shield_contract: contractAddress,
     });
 
     if (!toUpdate) return null;
-    await this.selectTokenShieldContractAddress({ contract_address: null });
+    await this.selectTokenShieldContractAddress({ contractAddress: null });
     return toUpdate;
   }
 }
