@@ -5,6 +5,7 @@ module.exports = {
     'no-console': 'off',
     'space-before-function-paren': ['error', 'always'],
     'radix': 'off',
+    'func-names': ['error', 'as-needed'],
     'prettier/prettier': 'off',   // make prettier config off
     'quotes': ['error', 'single'],
     'comma-dangle': ['error', 'always-multiline'],
