@@ -2,7 +2,6 @@ import { COLLECTIONS } from '../common/constants';
 import { ftCommitmentMapper, ftCommitmentTransferTransactionMapper } from '../mappers';
 import FtCommitmentTransactionService from './ft-commitment-transaction.service';
 
-
 export default class FtCommitmentService {
   constructor (_db) {
     this.db = _db;

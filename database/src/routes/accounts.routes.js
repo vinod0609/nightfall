@@ -288,7 +288,6 @@ async function getUserHandler (req, res, next) {
   }
 }
 
-
 // initializing routes
 export default function (router) {
   // Route to get user by name, also use while login

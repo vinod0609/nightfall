@@ -30,7 +30,10 @@ export default class DB {
         `${username}_${COLLECTIONS.NFT_TRANSACTION}`,
         nftTransactionSchema,
       ),
-      nft_commitment: database.model(`${username}_${COLLECTIONS.NFT_COMMITMENT}`, nftCommitmentSchema),
+      nft_commitment: database.model(
+        `${username}_${COLLECTIONS.NFT_COMMITMENT}`,
+        nftCommitmentSchema,
+      ),
       nft_commitment_transaction: database.model(
         `${username}_${COLLECTIONS.NFT_COMMITMENT_TRANSACTION}`,
         nftCommitmentTransactionSchema,
@@ -181,17 +184,13 @@ export default class DB {
   }
 
   addUser (name, password) {
-    return this.database.db.addUser(
-      name,
-      password,
-      {
-        roles: [
-          {
-            role: 'read',
-            db: mongo.databaseName,
-          },
-        ],
-      },
-    );
+    return this.database.db.addUser(name, password, {
+      roles: [
+        {
+          role: 'read',
+          db: mongo.databaseName,
+        },
+      ],
+    });
   }
 }

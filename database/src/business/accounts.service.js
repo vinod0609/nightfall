@@ -10,7 +10,7 @@ function updateUserRole () {
     exec(
       `mongo nightfall --host=mongo -u ${mongo.admin} -p ${mongo.adminPassword} setup-mongo-acl-for-new-users.js`,
       err => (err ? reject(err) : resolve()),
-    )
+    ),
   );
 }
 

@@ -4,12 +4,12 @@ import cors from 'cors';
 import * as config from './config';
 import logger from './logger';
 import { setDB, dbConnection } from './middlewares';
-import { 
-  initializeAccountRoutes, 
-  initializeNftRoutes, 
-  initializeNftCommitmentRoutes, 
-  initializeFtRoutes, 
-  initializeFtCommitmentRoutes, 
+import {
+  initializeAccountRoutes,
+  initializeNftRoutes,
+  initializeNftCommitmentRoutes,
+  initializeFtRoutes,
+  initializeFtCommitmentRoutes,
 } from './routes';
 
 config.setEnv(process.argv[2]);
@@ -45,5 +45,7 @@ app.use(function logError (err, req, res) {
     .send({ hasError: true, statusCode: err.status, message: err.message, error: err });
 });
 
-const server = app.listen(80, '0.0.0.0', () => console.log('zkp database RESTful API server started on ::: 80'));
+const server = app.listen(80, '0.0.0.0', () =>
+  console.log('zkp database RESTful API server started on ::: 80'),
+);
 server.timeout = 0;
