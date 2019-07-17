@@ -18,7 +18,7 @@ const {
 	 * @param {*} req
 	 * @param {*} res
 	 */
-export async function loginHandler (req, res, next) {
+export async function loginHandler (req, res) {
   const response = new Response();
 
   const { name, password } = req.body;
@@ -26,25 +26,16 @@ export async function loginHandler (req, res, next) {
   try {
     const data = await db.login(name, password);
     if (!data) throw new Error('User does not exist');
-
     await accounts.unlockAccount({ address: data.address, password });
-
     // get jwt token
     const token = createToken(data, password);
-
-    if (data.is_auditor) {
-      await audit.configureEventWatch(data);
-    }
-
     const userData = {
       address: data.address,
       name: data.name,
       jwtToken: token,
       sk_A: data.secretkey,
     };
-
     await setWhisperIdentityAndSubscribe(userData);
-
     response.statusCode = 200;
     response.data = { ...data, token };
     res.status(200).json(response);
@@ -68,7 +59,7 @@ export async function loginHandler (req, res, next) {
 export async function createAccountHandler (req, res, next) {
   const response = new Response();
 
-  const { password, name, isAuditor } = req.body;
+  const { password, name } = req.body;
 
   try {
     const { status } = await offchain.isNameInUse(name);
@@ -132,14 +123,14 @@ export async function loadVks (req, res, next) {
  * @param {String} contractAddress
  */
 function setShieldContract (user, contractAddress) {
-  return new Promise(function (resolve, reject) {
+  return new Promise(function setShieldDetails (resolve) {
     zkp
       .setTokenShield(user, { tokenShield: contractAddress })
-      .then(data => resolve('token'))
+      .then(() => resolve('token'))
       .catch(() => console.log('Don\'t do anything token'));
     zkp
       .setCoinShield(user, { coinShield: contractAddress })
-      .then(data => resolve('coin'))
+      .then(() => resolve('coin'))
       .catch(() => console.log('Don\'t do anything coin'));
   });
 }

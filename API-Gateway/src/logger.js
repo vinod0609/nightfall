@@ -1,9 +1,7 @@
 const { createLogger, format, transports } = require('winston');
 const fs = require('fs');
-const path = require('path');
 require('winston-daily-rotate-file');
-
-const {enable_logger} = require('./config/config').getProps();
+const config = require('./config/config').getProps();
 
 const logDir = 'logs';
 
@@ -21,7 +19,7 @@ module.exports = createLogger({
   ],
 });
 
-if (!enable_logger) {
+if (!config.enable_logger) {
   module.exports = {
     info: (message) => console.log(message),
     error: (message) => console.error(message),

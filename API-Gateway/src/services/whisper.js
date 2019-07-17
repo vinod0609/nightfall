@@ -39,7 +39,7 @@ export async function setWhisperIdentityAndSubscribe (userData) {
   await db.updateWhisperIdentity(userData, {shhIdentity});
 
   const whisperPKRes = await offchain.getWhisperPublicKey({ shhIdentity });
-  const resp = await offchain.setWhisperPK(
+  await offchain.setWhisperPK(
     { address: userAddress.address },
     whisperPKRes.data.whisperPublicKey,
   );
@@ -49,6 +49,6 @@ export async function setWhisperIdentityAndSubscribe (userData) {
     jwtToken: userData.jwtToken,
     sk_A: userData.sk_A,
   };
-  const subscribed = await offchain.subscribe(subscribeDetails);
+  await offchain.subscribe(subscribeDetails);
   return shhIdentity;
 }

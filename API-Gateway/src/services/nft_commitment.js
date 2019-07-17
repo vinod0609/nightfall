@@ -1,6 +1,5 @@
 import { whisperTransaction } from './whisper';
 
-const _ = require('underscore');
 const zkp = require('../rest/zkp');
 const db = require('../rest/db');
 const Response = require('../routes/response/response');

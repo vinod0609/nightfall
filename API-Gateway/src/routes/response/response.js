@@ -1,7 +1,8 @@
-module.exports = function () {
+
+const response = function () {
   return {
     statusCode: '',
     data : {},
-  }; 
-
+  };
 };
+module.exports = response;

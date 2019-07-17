@@ -12,10 +12,10 @@ const createAccount = (password) => {
       json: true,
       body: {password},
     };
-    request(options, (err, res, body) => {
+    request(options, (err, res, bodyDetails) => {
       if(err)
         reject(err);
-      resolve(body);
+      resolve(bodyDetails);
     });
   });
 };
@@ -28,13 +28,13 @@ const unlockAccount = body => {
       json: true,
       body,
     };
-    request(options, (err, res, body) => {
+    request(options, (err, res, bodyDetails) => {
       if(err)
-        reject(err);
-      if(body.statusCode !== 200){
-        return reject({message: body.err.message});
+        return reject(err);
+      if(bodyDetails.statusCode !== 200){
+        return reject(new Error(bodyDetails.err.message));
       }
-      resolve(body);
+      return resolve(body);
     });
   });
 };

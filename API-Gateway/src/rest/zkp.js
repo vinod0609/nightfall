@@ -1,5 +1,4 @@
 const request = require('request');
-
 const Config = require('../config/config').getProps();
 
 const host = `${Config.zkp.app.host  }:${  Config.zkp.app.port}`;
@@ -23,7 +22,7 @@ const loadVks = (details, headers) => {
         return reject(err);
       if(body.statusCode !== 200)
         return reject(body);
-      resolve(body);
+      return resolve(body);
     });
   });
 };
@@ -37,12 +36,12 @@ const mintToken = ({address}, body) => {
       headers: { address },
       body,
     };
-    request(options, (err, res, body) => {
+    request(options, (err, res, bodyDetails) => {
       if(err)
         return reject(err);
-      if(body.statusCode !== 200)
-        return reject(body);
-      resolve(body);
+      if(bodyDetails.statusCode !== 200)
+        return reject(bodyDetails);
+      return resolve(bodyDetails);
     });
   });
 };
@@ -56,12 +55,12 @@ const spendToken = ({address}, body) => {
       headers: { address },
       body,
     };
-    request(options, (err, res, body) => {
+    request(options, (err, res, bodyDetails) => {
       if(err)
         return reject(err);
-      if(body.statusCode !== 200)
-        return reject(body);
-      resolve(body);
+      if(bodyDetails.statusCode !== 200)
+        return reject(bodyDetails);
+      return resolve(bodyDetails);
     });
   });
 };
@@ -75,12 +74,12 @@ const burnToken = ({address}, body) => {
       headers: { address },
       body,
     };
-    request(options, (err, res, body) => {
+    request(options, (err, res, bodyDetails) => {
       if(err)
         return reject(err);
-      if(body.statusCode !== 200)
-        return reject(body);
-      resolve(body);
+      if(bodyDetails.statusCode !== 200)
+        return reject(bodyDetails);
+      return resolve(bodyDetails);
     });
   });
 };
@@ -94,12 +93,12 @@ const mintCoin = ({address}, body) => {
       headers: { address },
       body,
     };
-    request(options, (err, res, body) => {
+    request(options, (err, res, bodyDetails) => {
       if(err)
         return reject(err);
-      if(body.statusCode !== 200)
-        return reject(body);
-      resolve(body);
+      if(bodyDetails.statusCode !== 200)
+        return reject(bodyDetails);
+      return resolve(bodyDetails);
     });
   });
 };
@@ -113,12 +112,12 @@ const transferCoin = ({address}, body) => {
       headers: { address },
       body,
     };
-    request(options, (err, res, body) => {
+    request(options, (err, res, bodyDetails) => {
       if(err)
         return reject(err);
-      if(body.statusCode !== 200)
-        return reject(body);
-      resolve(body);
+      if(bodyDetails.statusCode !== 200)
+        return reject(bodyDetails);
+      return resolve(bodyDetails);
     });
   });
 };
@@ -132,12 +131,12 @@ const burnCoin = (details, {address}) => {
       headers: {address},
       body: details,
     };
-    request(options, (err, res, body) => {
+    request(options, (err, res, bodyDetails) => {
       if(err)
         return reject(err);
-      if(body.statusCode !== 200)
-        return reject(body);
-      resolve(body);
+      if(bodyDetails.statusCode !== 200)
+        return reject(bodyDetails);
+      return resolve(bodyDetails);
     });
   });
 };
@@ -151,12 +150,12 @@ const mintNFToken = ({address}, body) => {
       headers: { address },
       body,
     };
-    request(options, (err, res, body) => {
+    request(options, (err, res, bodyDetails) => {
       if(err)
         return reject(err);
-      if(body.statusCode !== 200)
-        return reject(body);
-      resolve(body);
+      if(bodyDetails.statusCode !== 200)
+        return reject(bodyDetails);
+      return resolve(bodyDetails);
     });
   });
 };
@@ -170,12 +169,12 @@ const transferNFToken = ({address}, body) => {
       headers: { address },
       body,
     };
-    request(options, (err, res, body) => {
+    request(options, (err, res, bodyDetails) => {
       if(err)
         return reject(err);
-      if(body.statusCode !== 200)
-        return reject(body);
-      resolve(body);
+      if(bodyDetails.statusCode !== 200)
+        return reject(bodyDetails);
+      return resolve(bodyDetails);
     });
   });
 };
@@ -189,12 +188,12 @@ const burnNFToken = ({address}, body) => {
       headers: { address },
       body,
     };
-    request(options, (err, res, body) => {
+    request(options, (err, res, bodyDetails) => {
       if(err)
         return reject(err);
-      if(body.statusCode !== 200)
-        return reject(body);
-      resolve(body);
+      if(bodyDetails.statusCode !== 200)
+        return reject(bodyDetails);
+      return resolve(bodyDetails);
     });
   });
 };
@@ -208,12 +207,12 @@ const transferFToken = ({address}, body) => {
       headers: { address },
       body,
     };
-    request(options, (err, res, body) => {
+    request(options, (err, res, bodyDetails) => {
       if(err)
         return reject(err);
-      if(body.statusCode !== 200)
-        return reject(body);
-      resolve(body);
+      if(bodyDetails.statusCode !== 200)
+        return reject(bodyDetails);
+      return resolve(bodyDetails);
     });
   });
 };
@@ -227,12 +226,12 @@ const setTokenShield = ({address}, body) => {
       headers: { address },
       body,
     };
-    request(options, (err, res, body) => {
+    request(options, (err, res, bodyDetails) => {
       if(err)
         return reject(err);
-      if(body.statusCode !== 200)
-        return reject(body);
-      resolve(body);
+      if(bodyDetails.statusCode !== 200)
+        return reject(bodyDetails);
+      return resolve(bodyDetails);
     });
   });
 };
@@ -247,12 +246,12 @@ const setCoinShield = ({address}, body) => {
       headers: { address },
       body,
     };
-    request(options, (err, res, body) => {
+    request(options, (err, res, bodyDetails) => {
       if(err)
         return reject(err);
-      if(body.statusCode !== 200)
-        return reject(body);
-      resolve(body);
+      if(bodyDetails.statusCode !== 200)
+        return reject(bodyDetails);
+      return resolve(bodyDetails);
     });
   });
 };
@@ -271,7 +270,7 @@ const unSetCoinShield = ({address}) => {
         return reject(err);
       if(body.statusCode !== 200)
         return reject(body);
-      resolve(body);
+      return resolve(body);
     });
   });
 };
@@ -289,7 +288,7 @@ const unSetTokenShield = ({address}) => {
         return reject(err);
       if(body.statusCode !== 200)
         return reject(body);
-      resolve(body);
+      return resolve(body);
     });
   });
 };
@@ -303,12 +302,12 @@ const mintFToken = ({address}, body) => {
       headers: { address },
       body,
     };
-    request(options, (err, res, body) => {
+    request(options, (err, res, bodyDetails) => {
       if(err)
         return reject(err);
-      if(body.statusCode !== 200)
-        return reject(body);
-      resolve(body);
+      if(bodyDetails.statusCode !== 200)
+        return reject(bodyDetails);
+      return resolve(bodyDetails);
     });
   });
 };
@@ -322,12 +321,12 @@ const burnFToken = ({address}, body) => {
       headers: { address },
       body,
     };
-    request(options, (err, res, body) => {
+    request(options, (err, res, bodyDetails) => {
       if(err)
         return reject(err);
-      if(body.statusCode !== 200)
-        return reject(body);
-      resolve(body);
+      if(bodyDetails.statusCode !== 200)
+        return reject(bodyDetails);
+      return resolve(bodyDetails);
     });
   });
 };
@@ -341,12 +340,12 @@ const checkCorrectnessToken = (headers, body) => {
       headers,
       body,
     };
-    request(options, (err, res, body) => {
+    request(options, (err, res, bodyDetails) => {
       if(err)
         return reject(err);
-      if(body.statusCode !== 200)
-        return reject(body);
-      resolve(body);
+      if(bodyDetails.statusCode !== 200)
+        return reject(bodyDetails);
+      return resolve(bodyDetails);
     });
   });
 };
@@ -360,12 +359,12 @@ const checkCorrectnessCoin = (headers, body) => {
       headers,
       body,
     };
-    request(options, (err, res, body) => {
+    request(options, (err, res, bodyDetails) => {
       if(err)
         return reject(err);
-      if(body.statusCode !== 200)
-        return reject(body);
-      resolve(body);
+      if(bodyDetails.statusCode !== 200)
+        return reject(bodyDetails);
+      return resolve(bodyDetails);
     });
   });
 };
@@ -378,12 +377,12 @@ const getCoinShield = ({address}) => {
       json: true,
       headers: { address },
     };
-    request(options, (err, res, body) => {
+    request(options, (err, res, bodyDetails) => {
       if(err)
         return reject(err);
-      if(body.statusCode !== 200)
-        return reject(body);
-      resolve(body);
+      if(bodyDetails.statusCode !== 200)
+        return reject(bodyDetails);
+      return resolve(bodyDetails);
     });
   });
 };
@@ -401,7 +400,7 @@ const getTokenShield = ({address}) => {
         return reject(err);
       if(body.statusCode !== 200)
         return reject(body);
-      resolve(body);
+      return resolve(body);
     });
   });
 };

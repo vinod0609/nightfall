@@ -102,9 +102,6 @@ export async function mintCoin (req, res, next) {
      */
 export async function transferCoin (req, res, next) {
   const response = new Response();
-  const userAddress = req.user.address;
-  const userName = req.headers.name;
-
   try {
     const password = (req.user.address + Date.now()).toString();
     const address = (await accounts.createAccount(password)).data;

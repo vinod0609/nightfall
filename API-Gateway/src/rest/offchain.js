@@ -1,9 +1,7 @@
 const request = require('request');
-
 const Config = require('../config/config').getProps();
 
 const host = `${Config.offchain.app.host  }:${  Config.offchain.app.port}`;
-
 
 const isNameInUse = name => {
   return new Promise((resolve, reject) => {
@@ -50,10 +48,10 @@ const setZkpPublicKey = (address, body) => {
       body,
     };
 
-    request(options, (err, res, body) => {
+    request(options, (err, res, bodyDeatils) => {
       if(err)
         reject(err);
-      resolve(body);
+      resolve(bodyDeatils);
     });
   });
 };
@@ -108,14 +106,14 @@ const getZkpPublicKeyFromName = name => {
   });
 };
 
-const setWhisperPK = ({address}, whisper_pk) => {
+const setWhisperPK = ({address}, whisperPk) => {
   return new Promise((resolve, reject) => {
     const options = {
       url : `${host  }/pkd/whisperkey`,
       method : 'POST',
       json: true,
       headers: { address },
-      body: {whisper_pk},
+      body: {whisper_pk: whisperPk},
     };
 
     request(options, (err, res, body) => {
