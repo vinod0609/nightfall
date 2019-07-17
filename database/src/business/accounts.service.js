@@ -8,7 +8,7 @@ const { mongo } = getProps();
 function updateUserRole () {
   return new Promise((resolve, reject) =>
     exec(
-      `mongo nightfall --host=mongo -u ${mongo.admin} -p ${mongo.adminPassword} setup-mongo-acl-for-new-users.js`,
+      `mongo ${mongo.databaseName} --host=${mongo.host} -u ${mongo.admin} -p ${mongo.adminPassword} setup-mongo-acl-for-new-users.js`,
       err => (err ? reject(err) : resolve()),
     ),
   );
