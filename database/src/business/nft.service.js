@@ -8,6 +8,12 @@ export default class NftService {
     this.nftTransactionService = new NftTransactionService(_db);
   }
 
+  /**
+   * This function inset ERC-721(nft)
+   * either new minted or recived token in nft collection. 
+   * Also, will insert transaction in nft_transaction collection
+   * @param {object} data
+   */
   async addNFToken (data) {
     const { isReceived } = data;
     const mappedData = nftMapper(data);
@@ -26,6 +32,12 @@ export default class NftService {
     });
   }
 
+  /**
+   * This function update ERC-721 (nft)
+   * in nft collection, which is ethier transferred, burned or shielded.
+   * Also, will insert transaction in nft_transaction collection
+   * @param {object} data
+   */
   async updateNFToken (data) {
     const { tokenId, isBurned, isShielded } = data;
     const mappedData = nftMapper(data);
@@ -57,6 +69,12 @@ export default class NftService {
     });
   }
 
+  /**
+   * This function fetch all ERC-721 (nft) tokens
+   * which are in minted.
+   * @param {object} data - req query object containing public account
+   * @returns {Promise} array of coins transaction minted by that
+   */
   getNFTokens (query) {
     if (!query || !query.pageNo || !query.limit) {
       return this.db.getData(COLLECTIONS.NFT, {
@@ -82,6 +100,11 @@ export default class NftService {
     );
   }
 
+  /**
+   * This function fetch a ERC-721 (nft) token by tokenId
+   * @param {string} tokenId - unique tokenId generated at mint
+   * @returns {Promise}
+   */
   getNFToken (tokenId) {
     return this.db.findOne(COLLECTIONS.NFT, {
       token_id: tokenId,
@@ -89,6 +112,11 @@ export default class NftService {
     });
   }
 
+  /**
+   * This function fetch ERC-721 (nft) transactions
+   * from nft_transction collection
+   * @param {object} query
+   */
   getNFTTransactions (query) {
     return this.nftTransactionService.getTransactions(query);
   }

@@ -8,6 +8,12 @@ export default class NftCommitmentService {
     this.nftCommitmentTransactionService = new NftCommitmentTransactionService(_db);
   }
 
+  /**
+   * This function inset ERC-721 commitment (nft-commitment)
+   * either new minted or recived commitment in nft_commitment collection.
+   * Also, will insert transaction in nft_commitment_transaction collection
+   * @param {object} data
+   */
   async addNewToken (data) {
     const { isReceived } = data;
     const mappedData = nftCommitmentMapper(data);
@@ -26,6 +32,12 @@ export default class NftCommitmentService {
     });
   }
 
+  /**
+   * This function update ERC-721 commitment (nft-commitment)
+   * in nft_commitment collection, which is ethier transferred or burned commitment.
+   * Also, will insert transaction in nft_commitment_transaction collection
+   * @param {object} data
+   */
   async updateToken (data) {
     const { tokenId, isBurned } = data;
     const mappedData = nftCommitmentMapper(data);
@@ -51,6 +63,12 @@ export default class NftCommitmentService {
     });
   }
 
+  /**
+   * This function fetch use all token commitments
+   * commitments which are in 'minted' or 'change' state.
+   * @param {object} data - req query object containing public account
+   * @returns {array} of coins transaction minted by that
+   */
   getToken (pageination) {
     if (!pageination || !pageination.pageNo || !pageination.limit) {
       return this.db.getData(COLLECTIONS.NFT_COMMITMENT, {
@@ -72,6 +90,11 @@ export default class NftCommitmentService {
     );
   }
 
+  /**
+   * This function fetch ERC-721 commitment (nft-commitment) transactions
+   * from nft_commitment_transction collection
+   * @param {object} query
+   */
   getPrivateTokenTransactions (query) {
     return this.nftCommitmentTransactionService.getTransactions(query);
   }

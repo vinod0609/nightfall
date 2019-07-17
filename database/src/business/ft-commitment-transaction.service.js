@@ -33,6 +33,11 @@ export default class FtCommitmentTransactionService {
     return this.db.saveData(COLLECTIONS.FT_COMMITMENT_TRANSACTION, data);
   }
 
+  /**
+   * This function fetch ERC-20 commitment (ft-commitment) transactions
+   * from ft_commitment_transction collection
+   * @param {object} query 
+   */
   getTransactions (query) {
     const { pageNo, limit } = query;
     return this.db.getDbData (

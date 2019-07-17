@@ -93,6 +93,11 @@ export default class AccountService {
     return accounts[0];
   }
 
+  /**
+   * This function will update user whisper key generated at login
+   * @param {String} shhIdentity - key hash
+   * @returns {Promise}
+   */
   updateWhisperIdentity (shhIdentity) {
     return this.db.updateData(
       COLLECTIONS.USER,
@@ -103,12 +108,24 @@ export default class AccountService {
     );
   }
 
+  /**
+   * This function will fetch user's whisper key from its user collection
+   * @returns {Promise} which resolve to whisper key.
+   */
   async getWhisperIdentity () {
     const users = await this.db.getData(COLLECTIONS.USER);
     const shhIdentity = users[0].shh_identity || '';
-    return Promise.resolve({ shhIdentity });
+    return { shhIdentity };
   }
 
+  /**
+   * This function will push coinShield contract info in user collection
+   * and also make this contract as selected contract for by user for ERC-20 related transactions
+   * @param {Object} contractInfo = { contractName, contractAddress }
+   * contractName - name of coinShield contract
+   * contractAddress - address of coinShield contract
+   * @returns {Promise}
+   */
   async addCoinShieldContractAddress ({ contractName, contractAddress }) {
     await this.db.updateData(
       COLLECTIONS.USER,
@@ -127,6 +144,16 @@ export default class AccountService {
     await this.selectCoinShieldContractAddress({ contractAddress });
   }
 
+  /**
+   * This function will update coinShield contract info in user collection
+   * and also set/uset as selected contract based on 'isSelected' flag
+   * @param {Object} contractInfo { contractName, contractAddress, isSelected, isCoinShieldPreviousSelected}
+   * contractName - name of coinShield contract
+   * contractAddress - address of coinShield contract
+   * isSelected - set/unset conteract as selected contract
+   * isCoinShieldPreviousSelected - current state of contract; is selected one or not
+   * @returns {Promise}
+   */
   async updateCoinShieldContractAddress ({
     contractName,
     contractAddress,
@@ -151,6 +178,13 @@ export default class AccountService {
       await this.selectCoinShieldContractAddress({ contractAddress: null });
   }
 
+  /**
+   * This function will make provided contractAddress as selected contract
+   * (Private Method) 
+   * @param {Object} { contractAddress }
+   * contractAddress - address of coinShield contract
+   * @returns {Promise}
+   */
   selectCoinShieldContractAddress ({ contractAddress }) {
     return this.db.updateData(
       COLLECTIONS.USER,
@@ -161,6 +195,13 @@ export default class AccountService {
     );
   }
 
+  /**
+   * This function will delete coinShield contract info from user collection
+   * and also remove contract address from selection
+   * @param {Object} { contractAddress }
+   * contractAddress - address of coinShield contract
+   * @returns {Promise}
+   */
   async deleteCoinShieldContractAddress ({ contractAddress }) {
     await this.db.updateData(
       COLLECTIONS.USER,
@@ -181,6 +222,14 @@ export default class AccountService {
     return toUpdate;
   }
 
+  /**
+   * This function will push tokenShield contract info in user collection
+   * and also make this contract as selected contract for by user for ERC-721 related transactions
+   * @param {Object} contractInfo = { contractName, contractAddress }
+   * contractName - name of tokenShield contract
+   * contractAddress - address of tokenShield contract
+   * @returns {Promise}
+   */
   async addTokenShieldContractAddress ({ contractName, contractAddress }) {
     await this.db.updateData(
       COLLECTIONS.USER,
@@ -199,6 +248,16 @@ export default class AccountService {
     await this.selectTokenShieldContractAddress({ contractAddress });
   }
 
+  /**
+   * This function will update tokenShield contract info in user collection
+   * and also set/uset as selected contract based on 'isSelected' flag
+   * @param {Object} contractInfo { contractName, contractAddress, isSelected, isTokenShieldPreviousSelected}
+   * contractName - name of tokenShield contract
+   * contractAddress - address of tokenShield contract
+   * isSelected - set/unset conteract as selected contract
+   * isTokenShieldPreviousSelected - current state of contract; is selected one or not
+   * @returns {Promise}
+   */
   async updateTokenShieldContractAddress ({
     contractName,
     contractAddress,
@@ -223,6 +282,13 @@ export default class AccountService {
       await this.selectTokenShieldContractAddress({ contractAddress: null });
   }
 
+  /**
+   * This function will make provided contractAddress as selected contract
+   * (Private Method) 
+   * @param {Object} { contractAddress }
+   * contractAddress - address of tokenShield contract
+   * @returns {Promise}
+   */
   selectTokenShieldContractAddress ({ contractAddress }) {
     return this.db.updateData(
       COLLECTIONS.USER,
@@ -233,6 +299,13 @@ export default class AccountService {
     );
   }
 
+  /**
+   * This function will delete tokenShield contract info from user collection
+   * and also remove contract address from selection
+   * @param {Object} { contractAddress }
+   * contractAddress - address of tokenShield contract
+   * @returns {Promise}
+   */
   async deleteTokenShieldContractAddress ({ contractAddress }) {
     await this.db.updateData(
       COLLECTIONS.USER,

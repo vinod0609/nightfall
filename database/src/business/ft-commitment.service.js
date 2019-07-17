@@ -8,6 +8,11 @@ export default class FtCommitmentService {
     this.ftCommitmentTransactionService = new FtCommitmentTransactionService(_db);
   }
 
+  /**
+   * This function insert ERC-20 commitment (ft-commitment) transaction
+   * in ft_commitment_transction collection
+   * @param {object} data
+   */
   addCoinTransaction (data) {
     const { isTransferred, isReceived, isChange, isBurned } = data;
 
@@ -99,6 +104,11 @@ export default class FtCommitmentService {
     );
   }
 
+  /**
+   * This function fetch ERC-20 commitment (ft-commitment) transactions
+   * from ft_commitment_transction collection
+   * @param {object} query
+   */
   getCoinTransactions (query) {
     return this.ftCommitmentTransactionService.getTransactions(query);
   }

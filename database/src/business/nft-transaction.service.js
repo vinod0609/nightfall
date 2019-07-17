@@ -23,6 +23,11 @@ export default class NftTransactionService {
     return this.db.saveData(COLLECTIONS.NFT_TRANSACTION, data);
   }
 
+  /**
+   * This function fetch ERC-721 (nft) transactions
+   * from nft_transction collection
+   * @param {object} query
+   */
   getTransactions (query) {
     const { pageNo, limit } = query;
     return this.db.getDbData(

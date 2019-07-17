@@ -22,6 +22,11 @@ export default class FtTransactionService {
     return this.db.saveData(COLLECTIONS.FT_TRANSACTION, data);
   }
 
+  /**
+   * This function fetch ERC-20 (ft) transactions
+   * in ft_transction collection
+   * @param {object} query
+   */
   getTransactions (query) {
     const { pageNo, limit } = query;
     return this.db.getDbData (

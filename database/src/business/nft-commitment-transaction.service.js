@@ -25,6 +25,11 @@ export default class NftCommitmentTransactionService {
     return this.db.saveData(COLLECTIONS.NFT_COMMITMENT_TRANSACTION, data);
   }
 
+  /**
+   * This function fetch ERC-721 commitment (nft-commitment) transactions
+   * from nft_commitment_transction collection
+   * @param {object} query
+   */
   getTransactions (query) {
     const { pageNo, limit } = query;
     return this.db.getDbData (
