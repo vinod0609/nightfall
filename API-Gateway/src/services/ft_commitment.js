@@ -220,7 +220,6 @@ export async function transferCoin(req, res, next) {
       A: '0x00000000000000000000000000000001',
       sk_A: '0x283ccbfada111a31df7617deeff4d0daaa3f73b05ba100821d17cc',
       S_A: '0xa31adb1074f977413fddd3953e333529a3494e110251368cc823fb',
-      pk_A: '0xf38da818df95339871ef7c6dcabc2fb90344bbf553c4e688323305',
       z_A_index: 0,
       z_A: '0x1ec4a9b406fd3d79a01360ccd14c8530443ea9869f8e9560dafa56',
       payTo: 'bob',

@@ -20,6 +20,16 @@ const props = {
     },
     isLoggerEnable: true,
   },
+  test: {
+    mongo: {
+      host: 'mongo_test',
+      port: '27017',
+      databaseName: 'nightfall_test',
+      admin: 'admin',
+      adminPassword: 'admin',
+    },
+    isLoggerEnable: true,
+  },
 };
 
 /**
@@ -31,6 +41,7 @@ export function setEnv (environment) {
     env = environment;
   }
 }
+setEnv(process.env.NODE_ENV);
 
 /**
  * get the appropriate environment config
