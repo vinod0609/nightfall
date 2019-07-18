@@ -7,7 +7,7 @@ const Response = require('../routes/response/response');
 const accounts = require('../rest/accounts');
 const offchain = require('../rest/offchain');
 
-export async function checkCorrectnessCoin(req, res, next) {
+export async function checkCorrectnessCoin (req, res, next) {
   const response = new Response();
 
   try {
@@ -39,13 +39,13 @@ export async function checkCorrectnessCoin(req, res, next) {
 	 * @param {*} req
 	 * @param {*} res
 	 */
-export async function mintCoin(req, res, next) {
+export async function mintCoin (req, res, next) {
   const response = new Response();
 
   try {
     const { data } = await zkp.mintCoin(req.user, {
       A: req.body.A,
-      pk_A: req.user.pk_A
+      pk_A: req.user.pk_A,
     });
 
     data.coin_index = parseInt(data.coin_index, 16);
@@ -99,11 +99,8 @@ export async function mintCoin(req, res, next) {
      * @param {*} req
      * @param {*} res
      */
-export async function transferCoin(req, res, next) {
+export async function transferCoin (req, res, next) {
   const response = new Response();
-  const userAddress = req.user.address;
-  const userName = req.headers.name;
-
   try {
     // Generate a new one-time-use Ethereum address for the transferor to use
     const password = (req.user.address + Date.now()).toString();
@@ -227,7 +224,7 @@ export async function transferCoin(req, res, next) {
      * @param {*} req
      * @param {*} res
      */
-export async function burnCoin(req, res, next) {
+export async function burnCoin (req, res, next) {
   const response = new Response();
 
   try {

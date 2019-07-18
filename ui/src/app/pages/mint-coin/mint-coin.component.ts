@@ -23,9 +23,9 @@ export class MintCoinsComponent implements OnInit {
   /**
    * To store the random hex string.
    */
-  serialNumber = "";
+  serialNumber = '';
   /**
-   * Form object to collect mint details. 
+   * Form object to collect mint details.
    */
   mintCoinForm: FormGroup;
   /**
@@ -35,7 +35,7 @@ export class MintCoinsComponent implements OnInit {
   /**
    * Fungeble Token name , read from ERC-20 contract.
    */
-  ftName:string;
+  ftName: string;
 
   constructor(
     private fb: FormBuilder,
@@ -56,15 +56,15 @@ export class MintCoinsComponent implements OnInit {
   /**
    * Method to list down all ERC-20 tokens.
    */
-  getCoins(){
+  getCoins() {
     this.accountService.getCoins().subscribe(
       data => {
-        this.coinCount = data['data']['balance']
+        this.coinCount = data['data']['balance'];
       },
       error => {
-        console.log("error in user get", error)
+        console.log('error in user get', error);
       }
-    )
+    );
   }
 
   /**
@@ -81,9 +81,9 @@ export class MintCoinsComponent implements OnInit {
    */
   mintCoin() {
     this.isRequesting = true;
-    var hexValue = (this.mintCoinForm.controls['A'].value).toString(16);
-    var hexString = '0x' + hexValue.padStart(32,"0");
-    console.log('Hexstring::',hexString);
+    const hexValue = (this.mintCoinForm.controls['A'].value).toString(16);
+    const hexString = '0x' + hexValue.padStart(32, '0');
+    console.log('Hexstring::', hexString);
     this.coinApiService.mintCoin(hexString, localStorage.getItem('publickey')).subscribe(tokenDetails => {
       this.isRequesting = false;
       this.toastr.success('Coin Minted is ' + tokenDetails['data']['coin']);
@@ -91,7 +91,7 @@ export class MintCoinsComponent implements OnInit {
     }, error => {
         this.isRequesting = false;
         this.toastr.error('Please try again', 'Error');
-    })
+    });
   }
 
 }

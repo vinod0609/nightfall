@@ -20,27 +20,27 @@ is used to save space e.g. fields ).
 @param {object} elements - the array of Element objects that represent the parameters
 we wish to encode for ZoKrates.
 */
-function computeVectors(elements) {
+function computeVectors (elements) {
   let a = [];
   elements.forEach(element => {
     switch (element.encoding) {
-      case 'bits':
-        a = a.concat(utils.hexToBin(utils.strip0x(element.hex)));
-        break;
-      case 'bytes':
-        a = a.concat(utils.hexToBytes(utils.strip0x(element.hex)));
-        break;
-      case 'field': // each vector element will be a 'decimal representation' of integers modulo a prime. p=21888242871839275222246405745257275088548364400416034343698204186575808495617 (roughly = 2*10e76 or = 2^254)
-        a = a.concat(
-          utils.hexToFieldPreserve(
-            utils.strip0x(element.hex),
-            config.ZOKRATES_PACKING_SIZE,
-            element.packets,
-          ),
-        );
-        break;
-      default:
-        throw new Error('Encoding type not recognised');
+    case 'bits':
+      a = a.concat(utils.hexToBin(utils.strip0x(element.hex)));
+      break;
+    case 'bytes':
+      a = a.concat(utils.hexToBytes(utils.strip0x(element.hex)));
+      break;
+    case 'field': // each vector element will be a 'decimal representation' of integers modulo a prime. p=21888242871839275222246405745257275088548364400416034343698204186575808495617 (roughly = 2*10e76 or = 2^254)
+      a = a.concat(
+        utils.hexToFieldPreserve(
+          utils.strip0x(element.hex),
+          config.ZOKRATES_PACKING_SIZE,
+          element.packets,
+        ),
+      );
+      break;
+    default:
+      throw new Error('Encoding type not recognised');
     }
   });
   return a;
@@ -59,7 +59,7 @@ from TokenShield.sol
 @returns {object} containging: an array of strings - where each element of the array is a node of the sister-path of
 the path from myToken to the Merkle Root and whether the sister node is to the left or the right (this is needed because the order of hashing matters)
 */
-async function computePath(account, shieldContract, _myToken, myTokenIndex) {
+async function computePath (account, shieldContract, _myToken, myTokenIndex) {
   console.group('Computing path on local machine...');
   const myToken = utils.strip0x(_myToken);
   console.log('myToken', myToken);

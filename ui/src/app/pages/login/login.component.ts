@@ -57,24 +57,24 @@ export class LoginComponent implements OnInit {
     this.APIservice.login(this.loginAccount.value).subscribe(
       data => {
         localStorage.setItem('token', data['data']['token']);
-        localStorage.setItem('address',data['data']['address']);
-        localStorage.setItem('name',data['data']['name']);
-        localStorage.setItem('publickey',data['data']['publickey']);
-        localStorage.setItem('secretkey',data['data']['secretkey']);
-        localStorage.setItem('isAuditor',data['data']['is_auditor']);
+        localStorage.setItem('address', data['data']['address']);
+        localStorage.setItem('name', data['data']['name']);
+        localStorage.setItem('publickey', data['data']['publickey']);
+        localStorage.setItem('secretkey', data['data']['secretkey']);
+        localStorage.setItem('isAuditor', data['data']['is_auditor']);
         this.isRequesting = false;
         this.sg['name'] = data['data']['name'];
         this.sg['isAuditor'] = data['data']['is_auditor'];
-        if(data['data']['is_auditor']){
+        if (data['data']['is_auditor']) {
           this.router.navigate(['/audit']);
-        }else{
+        } else {
           this.router.navigate(['/overview']);
         }
-        
+
       },
       (err: HttpErrorResponse) => {
-         let errmsg =  err['error']['error']['message'] ? err['error']['error']['message']:'';
-         if(errmsg.indexOf(':')>-1){
+         let errmsg =  err['error']['error']['message'] ? err['error']['error']['message'] : '';
+         if (errmsg.indexOf(':') > -1) {
            errmsg = errmsg.split(':')[1];
          }
         this.toastr.error(errmsg, 'Error');

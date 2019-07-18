@@ -1,6 +1,9 @@
 module.exports = {
   extends: ['codfish', 'codfish/docker', 'codfish/dapp'],
   root: true,
+  env: {
+    node: true,
+  },
   rules: {
     'no-console': 'off',
     'space-before-function-paren': ['error', 'always'],
@@ -12,5 +15,6 @@ module.exports = {
     'semi': 'error',
     'no-extra-semi': 'error',
     'indent': ['error', 2],
-  }
+    'func-names': ['error', 'as-needed']
+  },
 };

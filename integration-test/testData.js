@@ -46,21 +46,24 @@ export default {
     const { alice, bob, erc721 } = this;
 
     erc721.tokenID = await erc721.tokenID;
+
     return {
       uri: erc721.tokenURI,
       tokenID: erc721.tokenID,
       mintCommitmentIndex: '0',
       transferCommitmentIndex: '1',
+
+      // commitment while mint
       get mintCommitment () {
-        // commitment while mint
         return utils.recursiveHashConcat(
           utils.strip0x(this.tokenID).slice(-(HASHLENGTH * 2)),
           alice.pk,
           this.S_A, // S_A - set at erc-721 commitment mint (step 4)
         );
       },
+
+      // commitment while transfer
       get transferCommitment () {
-        // commitment while transfer
         return utils.recursiveHashConcat(
           utils.strip0x(this.tokenID).slice(-(HASHLENGTH * 2)),
           bob.pk,

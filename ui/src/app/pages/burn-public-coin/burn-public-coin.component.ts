@@ -23,12 +23,12 @@ export class BurnPublicCoinComponent implements OnInit {
   /**
    * Amount to burn ERC-20 token
    */
-  amount:number;
+  amount: number;
 
   /**
    * Fungeble Token name , read from ERC-20 contract.
    */
-  ftName:string;
+  ftName: string;
 
   constructor(
     private toastr: ToastrService,
@@ -36,7 +36,7 @@ export class BurnPublicCoinComponent implements OnInit {
     private utilService: UtilService,
     private router: Router
   ) {
-    
+
   }
 
   ngOnInit () {
@@ -50,16 +50,16 @@ export class BurnPublicCoinComponent implements OnInit {
     this.isRequesting = true;
     this.coinApiService.burnPublicCoin(localStorage.getItem('address'), this.amount).subscribe(transaction => {
       this.isRequesting = false;
-      this.toastr.success('Public Coin Burned Successfully.');     
+      this.toastr.success('Public Coin Burned Successfully.');
       this.router.navigate(['/overview']);
     }, error => {
         this.isRequesting = false;
-        this.toastr.error('Please try again', 'Error');      
-    })
+        this.toastr.error('Please try again', 'Error');
+    });
   }
 
 
-   
-  
+
+
 }
 

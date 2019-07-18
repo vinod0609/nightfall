@@ -8,7 +8,7 @@ const topicForCoinToken = '0xeca7945f';
  * @param {Object} reqObj
  * @param {Object} dataToSend
  */
-export async function whisperTransaction(req, dataToSend) {
+export async function whisperTransaction (req, dataToSend) {
   // getIdentity from local db
   const receiverName = req.body.receiver_name || req.body.payTo;
 
@@ -29,7 +29,7 @@ export async function whisperTransaction(req, dataToSend) {
  * @param {Object} req
  * @param {Object} userData
  */
-export async function setWhisperIdentityAndSubscribe(userData) {
+export async function setWhisperIdentityAndSubscribe (userData) {
   const userAddress = {
     address: userData.address,
   };
@@ -39,7 +39,7 @@ export async function setWhisperIdentityAndSubscribe(userData) {
   await db.updateWhisperIdentity(userData, {shhIdentity});
 
   const whisperPKRes = await offchain.getWhisperPublicKey({ shhIdentity });
-  const resp = await offchain.setWhisperPK(
+  await offchain.setWhisperPK(
     { address: userAddress.address },
     whisperPKRes.data.whisperPublicKey,
   );
@@ -49,6 +49,6 @@ export async function setWhisperIdentityAndSubscribe(userData) {
     jwtToken: userData.jwtToken,
     sk_A: userData.sk_A,
   };
-  const subscribed = await offchain.subscribe(subscribeDetails);
+  await offchain.subscribe(subscribeDetails);
   return shhIdentity;
 }

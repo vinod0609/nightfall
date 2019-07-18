@@ -18,7 +18,7 @@ const {
 	 * @param {*} req
 	 * @param {*} res
 	 */
-export async function loginHandler(req, res, next) {
+export async function loginHandler (req, res) {
   const response = new Response();
 
   const { name, password } = req.body;
@@ -26,25 +26,16 @@ export async function loginHandler(req, res, next) {
   try {
     const data = await db.login(name, password);
     if (!data) throw new Error('User does not exist');
-
     await accounts.unlockAccount({ address: data.address, password });
-
     // get jwt token
     const token = createToken(data, password);
-
-    if (data.is_auditor) {
-      await audit.configureEventWatch(data);
-    }
-
     const userData = {
       address: data.address,
       name: data.name,
       jwtToken: token,
       sk_A: data.secretkey,
     };
-
     await setWhisperIdentityAndSubscribe(userData);
-
     response.statusCode = 200;
     response.data = { ...data, token };
     res.status(200).json(response);
@@ -65,10 +56,10 @@ export async function loginHandler(req, res, next) {
 	 * @param {*} req
 	 * @param {*} res
 	 */
-export async function createAccountHandler(req, res, next) {
+export async function createAccountHandler (req, res, next) {
   const response = new Response();
 
-  const { password, name, isAuditor } = req.body;
+  const { password, name } = req.body;
 
   try {
     const { status } = await offchain.isNameInUse(name);
@@ -102,7 +93,7 @@ export async function createAccountHandler(req, res, next) {
 }
 
 // vk APIs
-export async function loadVks(req, res, next) {
+export async function loadVks (req, res, next) {
   const response = new Response();
 
   try {
@@ -131,16 +122,16 @@ export async function loadVks(req, res, next) {
  * @param {Object} user
  * @param {String} contractAddress
  */
-function setShieldContract(user, contractAddress) {
-  return new Promise(function(resolve, reject) {
+function setShieldContract (user, contractAddress) {
+  return new Promise(function setShieldDetails (resolve) {
     zkp
       .setTokenShield(user, { tokenShield: contractAddress })
-      .then(data => resolve('token'))
-      .catch(() => console.log("Don't do anything token"));
+      .then(() => resolve('token'))
+      .catch(() => console.log('Don\'t do anything token'));
     zkp
       .setCoinShield(user, { coinShield: contractAddress })
-      .then(data => resolve('coin'))
-      .catch(() => console.log("Don't do anything coin"));
+      .then(() => resolve('coin'))
+      .catch(() => console.log('Don\'t do anything coin'));
   });
 }
 
@@ -153,7 +144,7 @@ function setShieldContract(user, contractAddress) {
 	 * @param {*} req
 	 * @param {*} res
 	*/
-export async function addContract(req, res, next) {
+export async function addContract (req, res, next) {
   const response = new Response();
   const {
     contractAddress,
@@ -204,7 +195,7 @@ export async function addContract(req, res, next) {
 	 * @param {*} req
 	 * @param {*} res
 	*/
-export async function updateContract(req, res, next) {
+export async function updateContract (req, res, next) {
   const response = new Response();
   const { tokenShield, coinShield } = req.body;
 
@@ -280,7 +271,7 @@ export async function updateContract(req, res, next) {
 	 * @param {*} req
 	 * @param {*} res
 	*/
-export async function deleteContract(req, res, next) {
+export async function deleteContract (req, res, next) {
   const response = new Response();
   const { token_shield, coin_shield } = req.query;
 

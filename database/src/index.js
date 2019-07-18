@@ -20,6 +20,7 @@ const router = Router();
 app.use(cors());
 
 app.use(bodyParser.urlencoded({ extended: false }));
+
 app.use(bodyParser.json());
 app.use(dbConnection);
 app.use(setDB);

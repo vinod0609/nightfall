@@ -24,12 +24,12 @@ export class SpendPublicCoinComponent implements OnInit {
   /**
    * Amount to transfer
    */
-  amount:number;
+  amount: number;
 
   /**
-   * To store all users 
+   * To store all users
    */
-  users:any = [];
+  users: any = [];
 
   /**
    * Name of the transferee
@@ -39,7 +39,7 @@ export class SpendPublicCoinComponent implements OnInit {
   /**
    * Fungeble Token name , read from ERC-20 contract.
    */
-  ftName:string;
+  ftName: string;
 
 
   constructor(
@@ -49,7 +49,7 @@ export class SpendPublicCoinComponent implements OnInit {
     private utilService: UtilService,
     private router: Router
   ) {
-    
+
   }
 
   ngOnInit () {
@@ -62,31 +62,31 @@ export class SpendPublicCoinComponent implements OnInit {
    */
   transferPublicCoin() {
     this.isRequesting = true;
-    this.coinApiService.transferPublicCoin(this.amount,localStorage.getItem('address'), this.receiverName).subscribe(transaction => {
+    this.coinApiService.transferPublicCoin(this.amount, localStorage.getItem('address'), this.receiverName).subscribe(transaction => {
       this.isRequesting = false;
-      this.toastr.success('Public Coin transferred Successfully.');     
+      this.toastr.success('Public Coin transferred Successfully.');
       this.router.navigate(['/overview']);
     }, error => {
         this.isRequesting = false;
-        this.toastr.error('Please try again', 'Error');      
-    })
+        this.toastr.error('Please try again', 'Error');
+    });
   }
 
   /**
    * Method to retrive all users.
-   * 
+   *
    */
   getUsers () {
     this.isRequesting = true;
     this.accountApiService.getUsers().subscribe(
       data => {
         this.isRequesting = false;
-        this.users = data['data'].filter(user => user !=='auditor');
+        this.users = data['data'].filter(user => user !== 'auditor');
       }, error => {
         this.isRequesting = false;
-        this.toastr.error('Please try again.', "Error");
-      })
+        this.toastr.error('Please try again.', 'Error');
+      });
   }
-  
+
 }
 

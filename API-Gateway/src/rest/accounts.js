@@ -1,44 +1,45 @@
 const request = require('request');
 
 const Config = require('../config/config').getProps();
-const host = Config.accounts.host + ':' + Config.accounts.port;
+
+const host = `${Config.accounts.host  }:${  Config.accounts.port}`;
 
 const createAccount = (password) => {
   return new Promise((resolve, reject) => {
-    let options = {
-      url : host + '/account/new',
+    const options = {
+      url : `${host  }/account/new`,
       method : 'POST',
       json: true,
-      body: {password}
-    }
-    request(options, (err, res, body) => {
+      body: {password},
+    };
+    request(options, (err, res, bodyDetails) => {
       if(err)
-        reject(err)
-      resolve(body)
-    })
-  })
-}
+        reject(err);
+      resolve(bodyDetails);
+    });
+  });
+};
 
 const unlockAccount = body => {
   return new Promise((resolve, reject) => {
-    let options = {
-      url : host + '/accounts/unlock',
+    const options = {
+      url : `${host  }/accounts/unlock`,
       method : 'POST',
       json: true,
-      body
-    }
-    request(options, (err, res, body) => {
+      body,
+    };
+    request(options, (err, res, bodyDetails) => {
       if(err)
-        reject(err);
-      if(body.statusCode !== 200){
-        return reject({message: body.err.message});
+        return reject(err);
+      if(bodyDetails.statusCode !== 200){
+        return reject(new Error(bodyDetails.err.message));
       }
-      resolve(body)
-    })
-  })
-}
+      return resolve(body);
+    });
+  });
+};
 
 module.exports = {
   createAccount,
-  unlockAccount
-}
+  unlockAccount,
+};

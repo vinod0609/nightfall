@@ -1,418 +1,417 @@
-const request = require('request')
-const jwt = require('jsonwebtoken')
-
+const request = require('request');
 const Config = require('../config/config').getProps();
-const host = Config.database.host + ':' + Config.database.port;
+
+const host = `${Config.database.host  }:${  Config.database.port}`;
 
 const addToken = ({name}, body) => {
   return new Promise((resolve, reject) => {
-    let options = {
-      url : host + '/token',
+    const options = {
+      url : `${host  }/token`,
       method : 'POST',
       json: true,
       headers: {name},
-      body
-    }
+      body,
+    };
 
-    request(options, (err, res, body) => {
+    request(options, (err, res, bodyDetails) => {
       if(err)
-        reject(err)
-      resolve(body)
-    })
-  })
-}
+        reject(err);
+      resolve(bodyDetails);
+    });
+  });
+};
 
 const addNFToken = ({name}, body) => {
   return new Promise((resolve, reject) => {
-    let options = {
-      url : host + '/nft',
+    const options = {
+      url : `${host  }/nft`,
       method : 'POST',
       json: true,
       headers: {name},
-      body
-    }
+      body,
+    };
 
-    request(options, (err, res, body) => {
+    request(options, (err, res, bodyDetails) => {
       if(err)
-        reject(err)
-      resolve(body)
-    })
-  })
-}
+        reject(err);
+      resolve(bodyDetails);
+    });
+  });
+};
 
 const updateNFToken = ({name}, body) => {
   return new Promise((resolve, reject) => {
-    let options = {
-      url : host + '/nft',
+    const options = {
+      url : `${host  }/nft`,
       method : 'PATCH',
       json: true,
       headers: {name},
-      body
-    }
+      body,
+    };
 
-    request(options, (err, res, body) => {
+    request(options, (err, res, bodyDetails) => {
       if(err)
-        reject(err)
-      resolve(body)
-    })
-  })
-}
+        reject(err);
+      resolve(bodyDetails);
+    });
+  });
+};
 
 const updateToken = ({name}, body) => {
   return new Promise((resolve, reject) => {
-    let options = {
-      url : host + '/token',
+    const options = {
+      url : `${host  }/token`,
       method : 'PATCH',
       json: true,
       headers: {name},
-      body
-    }
+      body,
+    };
 
-    request(options, (err, res, body) => {
+    request(options, (err, res, bodyDetails) => {
       if(err)
-        reject(err)
-      resolve(body)
-    })
-  })
-}
+        reject(err);
+      resolve(bodyDetails);
+    });
+  });
+};
 
 const addCoin = ({name}, details) => {
   return new Promise((resolve, reject) => {
-    let options = {
-      url : host + '/coin',
+    const options = {
+      url : `${host  }/coin`,
       method : 'POST',
       json: true,
       headers: {name},
-      body: details
-    }
+      body: details,
+    };
 
     request(options, (err, res, body) => {
       if(err)
-        reject(err)
-      resolve(body)
-    })
-  })
-}
+        reject(err);
+      resolve(body);
+    });
+  });
+};
 
 const createAccount = (details) => {
   return new Promise((resolve, reject) => {
-    let options = {
-      url : host + '/createAccount',
+    const options = {
+      url : `${host  }/createAccount`,
       method : 'POST',
       json: true,
-      body: details
-    }
+      body: details,
+    };
     request(options, (err, res, body) => {
       if(err){
-        reject(err)
+        return reject(err);
       }
       if(body.statusCode !== 200)
         return reject(body.err);
-      resolve(body)
-    })
-  })
-}
+      return resolve(body);
+    });
+  });
+};
 
 const login = (name, password) => {
   return new Promise((resolve, reject) => {
-    let options = {
-      url : host + '/login',
+    const options = {
+      url : `${host  }/login`,
       method : 'POST',
       body: {name, password},
-      json: true
-    }
+      json: true,
+    };
 
     request(options, (err, res, body) => {
-      if(err || res.statusCode==500){
+      if(err || res.statusCode === 500){
         return reject(err || res.body);
       }
-      resolve(body.data);
-    })
-  })
-}
+      return resolve(body.data);
+    });
+  });
+};
 
 const updateCoin = ({name},details) => {
   return new Promise((resolve, reject) => {
-    let options = {
-      url : host + '/coin',
+    const options = {
+      url : `${host  }/coin`,
       method : 'PATCH',
       json: true,
       headers: {name},
-      body: details
-    }
+      body: details,
+    };
 
     request(options, (err, res, body) => {
       if(err)
-        reject(err)
-      resolve(body)
-    })
-  })
-}
+        reject(err);
+      resolve(body);
+    });
+  });
+};
 
 const updateUserWithPrivateAccount = ({name}, body) => {
   return new Promise((resolve, reject) => {
-    let options = {
-      url : host + '/privateAccount',
+    const options = {
+      url : `${host  }/privateAccount`,
       method : 'POST',
       headers: {name},
       json: true,
-      body
-    }
+      body,
+    };
 
-    request(options, (err, res, body) => {
+    request(options, (err, res, bodyDetails) => {
       if(err)
-        reject(err)
-      resolve(body)
-    })
-  })
-}
+        reject(err);
+      resolve(bodyDetails);
+    });
+  });
+};
 
 const updateWhisperIdentity = ({name}, body) => {
   return new Promise((resolve, reject) => {
-    let options = {
-      url : host + '/user/whisperIdentity',
+    const options = {
+      url : `${host  }/user/whisperIdentity`,
       method : 'PATCH',
       headers: { name },
       json: true,
-      body
-    }
+      body,
+    };
 
-    request(options, (err, res, body) => {
+    request(options, (err, res, bodyDetails) => {
       if(err)
-        reject(err)
-      resolve(body)
-    })
-  })
-}
+        reject(err);
+      resolve(bodyDetails);
+    });
+  });
+};
 
 const getWhisperIdentity = ({name}) => {
   return new Promise((resolve, reject) => {
-    let options = {
-      url : host + '/user/whisperIdentity',
+    const options = {
+      url : `${host  }/user/whisperIdentity`,
       method : 'GET',
       headers: {name},
-      json: true
-    }
+      json: true,
+    };
 
     request(options, (err, res, body) => {
       if(err)
-        reject(err)
-      resolve(body)
-    })
-  })
-}
+        reject(err);
+      resolve(body);
+    });
+  });
+};
 
 const updateCoinForBurn = ({name},details) => {
   return new Promise((resolve, reject) => {
-    let options = {
-      url : host + '/coin/burn',
+    const options = {
+      url : `${host  }/coin/burn`,
       method : 'PATCH',
       json: true,
       headers: {name},
-      body: details
-    }
+      body: details,
+    };
 
     request(options, (err, res, body) => {
       if(err)
-        reject(err)
-      resolve(body)
-    })
-  })
-}
+        reject(err);
+      resolve(body);
+    });
+  });
+};
 
 const fetchUser = ({name}, details) => {
   return new Promise((resolve, reject) => {
     const query = convertObjToQueryString(details);
-    let options = {
-      url : host + '/user?'+query,
+    const options = {
+      url : `${host  }/user?${query}`,
       method : 'GET',
       json: true,
-      headers: {name}
-    }
+      headers: {name},
+    };
 
     request(options, (err, res, body) => {
       if(err)
-        reject(err)
-      resolve(body.data)
-    })
+        reject(err);
+      resolve(body.data);
+    });
 
   });
-}
+};
 
 const addCoinShieldContractAddress = ({name}, body) => {
   return new Promise((resolve, reject) => {
-    let options = {
-      url : host + '/user/coinShield',
+    const options = {
+      url : `${host  }/user/coinShield`,
       method : 'POST',
       headers: {name},
       json: true,
-      body
-    }
+      body,
+    };
 
-    request(options, (err, res, body) => {
+    request(options, (err, res, bodyDetails) => {
       if(err)
-        reject(err)
-      if(body.statusCode !== 200)
-        return reject(body.err);
-      resolve(body)
-    })
-  })
-}
+        reject(err);
+      if(bodyDetails.statusCode !== 200)
+        return reject(bodyDetails.err);
+      return resolve(bodyDetails);
+    });
+  });
+};
 
 const addTokenShieldContractAddress = ({name}, body) => {
   return new Promise((resolve, reject) => {
-    let options = {
-      url : host + '/user/tokenShield',
+    const options = {
+      url : `${host  }/user/tokenShield`,
       method : 'POST',
       headers: {name},
       json: true,
-      body
-    }
+      body,
+    };
 
-    request(options, (err, res, body) => {
+    request(options, (err, res, bodyDetails) => {
       if(err)
-        reject(err)
-      if(body.statusCode !== 200)
-        return reject(body.err);
-      resolve(body)
-    })
-  })
-}
+        reject(err);
+      if(bodyDetails.statusCode !== 200)
+        return reject(bodyDetails.err);
+      return resolve(bodyDetails);
+    });
+  });
+};
 
 const updateCoinShieldContractAddress = ({name}, body) => {
   return new Promise((resolve, reject) => {
-    let options = {
-      url : host + '/user/coinShield',
+    const options = {
+      url : `${host  }/user/coinShield`,
       method : 'PUT',
       headers: {name},
       json: true,
-      body
-    }
+      body,
+    };
 
-    request(options, (err, res, body) => {
+    request(options, (err, res, bodyDetails) => {
       if(err)
-        reject(err)
-      if(body.statusCode !== 200)
-        return reject(body.err);
-      resolve(body)
-    })
-  })
-}
+        reject(err);
+      if(bodyDetails.statusCode !== 200)
+        return reject(bodyDetails.err);
+      return resolve(bodyDetails);
+    });
+  });
+};
 
 const updateTokenShieldContractAddress = ({name}, body) => {
   return new Promise((resolve, reject) => {
-    let options = {
-      url : host + '/user/tokenShield',
+    const options = {
+      url : `${host  }/user/tokenShield`,
       method : 'PUT',
       headers: {name},
       json: true,
-      body
-    }
+      body,
+    };
 
-    request(options, (err, res, body) => {
+    request(options, (err, res, bodyDetails) => {
       if(err)
-        reject(err)
-      if(body.statusCode !== 200)
-        return reject(body.err);
-      resolve(body)
-    })
-  })
-}
+        reject(err);
+      if(bodyDetails.statusCode !== 200)
+        return reject(bodyDetails.err);
+      return resolve(bodyDetails);
+    });
+  });
+};
 
 const deleteCoinShieldContractAddress = ({name}, qs) => {
   return new Promise((resolve, reject) => {
-    let options = {
-      url : host + '/user/coinShield',
+    const options = {
+      url : `${host  }/user/coinShield`,
       method : 'DELETE',
       headers: {name},
       json: true,
-      qs
-    }
+      qs,
+    };
 
-    request(options, (err, res, body) => {
+    request(options, (err, res, bodyDetails) => {
       if(err)
-        reject(err)
-      if(body.statusCode !== 200)
-        return reject(body.err);
-      resolve(body)
-    })
-  })
-}
+        reject(err);
+      if(bodyDetails.statusCode !== 200)
+        return reject(bodyDetails.err);
+      return resolve(bodyDetails);
+    });
+  });
+};
 
 const deleteTokenShieldContractAddress =  ({name}, qs) => {
   return new Promise((resolve, reject) => {
-    let options = {
-      url : host + '/user/tokenShield',
+    const options = {
+      url : `${host  }/user/tokenShield`,
       method : 'DELETE',
       headers: {name},
       json: true,
-      qs
-    }
+      qs,
+    };
 
-    request(options, (err, res, body) => {
+    request(options, (err, res, bodyDetails) => {
       if(err)
-        reject(err)
-      if(body.statusCode !== 200)
-        return reject(body.err);
-      resolve(body)
-    })
-  })
-}
+        reject(err);
+      if(bodyDetails.statusCode !== 200)
+        return reject(bodyDetails.err);
+      return resolve(bodyDetails);
+    });
+  });
+};
 
 const getNFToken = ({name}, tokenId) => {
   return new Promise((resolve, reject) => {
-    let options = {
-      url : host + '/nft/'+tokenId,
+    const options = {
+      url : `${host  }/nft/${tokenId}`,
       method : 'GET',
       json: true,
-      headers: {name}
-    }
+      headers: {name},
+    };
 
     request(options, (err, res, body) => {
       if(err)
-        reject(err)
-      resolve(body.data)
-    })
+        reject(err);
+      resolve(body.data);
+    });
 
   });
-}
+};
 
 const addFTTransaction = ({name}, body) => {
   return new Promise((resolve, reject) => {
-    let options = {
-      url : host + '/ft/transaction',
+    const options = {
+      url : `${host  }/ft/transaction`,
       method : 'POST',
       json: true,
       headers: {name},
-      body
-    }
+      body,
+    };
 
-    request(options, (err, res, body) => {
+    request(options, (err, res, bodyDetails) => {
       if(err)
-        reject(err)
-      resolve(body)
-    })
-  })
-}
+        reject(err);
+      resolve(bodyDetails);
+    });
+  });
+};
 
 const getNFTokens = ({name}, qs) => {
   return new Promise((resolve, reject) => {
-    let options = {
-      url : host + '/nft',
+    const options = {
+      url : `${host  }/nft`,
       method : 'GET',
       json: true,
       headers: {name},
-      qs
-    }
+      qs,
+    };
 
     request(options, (err, res, body) => {
       if(err)
-        reject(err)
-      resolve(body.data)
-    })
+        reject(err);
+      resolve(body.data);
+    });
 
   });
-}
+};
 
 const addCoinTransaction = ({name}, body) => {
   return new Promise((resolve, reject) => {
@@ -434,27 +433,29 @@ const addCoinTransaction = ({name}, body) => {
 
 
 function convertObjToQueryString (object) {
-  let str = "";
-  for (let key in object) {
-    if (str != "") {
-      str += "&";
+  let str = '';
+  const queries = object ? object.keys : [];
+  for (let i = 0 ; i < queries.length; i+=1) {
+    if (str !== '') {
+      str += '&';
     }
-    str += key + "=" + encodeURIComponent(object[key]);
+    const queryKey = queries[i];
+    str += `${queryKey}=${encodeURIComponent(object[queryKey])}`;
   }
   return str;
-};
+}
 
 
 module.exports = {
-  addToken,                     //'/token', POST
-  updateToken,                  //'/token', PATCH
-  addCoin,                      //'/coin', POST
-  updateCoin,                   //'/coin', PATCH
-  updateCoinForBurn,            //'/coin/burn', PATCH
-  createAccount,                //'/createAccount', POST
-  updateUserWithPrivateAccount, //'/privateAccount', POST
-  login,                        //'/login', POST
-  fetchUser,                    //'/user?'+query, GET
+  addToken,                     // '/token', POST
+  updateToken,                  // '/token', PATCH
+  addCoin,                      // '/coin', POST
+  updateCoin,                   // '/coin', PATCH
+  updateCoinForBurn,            // '/coin/burn', PATCH
+  createAccount,                // '/createAccount', POST
+  updateUserWithPrivateAccount, // '/privateAccount', POST
+  login,                        // '/login', POST
+  fetchUser,                    // '/user?'+query, GET
   getWhisperIdentity,
   updateWhisperIdentity,
   addNFToken,
@@ -468,5 +469,5 @@ module.exports = {
   getNFToken,
   addFTTransaction,
   getNFTokens,
-  addCoinTransaction
+  addCoinTransaction,
 };
