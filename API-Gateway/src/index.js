@@ -37,12 +37,12 @@ app.use(bodyParser.json()); // set up a filter to parse JSON
 app.use(cors()); // cross origin filter
 app.use(authentication);
 
-app.use('/zkp', unlockAccount, proxy(`${Config.zkp.app.host  }:${  Config.zkp.app.port}`));
+app.use('/zkp', unlockAccount, proxy(`${Config.zkp.host  }:${  Config.zkp.port}`));
 app.use('/database', proxy(`${Config.database.host  }:${  Config.database.port}`));
 app.use(
   '/offchain-service',
   unlockAccount,
-  proxy(`${Config.offchain.app.host  }:${  Config.offchain.app.port}`),
+  proxy(`${Config.offchain.host  }:${  Config.offchain.port}`),
 );
 app.use('/', unlockAccount, router);
 app.use('/', rootRouter);
