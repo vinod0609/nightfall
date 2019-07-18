@@ -13,6 +13,7 @@ module.exports = {
     'comma-dangle': ['error', 'always-multiline'],
     semi: 'error',
     'no-extra-semi': 'error',
-    indent: ['error', 2]
+    indent: ['error', 2],
+    'func-names': ['error', 'as-needed']
   },
 };

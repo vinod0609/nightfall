@@ -8,7 +8,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "fix": "npm run format && npm run lint -- --fix",
     "format": "prettier --write \"**/*.{json,css,scss,md,html}\"",
-    "lint": "eslint .",
+    "lint": "eslint . && npx tslint -p ./ui/src/tsconfig.app.json",
+    "tslint": "npx tslint -p ./ui/src/tsconfig.app.json --fix",
     "lint:md": "markdownlint -i node_modules -i build ."
   },
   "repository": {
@@ -23,6 +24,7 @@
   },
   "homepage": "https://github.com/EYBlockchain/nightfall#readme",
   "dependencies": {
+    "tslint": "^5.18.0",
     "typescript": "^2.4.2"
   },
   "devDependencies": {
