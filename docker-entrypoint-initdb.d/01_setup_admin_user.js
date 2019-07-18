@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 
-if (db === 'nightfall_test') {
+if (db == 'nightfall_test') {
   // user created for integration testing.
   db.createUser({
 	  user: 'admin',
