@@ -8,7 +8,7 @@
     "setupAll": "./install.sh",
     "fix": "npm run format && npm run lint -- --fix",
     "format": "prettier --write \"**/*.{json,css,scss,md,html}\"",
-    "lint": "eslint . --fix && npx tslint -p ./ui/src/tsconfig.app.json",
+    "lint": "eslint . && npx tslint -p ./ui/src/tsconfig.app.json",
     "tslint": "npm tslint -p ./ui/src/tsconfig.app.json --fix",
     "lint:md": "markdownlint -i node_modules -i build ."
   },
