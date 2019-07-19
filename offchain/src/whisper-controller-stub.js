@@ -44,8 +44,7 @@ generateWhisperKeys function above
 as a minimum it must contain the Whisper shhIdenity
 */
 export async function getWhisperPublicKey (id) {
-  if (id.shhIdentity === undefined)
-    throw new Error('Whisper identity not found in id object');
+  if (id.shhIdentity === undefined) throw new Error('Whisper identity not found in id object');
   return wpk[id.shhIdentity];
 }
 
@@ -74,15 +73,9 @@ on the user's behalf
 This version will return a Javascript object as the payload (assuming sendObject was used to send
 the object)
 */
-export async function subscribeObject (
-  idRecipient,
-  topic = TRANSFER_TOPIC,
-  userData,
-  listener,
-) {
+export async function subscribeObject (idRecipient, topic = TRANSFER_TOPIC, userData, listener) {
   // const idRecipient = {..._idRecipient}
-  if (utils.strip0x(topic).length !== 8)
-    throw new Error('Whisper topic must be 4 bytes long');
+  if (utils.strip0x(topic).length !== 8) throw new Error('Whisper topic must be 4 bytes long');
   if (idRecipient.shhIdentity === undefined)
     throw new Error(
       'no valid Whisper key pair was found.  Please generate these before subscribing',
@@ -105,14 +98,8 @@ to 'receive'.  It's a little crude and 3s is overkill but will do for now.
 @param {bytes4} topic - the topic to post to (four bytes)
 @param {string} pkRecipient - the receipient's public key
 */
-export async function sendObject (
-  message,
-  idSender,
-  pkRecipient,
-  topic = TRANSFER_TOPIC,
-) {
-  if (utils.strip0x(topic).length !== 8)
-    throw new Error('Whisper topic must be 4 bytes long');
+export async function sendObject (message, idSender, pkRecipient, topic = TRANSFER_TOPIC) {
+  if (utils.strip0x(topic).length !== 8) throw new Error('Whisper topic must be 4 bytes long');
   if (idSender.shhIdentity === undefined)
     throw new Error('Whisper identity not found in id object');
   const msg = {

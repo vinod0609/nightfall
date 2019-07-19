@@ -25,7 +25,7 @@ export async function mintNFToken (req, res, next) {
   const reqBody = {
     tokenID:
       req.body.tokenID || `0x${(Math.random() * 1000000000000000000000000000000e46).toString(16)}`,
-      tokenURI: req.body.tokenURI || '',
+    tokenURI: req.body.tokenURI || '',
   };
 
   try {

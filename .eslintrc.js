@@ -10,11 +10,11 @@ module.exports = {
     'radix': 'off',
     'func-names': ['error', 'as-needed'],
     'prettier/prettier': 'off',   // make prettier config off
-    'quotes': ['error', 'single'],
+    'quotes': ['error', 'single', { 'allowTemplateLiterals': true }],
     'comma-dangle': ['error', 'always-multiline'],
     'semi': 'error',
     'no-extra-semi': 'error',
-    'indent': ['error', 2],
+    'indent': ['error', 2, { "SwitchCase": 1 }],
     'func-names': ['error', 'as-needed']
   },
 };

@@ -24,23 +24,23 @@ function computeVectors (elements) {
   let a = [];
   elements.forEach(element => {
     switch (element.encoding) {
-    case 'bits':
-      a = a.concat(utils.hexToBin(utils.strip0x(element.hex)));
-      break;
-    case 'bytes':
-      a = a.concat(utils.hexToBytes(utils.strip0x(element.hex)));
-      break;
-    case 'field': // each vector element will be a 'decimal representation' of integers modulo a prime. p=21888242871839275222246405745257275088548364400416034343698204186575808495617 (roughly = 2*10e76 or = 2^254)
-      a = a.concat(
-        utils.hexToFieldPreserve(
-          utils.strip0x(element.hex),
-          config.ZOKRATES_PACKING_SIZE,
-          element.packets,
-        ),
-      );
-      break;
-    default:
-      throw new Error('Encoding type not recognised');
+      case 'bits':
+        a = a.concat(utils.hexToBin(utils.strip0x(element.hex)));
+        break;
+      case 'bytes':
+        a = a.concat(utils.hexToBytes(utils.strip0x(element.hex)));
+        break;
+      case 'field': // each vector element will be a 'decimal representation' of integers modulo a prime. p=21888242871839275222246405745257275088548364400416034343698204186575808495617 (roughly = 2*10e76 or = 2^254)
+        a = a.concat(
+          utils.hexToFieldPreserve(
+            utils.strip0x(element.hex),
+            config.ZOKRATES_PACKING_SIZE,
+            element.packets,
+          ),
+        );
+        break;
+      default:
+        throw new Error('Encoding type not recognised');
     }
   });
   return a;

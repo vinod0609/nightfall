@@ -1,6 +1,5 @@
 import { whisperTransaction } from './whisper';
 
-const _ = require('underscore');
 const zkp = require('../rest/zkp');
 const db = require('../rest/db');
 const Response = require('../routes/response/response');
@@ -56,7 +55,7 @@ export async function mintCoin (req, res, next) {
       salt: data.S_A,
       commitment: data.coin,
       commitmentIndex: data.coin_index,
-      isMinted: true
+      isMinted: true,
     });
 
     response.statusCode = 200;
@@ -172,10 +171,10 @@ export async function transferCoin (req, res, next) {
         {
           amount: req.body.D,
           commitment: req.body.z_D,
-        }
-      ]
-    })
-    
+        },
+      ],
+    });
+
     // add change to user database
     if (parseInt(req.body.F)) {
       await db.addCoin(req.user, {
@@ -183,7 +182,7 @@ export async function transferCoin (req, res, next) {
         salt: data.S_F,
         commitment: data.z_F,
         commitmentIndex: data.z_F_index,
-        isChange: true
+        isChange: true,
       });
     }
 
@@ -228,11 +227,11 @@ export async function burnCoin (req, res, next) {
   const response = new Response();
 
   try {
-    const payToAddress = req.body.payTo 
-    ? (await offchain.getAddressFromName(req.body.payTo)).address
-    : req.user.address;
+    const payToAddress = req.body.payTo
+      ? (await offchain.getAddressFromName(req.body.payTo)).address
+      : req.user.address;
 
-    const { data } = await zkp.burnCoin({...req.body,  payTo: payToAddress }, req.user);
+    const { data } = await zkp.burnCoin({ ...req.body, payTo: payToAddress }, req.user);
 
     // update slected coin2 with tansferred data
     await db.updateCoin(req.user, {
@@ -240,7 +239,7 @@ export async function burnCoin (req, res, next) {
       salt: req.body.S_A,
       commitment: req.body.z_A,
       commitmentIndex: req.body.z_A_index,
-      transferee: (req.body.payTo || req.user.name),
+      transferee: req.body.payTo || req.user.name,
       isBurned: true,
     });
 

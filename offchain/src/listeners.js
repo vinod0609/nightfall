@@ -41,7 +41,7 @@ const addToken = async (data, userData) => {
       '\ndata',
       data,
       '\nuserData',
-      userData
+      userData,
     );
 
     const correctnessChecks = await apiGateway.checkCorrectnessToken(
@@ -61,7 +61,7 @@ const addToken = async (data, userData) => {
       '\noffchain/src/listeners.js',
       '\naddToken',
       '\ncorrectnessChecks',
-      correctnessChecks
+      correctnessChecks,
     );
 
     await db.addToken(data, {
@@ -81,14 +81,7 @@ const addToken = async (data, userData) => {
 
 const addCoin = async (data, userData) => {
   try {
-    console.log(
-      '\noffchain/src/listeners.js',
-      '\naddCoin',
-      '\ndata',
-      data,
-      '\nuserData',
-      userData
-    );
+    console.log('\noffchain/src/listeners.js', '\naddCoin', '\ndata', data, '\nuserData', userData);
 
     const correctnessChecks = await apiGateway.checkCorrectnessCoin(
       {
@@ -107,7 +100,7 @@ const addCoin = async (data, userData) => {
       '\noffchain/src/listeners.js',
       '\naddCoin',
       '\ncorrectnessChecks',
-      correctnessChecks
+      correctnessChecks,
     );
 
     await db.addCoin(data, {
@@ -124,31 +117,24 @@ const addCoin = async (data, userData) => {
 };
 
 const listeners = async (data, userData) => {
-  console.log(
-    '\noffchain/src/listeners.js',
-    '\nlisteners',
-    '\ndata',
-    data,
-    '\nuserData',
-    userData
-  );
+  console.log('\noffchain/src/listeners.js', '\nlisteners', '\ndata', data, '\nuserData', userData);
 
   const actualPayload = data.payload;
   switch (actualPayload.for) {
-  case 'coin':
-    await addCoin(actualPayload, userData);
-    break;
-  case 'token':
-    await addToken(actualPayload, userData);
-    break;
-  case 'NFTToken':
-    await addNFTToken(actualPayload, userData);
-    break;
-  case 'FToken':
-    await addFToken(actualPayload, userData);
-    break;
-  default:
-    throw Error('payload.for is invalid');
+    case 'coin':
+      await addCoin(actualPayload, userData);
+      break;
+    case 'token':
+      await addToken(actualPayload, userData);
+      break;
+    case 'NFTToken':
+      await addNFTToken(actualPayload, userData);
+      break;
+    case 'FToken':
+      await addFToken(actualPayload, userData);
+      break;
+    default:
+      throw Error('payload.for is invalid');
   }
 };
 

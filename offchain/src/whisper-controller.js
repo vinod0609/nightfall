@@ -43,8 +43,7 @@ As a minimum it must contain the Whisper key pair.
 This version returns the raw hex Whisper payload
 */
 async function subscribe (idRecipient, topic = TRANSFER_TOPIC, listener) {
-  if (utils.strip0x(topic).length !== 8)
-    throw new Error('Whisper topic must be 4 bytes long');
+  if (utils.strip0x(topic).length !== 8) throw new Error('Whisper topic must be 4 bytes long');
   if (idRecipient.shhIdentity === undefined)
     throw new Error(
       'no valid Whisper key pair was found.  Please generate these before subscribing',
@@ -81,14 +80,8 @@ on the user's behalf
 This version will return a Javascript object as the payload (assuming sendObject was used to send
 the object)
 */
-async function subscribeObject (
-  idRecipient,
-  topic = TRANSFER_TOPIC,
-  userData,
-  listener,
-) {
-  if (utils.strip0x(topic).length !== 8)
-    throw new Error('Whisper topic must be 4 bytes long');
+async function subscribeObject (idRecipient, topic = TRANSFER_TOPIC, userData, listener) {
+  if (utils.strip0x(topic).length !== 8) throw new Error('Whisper topic must be 4 bytes long');
   if (idRecipient.shhIdentity === undefined)
     throw new Error(
       'no valid Whisper key pair was found.  Please generate these before subscribing',
@@ -117,14 +110,8 @@ function to send a Whisper message
 @param {bytes4} topic - the topic to post to (four bytes)
 @param {string} pkRecipient - the receipient's public key
 */
-async function sendMessage (
-  message,
-  idSender,
-  pkRecipient,
-  topic = TRANSFER_TOPIC,
-) {
-  if (utils.strip0x(topic).length !== 8)
-    throw new Error('Whisper topic must be 4 bytes long');
+async function sendMessage (message, idSender, pkRecipient, topic = TRANSFER_TOPIC) {
+  if (utils.strip0x(topic).length !== 8) throw new Error('Whisper topic must be 4 bytes long');
   if (idSender.shhIdentity === undefined)
     throw new Error('Whisper identity not found in id object');
   try {
@@ -166,14 +153,8 @@ to 'receive'.  It's a little crude and 3s is overkill but will do for now.
 @param {bytes4} topic - the topic to post to (four bytes)
 @param {string} pkRecipient - the receipient's public key
 */
-async function sendObject (
-  message,
-  idSender,
-  pkRecipient,
-  topic = TRANSFER_TOPIC,
-) {
-  if (utils.strip0x(topic).length !== 8)
-    throw new Error('Whisper topic must be 4 bytes long');
+async function sendObject (message, idSender, pkRecipient, topic = TRANSFER_TOPIC) {
+  if (utils.strip0x(topic).length !== 8) throw new Error('Whisper topic must be 4 bytes long');
   if (idSender.shhIdentity === undefined)
     throw new Error('Whisper identity not found in id object');
   try {

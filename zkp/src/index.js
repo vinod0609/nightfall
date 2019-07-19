@@ -13,7 +13,6 @@ import nfController from './nf-token-controller';
 import vkController from './vk-controller';
 import fTokenController from './f-token-controller';
 
-
 const utils = require('zkp-utils')('/app/config/stats.json');
 
 const app = express();

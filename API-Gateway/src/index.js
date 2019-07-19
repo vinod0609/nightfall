@@ -37,12 +37,12 @@ app.use(bodyParser.json()); // set up a filter to parse JSON
 app.use(cors()); // cross origin filter
 app.use(authentication);
 
-app.use('/zkp', unlockAccount, proxy(`${Config.zkp.host  }:${  Config.zkp.port}`));
-app.use('/database', proxy(`${Config.database.host  }:${  Config.database.port}`));
+app.use('/zkp', unlockAccount, proxy(`${Config.zkp.host}:${Config.zkp.port}`));
+app.use('/database', proxy(`${Config.database.host}:${Config.database.port}`));
 app.use(
   '/offchain-service',
   unlockAccount,
-  proxy(`${Config.offchain.host  }:${  Config.offchain.port}`),
+  proxy(`${Config.offchain.host}:${Config.offchain.port}`),
 );
 app.use('/', unlockAccount, router);
 app.use('/', rootRouter);
@@ -55,11 +55,11 @@ app.use('/shield', shieldRoutes);
 
 // handle bad calls
 function badCalls (req, res) {
-  res.status(404).send({ url: `${req.originalUrl  } not found` });
+  res.status(404).send({ url: `${req.originalUrl} not found` });
 }
 app.use(badCalls);
 // error handler
-function errorHandler (err, req){
+function errorHandler (err, req) {
   logger.error(
     `${req.method}:${req.url}
       ${JSON.stringify({ error: err.message })}
@@ -82,4 +82,4 @@ function serverListener () {
 }
 const server = app.listen(80, '0.0.0.0', serverListener);
 
-server.setTimeout(120*60*1000);
+server.setTimeout(120 * 60 * 1000);

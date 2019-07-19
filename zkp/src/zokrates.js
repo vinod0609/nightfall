@@ -69,9 +69,7 @@ async function runContainerMounted (_hostDirPath) {
   // We mount from the safe_dir, to avoid accidental deletion or overwriting of the oringinal files that sit in config.ZOKRATES_HOST_CODE_DIRPATH_REL.
   // We mount to a new 'code' folder in the container. We can't mount to the 'outputs' folder, because we'll overwrite the zokrates app.
   console.log(
-    `Running the container; mounted: ${hostDirPath}:${
-      config.ZOKRATES_CONTAINER_CODE_DIRPATH_ABS
-    }:cached`,
+    `Running the container; mounted: ${hostDirPath}:${config.ZOKRATES_CONTAINER_CODE_DIRPATH_ABS}:cached`,
   );
   // var config = Config.getProps() //defaults to local if setEnv not called
 
@@ -206,7 +204,7 @@ async function generateProof (container, b = config.ZOKRATES_BACKEND, zkpPath) {
       reject(chunk);
     });
     stream.on('end', () => {
-      console.log('\nExtracting the Proof from the container\'s console');
+      console.log(`\nExtracting the Proof from the container's console`);
 
       // need to extract the proof from data
       const lines = data.split(os.EOL); // separate the lines
@@ -249,12 +247,12 @@ async function generateProof (container, b = config.ZOKRATES_BACKEND, zkpPath) {
       // proof keys depend on the backend
       let pkeys;
       switch (b) {
-      case 'gm17':
-        pkeys = ['A', 'B', 'C'];
-        break;
-      default:
-        // "pghr13" - pghr13 is not supported by the opensource Nightfall repo
-        pkeys = ['A', 'A_p', 'B', 'B_p', 'C', 'C_p', 'H', 'K'];
+        case 'gm17':
+          pkeys = ['A', 'B', 'C'];
+          break;
+        default:
+          // "pghr13" - pghr13 is not supported by the opensource Nightfall repo
+          pkeys = ['A', 'A_p', 'B', 'B_p', 'C', 'C_p', 'H', 'K'];
       }
       if (
         !(

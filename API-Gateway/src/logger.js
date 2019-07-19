@@ -10,18 +10,15 @@ if (!fs.existsSync(logDir)) {
   fs.mkdirSync(logDir);
 }
 
-
 module.exports = createLogger({
   level: 'debug',
   format: format.combine(format.colorize(), format.simple()),
-  transports: [
-  	new transports.Console(),
-  ],
+  transports: [new transports.Console()],
 });
 
 if (!config.enable_logger) {
   module.exports = {
-    info: (message) => console.log(message),
-    error: (message) => console.error(message),
+    info: message => console.log(message),
+    error: message => console.error(message),
   };
 }

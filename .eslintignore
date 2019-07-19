@@ -6,6 +6,3 @@ zkp/code
 zkp-utils/node_modules
 offchain/migrations
 ui
-database
-integration-test
-

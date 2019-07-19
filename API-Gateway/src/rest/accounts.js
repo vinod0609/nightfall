@@ -2,19 +2,18 @@ const request = require('request');
 
 const Config = require('../config/config').getProps();
 
-const host = `${Config.accounts.host  }:${  Config.accounts.port}`;
+const host = `${Config.accounts.host}:${Config.accounts.port}`;
 
-const createAccount = (password) => {
+const createAccount = password => {
   return new Promise((resolve, reject) => {
     const options = {
-      url : `${host  }/account/new`,
-      method : 'POST',
+      url: `${host}/account/new`,
+      method: 'POST',
       json: true,
-      body: {password},
+      body: { password },
     };
     request(options, (err, res, bodyDetails) => {
-      if(err)
-        reject(err);
+      if (err) reject(err);
       resolve(bodyDetails);
     });
   });
@@ -23,15 +22,14 @@ const createAccount = (password) => {
 const unlockAccount = body => {
   return new Promise((resolve, reject) => {
     const options = {
-      url : `${host  }/accounts/unlock`,
-      method : 'POST',
+      url: `${host}/accounts/unlock`,
+      method: 'POST',
       json: true,
       body,
     };
     request(options, (err, res, bodyDetails) => {
-      if(err)
-        return reject(err);
-      if(bodyDetails.statusCode !== 200){
+      if (err) return reject(err);
+      if (bodyDetails.statusCode !== 200) {
         return reject(new Error(bodyDetails.err.message));
       }
       return resolve(body);

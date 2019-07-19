@@ -127,11 +127,11 @@ function setShieldContract (user, contractAddress) {
     zkp
       .setTokenShield(user, { tokenShield: contractAddress })
       .then(() => resolve('token'))
-      .catch(() => console.log('Don\'t do anything token'));
+      .catch(() => console.log(`Don't do anything token`));
     zkp
       .setCoinShield(user, { coinShield: contractAddress })
       .then(() => resolve('coin'))
-      .catch(() => console.log('Don\'t do anything coin'));
+      .catch(() => console.log(`Don't do anything coin`));
   });
 }
 
@@ -146,10 +146,7 @@ function setShieldContract (user, contractAddress) {
 	*/
 export async function addContract (req, res, next) {
   const response = new Response();
-  const {
-    contractAddress,
-    contractName,
-  } = req.body;
+  const { contractAddress, contractName } = req.body;
 
   try {
     const type = await setShieldContract(req.user, contractAddress);
@@ -200,20 +197,14 @@ export async function updateContract (req, res, next) {
   const { tokenShield, coinShield } = req.body;
 
   try {
-    const {
-      selected_coin_shield_contract,
-      selected_token_shield_contract,
-    } = await db.fetchUser(req.user);
+    const user = await db.fetchUser(req.user);
 
     // if update coinSgield data
     if (coinShield) {
-      const {
-        contractName,
-        contractAddress,
-        isSelected,
-      } = coinShield;
+      const { contractName, contractAddress, isSelected } = coinShield;
 
-      const isCoinShieldPreviousSelected = (selected_coin_shield_contract === coinShield.contractAddress);
+      const isCoinShieldPreviousSelected =
+        user.selected_coin_shield_contract === coinShield.contractAddress;
 
       await db.updateCoinShieldContractAddress(req.user, {
         contractName,
@@ -222,20 +213,16 @@ export async function updateContract (req, res, next) {
         isCoinShieldPreviousSelected,
       });
 
-      if (isSelected)
-        await zkp.setCoinShield(req.user, { coinShield: contractAddress });
+      if (isSelected) await zkp.setCoinShield(req.user, { coinShield: contractAddress });
       else if (isCoinShieldPreviousSelected) await zkp.unSetCoinShield(req.user);
     }
 
     // if update tokenShield data
     if (tokenShield) {
-      const {
-        contractName,
-        contractAddress,
-        isSelected,
-      } = tokenShield;
+      const { contractName, contractAddress, isSelected } = tokenShield;
 
-      const isTokenShieldPreviousSelected = (selected_token_shield_contract === tokenShield.contractAddress);
+      const isTokenShieldPreviousSelected =
+        user.selected_token_shield_contract === tokenShield.contractAddress;
 
       await db.updateTokenShieldContractAddress(req.user, {
         contractName,
@@ -244,11 +231,10 @@ export async function updateContract (req, res, next) {
         isTokenShieldPreviousSelected,
       });
 
-      if (isSelected)
-        await zkp.setTokenShield(req.user, { tokenShield: contractAddress });
+      if (isSelected) await zkp.setTokenShield(req.user, { tokenShield: contractAddress });
       else if (isTokenShieldPreviousSelected) await zkp.unSetTokenShield(req.user);
     }
-    
+
     response.statusCode = 200;
     response.data = { message: 'Contract Address updated' };
     res.json(response);
@@ -273,18 +259,18 @@ export async function updateContract (req, res, next) {
 	*/
 export async function deleteContract (req, res, next) {
   const response = new Response();
-  const { token_shield, coin_shield } = req.query;
+  const { query } = req;
 
   try {
-    if (coin_shield) {
+    if (query.coin_shield) {
       const { data } = await db.deleteCoinShieldContractAddress(req.user, {
-        contractAddress: coin_shield,
+        contractAddress: query.coin_shield,
       });
       if (data.status) await zkp.unSetCoinShield(req.user);
     }
-    if (token_shield) {
+    if (query.token_shield) {
       const { data } = await db.deleteTokenShieldContractAddress(req.user, {
-        contractAddress: token_shield,
+        contractAddress: query.token_shield,
       });
       if (data.status) await zkp.unSetTokenShield(req.user);
     }

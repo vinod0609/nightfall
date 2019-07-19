@@ -2,7 +2,7 @@ let env = 'local'; // set the environment to local if not mentioned while starti
 const props = {
   local: {
     HASHLENGTH: 8, // expected length of a hash in bytes
-    accounts:{
+    accounts: {
       host: 'http://accounts',
       port: '80',
     },
@@ -22,7 +22,7 @@ const props = {
   },
   test: {
     HASHLENGTH: 8, // expected length of a hash in bytes
-    accounts:{
+    accounts: {
       host: 'http://accounts_test',
       port: '80',
     },
@@ -46,8 +46,8 @@ const props = {
  * Set the environment
  * @param { string } environment - environment of app
  */
-const setEnv = (environment) => {
-  if(props[environment]){
+const setEnv = environment => {
+  if (props[environment]) {
     env = environment;
   }
 };

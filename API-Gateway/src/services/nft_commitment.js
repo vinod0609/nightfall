@@ -6,7 +6,6 @@ const Response = require('../routes/response/response');
 const accounts = require('../rest/accounts');
 const offchain = require('../rest/offchain');
 
-
 // check correctness
 export async function checkCorrectnessToken (req, res, next) {
   const response = new Response();
@@ -179,7 +178,8 @@ export async function transferToken (req, res, next) {
 export async function burnToken (req, res, next) {
   const response = new Response();
   try {
-    const payToAddress = (await offchain.getAddressFromName(req.body.payTo || req.user.name)).address;
+    const payToAddress = (await offchain.getAddressFromName(req.body.payTo || req.user.name))
+      .address;
     // Release the public token from escrow:
     // Nullify the burnor's 'token commitment' within the shield contract.
     // Transfer the public token from the shield contract to the owner.
@@ -202,14 +202,14 @@ export async function burnToken (req, res, next) {
       isBurned: true,
     });
 
-    const { shield_contract_address } = await db.getNFToken(req.user, req.body.A);
+    const user = await db.getNFToken(req.user, req.body.A);
 
     if (req.body.payTo) {
       // Send details of the token to the transferee via Whisper
       await whisperTransaction(req, {
         uri: req.body.uri,
         tokenId: req.body.A,
-        shieldContractAddress: shield_contract_address,
+        shieldContractAddress: user.shield_contract_address,
         transferee: req.body.payTo, // this will change when payTo will be a user other than burner himself.
         transferor: req.user.name,
         transferorAddress: req.user.address,
@@ -219,7 +219,7 @@ export async function burnToken (req, res, next) {
       await db.addNFToken(req.user, {
         uri: req.body.uri,
         tokenId: req.body.A,
-        shieldContractAddress: shield_contract_address,
+        shieldContractAddress: user.shield_contract_address,
         transferor: req.user.name,
         transferorAddress: req.user.address,
         isReceived: true,

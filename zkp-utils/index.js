@@ -667,10 +667,10 @@ async function getTimeEst (proofDescription, _process) {
   }
 
   switch (_process) {
-  case 'generateProof':
-    return stats[proofDescription].generateProof;
-  default:
-    return stats[proofDescription].computeWitness;
+    case 'generateProof':
+      return stats[proofDescription].generateProof;
+    default:
+      return stats[proofDescription].computeWitness;
   }
 }
 
@@ -697,11 +697,11 @@ async function updateTimeEst (proofDescription, _process, newTimeEst) {
   }
 
   switch (_process) {
-  case 'generateProof':
-    stats[proofDescription].generateProof = newTimeEst;
-    break;
-  default:
-    stats[proofDescription].computeWitness = newTimeEst;
+    case 'generateProof':
+      stats[proofDescription].generateProof = newTimeEst;
+      break;
+    default:
+      stats[proofDescription].computeWitness = newTimeEst;
   }
 
   const statsAsJson = JSON.stringify(stats, null, 2);
@@ -709,7 +709,7 @@ async function updateTimeEst (proofDescription, _process, newTimeEst) {
     fs.writeFile(statsPath, statsAsJson, err => {
       if (err) {
         console.log(
-          'fs.writeFile has failed when writing the new timing information to stats.json. Here\'s the error:',
+          `fs.writeFile has failed when writing the new timing information to stats.json. Here's the error:`,
         );
         reject(err);
       }
