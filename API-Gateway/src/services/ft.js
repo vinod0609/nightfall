@@ -14,7 +14,7 @@ const offchain = require('../rest/offchain');
 	 * @param {*} req
 	 * @param {*} res
 	*/
-export async function mintFToken (req, res, next) {
+export async function mintFToken(req, res, next) {
   const response = new Response();
 
   try {
@@ -50,7 +50,7 @@ export async function mintFToken (req, res, next) {
      * @param {*} req
      * @param {*} res
     */
-export async function transferFToken (req, res, next) {
+export async function transferFToken(req, res, next) {
   const response = new Response();
 
   try {
@@ -99,7 +99,7 @@ export async function transferFToken (req, res, next) {
      * @param {*} req
      * @param {*} res
     */
-export async function burnFToken (req, res, next) {
+export async function burnFToken(req, res, next) {
   const response = new Response();
 
   try {

@@ -20,7 +20,7 @@ const offchain = require('../rest/offchain');
 	 * @param {*} req
 	 * @param {*} res
 	*/
-export async function mintNFToken (req, res, next) {
+export async function mintNFToken(req, res, next) {
   const response = new Response();
   const reqBody = {
     tokenID:
@@ -68,7 +68,7 @@ export async function mintNFToken (req, res, next) {
      * @param {*} req
      * @param {*} res
     */
-export async function transferNFToken (req, res, next) {
+export async function transferNFToken(req, res, next) {
   const response = new Response();
 
   try {
@@ -127,7 +127,7 @@ export async function transferNFToken (req, res, next) {
      * @param {*} req
      * @param {*} res
     */
-export async function burnNFToken (req, res, next) {
+export async function burnNFToken(req, res, next) {
   const response = new Response();
 
   try {
@@ -162,7 +162,7 @@ export async function burnNFToken (req, res, next) {
      * @param {*} req
      * @param {*} res
     */
-export async function getNFTokens (req, res, next) {
+export async function getNFTokens(req, res, next) {
   const response = new Response();
 
   try {

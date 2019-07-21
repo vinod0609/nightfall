@@ -3,7 +3,7 @@ const Config = require('../config/config').getProps();
 
 const host = `${Config.database.host}:${Config.database.port}`;
 
-function convertObjToQueryString (object) {
+function convertObjToQueryString(object) {
   let str = '';
   const queries = object ? object.keys : [];
   for (let i = 0; i < queries.length; i += 1) {

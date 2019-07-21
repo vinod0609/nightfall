@@ -7,7 +7,7 @@ const Response = require('../routes/response/response');
  * @param {*} res
  */
 // eslint-disable-next-line import/prefer-default-export
-export async function getShieldAddresses (req, res, next) {
+export async function getShieldAddresses(req, res, next) {
   const response = new Response();
 
   try {

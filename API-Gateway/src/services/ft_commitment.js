@@ -6,7 +6,7 @@ const Response = require('../routes/response/response');
 const accounts = require('../rest/accounts');
 const offchain = require('../rest/offchain');
 
-export async function checkCorrectnessCoin (req, res, next) {
+export async function checkCorrectnessCoin(req, res, next) {
   const response = new Response();
 
   try {
@@ -38,7 +38,7 @@ export async function checkCorrectnessCoin (req, res, next) {
 	 * @param {*} req
 	 * @param {*} res
 	 */
-export async function mintCoin (req, res, next) {
+export async function mintCoin(req, res, next) {
   const response = new Response();
 
   try {
@@ -98,7 +98,7 @@ export async function mintCoin (req, res, next) {
      * @param {*} req
      * @param {*} res
      */
-export async function transferCoin (req, res, next) {
+export async function transferCoin(req, res, next) {
   const response = new Response();
   try {
     // Generate a new one-time-use Ethereum address for the transferor to use
@@ -223,7 +223,7 @@ export async function transferCoin (req, res, next) {
      * @param {*} req
      * @param {*} res
      */
-export async function burnCoin (req, res, next) {
+export async function burnCoin(req, res, next) {
   const response = new Response();
 
   try {

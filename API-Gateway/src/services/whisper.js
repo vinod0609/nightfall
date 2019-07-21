@@ -8,7 +8,7 @@ const topicForCoinToken = '0xeca7945f';
  * @param {Object} reqObj
  * @param {Object} dataToSend
  */
-export async function whisperTransaction (req, dataToSend) {
+export async function whisperTransaction(req, dataToSend) {
   // getIdentity from local db
   const receiverName = req.body.receiver_name || req.body.payTo;
 
@@ -29,7 +29,7 @@ export async function whisperTransaction (req, dataToSend) {
  * @param {Object} req
  * @param {Object} userData
  */
-export async function setWhisperIdentityAndSubscribe (userData) {
+export async function setWhisperIdentityAndSubscribe(userData) {
   const userAddress = {
     address: userData.address,
   };

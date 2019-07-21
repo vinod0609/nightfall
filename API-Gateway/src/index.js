@@ -54,12 +54,12 @@ app.use('/user', userRoutes);
 app.use('/shield', shieldRoutes);
 
 // handle bad calls
-function badCalls (req, res) {
+function badCalls(req, res) {
   res.status(404).send({ url: `${req.originalUrl} not found` });
 }
 app.use(badCalls);
 // error handler
-function errorHandler (err, req) {
+function errorHandler(err, req) {
   logger.error(
     `${req.method}:${req.url}
       ${JSON.stringify({ error: err.message })}
@@ -77,7 +77,7 @@ process.on('unhandledRejection', (reason, p) => {
   console.log('Unhandled Rejection at:', p, 'reason:', reason);
 });
 
-function serverListener () {
+function serverListener() {
   logger.info('API-Gateway API server running on port 80');
 }
 const server = app.listen(80, '0.0.0.0', serverListener);

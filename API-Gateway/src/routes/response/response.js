@@ -1,4 +1,4 @@
-const response = function () {
+const response = function() {
   return {
     statusCode: '',
     data: {},

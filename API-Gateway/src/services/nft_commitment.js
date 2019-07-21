@@ -7,7 +7,7 @@ const accounts = require('../rest/accounts');
 const offchain = require('../rest/offchain');
 
 // check correctness
-export async function checkCorrectnessToken (req, res, next) {
+export async function checkCorrectnessToken(req, res, next) {
   const response = new Response();
 
   try {
@@ -40,7 +40,7 @@ export async function checkCorrectnessToken (req, res, next) {
 	 * @param {*} req
 	 * @param {*} res
 	 */
-export async function mintToken (req, res, next) {
+export async function mintToken(req, res, next) {
   const response = new Response();
   try {
     // mint a private 'token commitment' within the shield contract to represent the public NFToken with the specified tokenID
@@ -100,7 +100,7 @@ export async function mintToken (req, res, next) {
      * @param {*} req
      * @param {*} res
      */
-export async function transferToken (req, res, next) {
+export async function transferToken(req, res, next) {
   const response = new Response();
   try {
     // Generate a new one-time-use Ethereum address for the transferor to use
@@ -175,7 +175,7 @@ export async function transferToken (req, res, next) {
      * @param {*} req
      * @param {*} res
      */
-export async function burnToken (req, res, next) {
+export async function burnToken(req, res, next) {
   const response = new Response();
   try {
     const payToAddress = (await offchain.getAddressFromName(req.body.payTo || req.user.name))
