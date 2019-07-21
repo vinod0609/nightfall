@@ -12,7 +12,7 @@ const config = Config.getProps();
 
 module.exports = getEthAccounts; */
 
-export const getEthAccounts = async () => {
+export const getEthAccounts = async() => {
   const web3 = new Web3(
     Web3.givenProvider ||
     new Web3.providers.HttpProvider(`${config.zkp.rpc.host}:${config.zkp.rpc.port}`),

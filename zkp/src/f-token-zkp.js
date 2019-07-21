@@ -20,7 +20,7 @@ This function loads the verifying key data into the verifier registry smart cont
 @param {contract} verifier - an instance of the verifier smart contract
 @param {contract} verifierRegistry - an instance of the verifierRegistry smart contract
 */
-async function registerVk (vk, account, verifier, verifierRegistry) {
+async function registerVk(vk, account, verifier, verifierRegistry) {
   console.log('Registering verifying key');
   const txReceipt = await verifierRegistry.registerVk(vk, [verifier.address], {
     from: account,
@@ -38,7 +38,7 @@ This function registers the verifier with the verifier registry
 @param {contract} verifier - an instance of the verifier smart contract
 @param {contract} verifierRegistry - an instance of the verifierRegistry smart contract
 */
-async function registerVerifierContract (verifier, verifierRegistry, account) {
+async function registerVerifierContract(verifier, verifierRegistry, account) {
   const txReceipt = await verifierRegistry.registerVerifierContract(verifier.address, {
     from: account,
     gas: 6500000,
@@ -53,7 +53,7 @@ This function sets the vkId's within the Shield contract.
 @param {string} account - the account that is paying for the transactions
 @param {contract} nfTokenShield - an instance of the TokenShield contract
 */
-async function setVkIds (vkIds, account, fTokenShield) {
+async function setVkIds(vkIds, account, fTokenShield) {
   console.log('Setting vkIds within NFTokenShield');
   await fTokenShield.setVkIds(vkIds.MintCoin.vkId, vkIds.TransferCoin.vkId, vkIds.BurnCoin.vkId, {
     from: account,
@@ -72,7 +72,7 @@ This function creates an f token commitment.
 @param {contract} fTokenShield - an instance of the TokenShield contract
 @return {integer} coinIndex - the index of the z_B token within the on-chain Merkle Tree
 */
-async function mint (proof, _inputs, vkId, _account, fTokenShield) {
+async function mint(proof, _inputs, vkId, _account, fTokenShield) {
   const account = utils.ensure0x(_account);
   const inputs = [..._inputs, '1'];
 
@@ -111,7 +111,7 @@ computed.
 @return {integer} coinFIndex- the index of the z_F token within the on-chain Merkle Tree
 @returns {object} transferResponse - a promise that resolves into the transaction hash
 */
-async function transfer (proof, _inputs, vkId, _account, fTokenShield) {
+async function transfer(proof, _inputs, vkId, _account, fTokenShield) {
   const account = utils.ensure0x(_account);
   const inputs = [..._inputs, '1'];
 
@@ -156,7 +156,7 @@ computed.
 @param {string} vkId is a unique ID for the vk, used by the verifier contract to lookup the correct vk.
 @returns {object} burnResponse - a promise that resolves into the transaction hash
 */
-async function burn (proof, _inputs, vkId, _account, fTokenShield) {
+async function burn(proof, _inputs, vkId, _account, fTokenShield) {
   const account = utils.ensure0x(_account);
   const inputs = [..._inputs, '1'];
 
@@ -184,7 +184,7 @@ async function burn (proof, _inputs, vkId, _account, fTokenShield) {
 /**
 checks the details of an incoming (newly transferred token), to ensure the data we have received is correct and legitimate!!
 */
-async function checkCorrectness (C, pk, S, z, zIndex, fTokenShield) {
+async function checkCorrectness(C, pk, S, z, zIndex, fTokenShield) {
   console.log('Checking h(A|pk|S) = z...');
   const zCheck = utils.recursiveHashConcat(C, pk, S);
   const zCorrect = zCheck === z;

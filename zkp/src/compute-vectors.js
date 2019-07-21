@@ -20,7 +20,7 @@ is used to save space e.g. fields ).
 @param {object} elements - the array of Element objects that represent the parameters
 we wish to encode for ZoKrates.
 */
-function computeVectors (elements) {
+function computeVectors(elements) {
   let a = [];
   elements.forEach(element => {
     switch (element.encoding) {
@@ -59,7 +59,7 @@ from TokenShield.sol
 @returns {object} containging: an array of strings - where each element of the array is a node of the sister-path of
 the path from myToken to the Merkle Root and whether the sister node is to the left or the right (this is needed because the order of hashing matters)
 */
-async function computePath (account, shieldContract, _myToken, myTokenIndex) {
+async function computePath(account, shieldContract, _myToken, myTokenIndex) {
   console.group('Computing path on local machine...');
   const myToken = utils.strip0x(_myToken);
   console.log('myToken', myToken);

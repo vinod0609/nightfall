@@ -40,7 +40,7 @@ describe('f-token-controller.js tests', () => {
   // Bob then has E+G at total of 70 ETH
   // Bob sends H to Alice and keeps I (Bob has 50 ETH and Alice has 10+20=30 ETH)
 
-  test('Should create 10000 tokens in accounts[0] and accounts[1]', async () => {
+  test('Should create 10000 tokens in accounts[0] and accounts[1]', async() => {
     // fund some accounts with FToken
     const accounts = await getEthAccounts();
     const AMOUNT = 10000;
@@ -51,7 +51,7 @@ describe('f-token-controller.js tests', () => {
     expect(AMOUNT).toEqual(bal2 - bal1);
   });
 
-  test('Should move 1 ERC-20 token from accounts[0] to accounts[1]', async () => {
+  test('Should move 1 ERC-20 token from accounts[0] to accounts[1]', async() => {
     const AMOUNT = 1;
     const accounts = await getEthAccounts();
     const bal1 = await controller.getBalance(accounts[0]);
@@ -63,7 +63,7 @@ describe('f-token-controller.js tests', () => {
     expect(AMOUNT).toEqual(bal4 - bal3);
   });
 
-  test('Should burn 1 ERC-20 from accounts[1]', async () => {
+  test('Should burn 1 ERC-20 from accounts[1]', async() => {
     const AMOUNT = 1;
     const accounts = await getEthAccounts();
     const bal1 = await controller.getBalance(accounts[1]);
@@ -72,14 +72,14 @@ describe('f-token-controller.js tests', () => {
     expect(AMOUNT).toEqual(bal1 - bal2);
   });
 
-  test('Should get the ERC-20 metadata', async () => {
+  test('Should get the ERC-20 metadata', async() => {
     const accounts = await getEthAccounts();
     const { symbol, name } = await controller.getTokenInfo(accounts[0]);
     expect('OPS').toEqual(symbol);
     expect('EY OpsCoin').toEqual(name);
   });
 
-  test('Should mint an ERC-20 commitment Z_A_C for Alice for asset C', async () => {
+  test('Should mint an ERC-20 commitment Z_A_C for Alice for asset C', async() => {
     const accounts = await getEthAccounts();
     console.log('Alices account ', (await controller.getBalance(accounts[0])).toNumber());
     const [zTest, zIndex] = await controller.mint(C, pkA, S_A_C, accounts[0]);
@@ -89,7 +89,7 @@ describe('f-token-controller.js tests', () => {
     console.log(`Alice's account `, (await controller.getBalance(accounts[0])).toNumber());
   });
 
-  test('Should mint another ERC-20 commitment Z_A_D for Alice for asset D', async () => {
+  test('Should mint another ERC-20 commitment Z_A_D for Alice for asset D', async() => {
     const accounts = await getEthAccounts();
     const [zTest, zIndex] = await controller.mint(D, pkA, S_A_D, accounts[0]);
 
@@ -98,7 +98,7 @@ describe('f-token-controller.js tests', () => {
     console.log(`Alice's account `, (await controller.getBalance(accounts[0])).toNumber());
   });
 
-  test('Should transfer a ERC-20 commitment to Bob (two coins get nullified, two created; one coin goes to Bob, the other goes back to Alice as change)', async () => {
+  test('Should transfer a ERC-20 commitment to Bob (two coins get nullified, two created; one coin goes to Bob, the other goes back to Alice as change)', async() => {
     // E becomes Bob's, F is change returned to Alice
     const accounts = await getEthAccounts();
     await controller.transfer(
@@ -121,7 +121,7 @@ describe('f-token-controller.js tests', () => {
     // now Bob should have 40 (E) ETH
   });
 
-  test('Should mint another ERC-20 commitment Z_B_G for Bob for asset G', async () => {
+  test('Should mint another ERC-20 commitment Z_B_G for Bob for asset G', async() => {
     const accounts = await getEthAccounts();
     const [zTest, zIndex] = await controller.mint(G, pkB, S_B_G, accounts[1]);
 
@@ -129,7 +129,7 @@ describe('f-token-controller.js tests', () => {
     expect(4).toEqual(parseInt(zIndex, 10));
   });
 
-  test('Should transfer an ERC-20 commitment to Eve', async () => {
+  test('Should transfer an ERC-20 commitment to Eve', async() => {
     // H becomes Eve's, I is change returned to Bob
     const accounts = await getEthAccounts();
     await controller.transfer(
@@ -151,7 +151,7 @@ describe('f-token-controller.js tests', () => {
     );
   });
 
-  test(`Should burn Alice's remaining ERC-20 commitment`, async () => {
+  test(`Should burn Alice's remaining ERC-20 commitment`, async() => {
     const accounts = await getEthAccounts();
     const bal1 = await controller.getBalance(accounts[3]);
     const bal = await controller.getBalance(accounts[0]);

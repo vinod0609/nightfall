@@ -45,7 +45,7 @@ const promisifyStream = stream =>
 /**
 Create and start a container using the zokrates image and make it durable
 */
-async function runContainer () {
+async function runContainer() {
   console.log('Running the container');
   // var config = Config.getProps() //defaults to local if setEnv not called
   const container = await docker.container.create({
@@ -62,7 +62,7 @@ async function runContainer () {
 Used by the tools-tar-creator.js
 Create and start a container using the zokrates image and make it durable
 */
-async function runContainerMounted (_hostDirPath) {
+async function runContainerMounted(_hostDirPath) {
   // if we're running this under docker-compose, the input directory is fixed, otherwise we need to set it:
   console.log(`ZoKrates running with Nodejs environment ${process.env.NODE_ENV}`);
   const hostDirPath = process.env.NODE_ENV !== 'setup' ? config.zkp.volume : _hostDirPath;
@@ -94,7 +94,7 @@ async function runContainerMounted (_hostDirPath) {
 /**
 Stop and remove the container after you have finished
 */
-async function killContainer (container) {
+async function killContainer(container) {
   console.log('Killing the container');
   await container.stop();
   return container.delete({
@@ -107,7 +107,7 @@ This function and the following ones are direct equivalents of the corresponding
 ZoKrates function.  They return Promises that resolve to the output (stdout, stderr)
 from ZoKrates.
 */
-async function compile (container, codeFile) {
+async function compile(container, codeFile) {
   console.log('Compiling code in the container - this can take some minutes...');
   // var config = Config.getProps()
   const exec = await container.exec.create({
@@ -123,7 +123,7 @@ async function compile (container, codeFile) {
   return promisifyStream(await exec.start(), 'compile'); // return a promisified stream
 }
 
-async function computeWitness (container, a, zkpPath) {
+async function computeWitness(container, a, zkpPath) {
   console.log('\nCompute-witness: Executing the program C(w,x) with:\n (w,x)=', a, '...');
   // var config = Config.getProps()
   console.log('a ', ...a);
@@ -145,7 +145,7 @@ async function computeWitness (container, a, zkpPath) {
 /**
 @param {string} b - OPTIONAL argument, for the tools-trusted-setup to specify the backend
 */
-async function setup (container, b = config.ZOKRATES_BACKEND) {
+async function setup(container, b = config.ZOKRATES_BACKEND) {
   console.log('Setup: computing (pk,vk) := G(C,toxic) - this can take many minutes...');
 
   const exec = await container.exec.create({
@@ -161,7 +161,7 @@ async function setup (container, b = config.ZOKRATES_BACKEND) {
 /**
 @param {string} b - OPTIONAL argument, for the tools-trusted-setup to specify the backend. For regular ./zkp-demo runs, the backend defaults to config.ZOKRATES_BACKEND, so the b parameter won't get used.
 */
-async function generateProof (container, b = config.ZOKRATES_BACKEND, zkpPath) {
+async function generateProof(container, b = config.ZOKRATES_BACKEND, zkpPath) {
   console.log('\nGenerating Proof := P(pk,w,x)');
 
   console.log('Backend being used', b);
@@ -273,7 +273,7 @@ async function generateProof (container, b = config.ZOKRATES_BACKEND, zkpPath) {
 /**
 @param {string} b - OPTIONAL argument, for the tar creator to specify the backend
 */
-async function exportVerifier (container, b = config.ZOKRATES_BACKEND) {
+async function exportVerifier(container, b = config.ZOKRATES_BACKEND) {
   const exec = await container.exec.create({
     Cmd: [config.ZOKRATES_APP_FILEPATH_ABS, 'export-verifier', '--backend', b],
     AttachStdout: true,
