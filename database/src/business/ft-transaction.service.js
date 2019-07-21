@@ -29,7 +29,7 @@ export default class FtTransactionService {
    */
   getTransactions(query) {
     const { pageNo, limit } = query;
-    return this.db.getDbData (
+    return this.db.getDbData(
       COLLECTIONS.FT_TRANSACTION,
       {},
       undefined,

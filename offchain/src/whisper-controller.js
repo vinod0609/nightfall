@@ -158,7 +158,7 @@ async function sendObject(message, idSender, pkRecipient, topic = TRANSFER_TOPIC
   if (idSender.shhIdentity === undefined)
     throw new Error('Whisper identity not found in id object');
   try {
-    setTimeout(async() => {
+    setTimeout(async () => {
       web3.shh.post({
         pubKey: pkRecipient, // encrypts using the recipient's public key
         sig: idSender.shhIdentity, // signs the message using the keyPair ID

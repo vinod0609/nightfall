@@ -180,7 +180,7 @@ export default class AccountService {
 
   /**
    * This function will make provided contractAddress as selected contract
-   * (Private Method) 
+   * (Private Method)
    * @param {Object} { contractAddress }
    * contractAddress - address of coinShield contract
    * @returns {Promise}
@@ -284,7 +284,7 @@ export default class AccountService {
 
   /**
    * This function will make provided contractAddress as selected contract
-   * (Private Method) 
+   * (Private Method)
    * @param {Object} { contractAddress }
    * contractAddress - address of tokenShield contract
    * @returns {Promise}

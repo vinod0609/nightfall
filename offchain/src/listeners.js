@@ -33,7 +33,7 @@ const addNFTToken = async data => {
   }
 };
 
-const addToken = async(data, userData) => {
+const addToken = async (data, userData) => {
   try {
     console.log(
       '\noffchain/src/listeners.js',
@@ -79,7 +79,7 @@ const addToken = async(data, userData) => {
   }
 };
 
-const addCoin = async(data, userData) => {
+const addCoin = async (data, userData) => {
   try {
     console.log('\noffchain/src/listeners.js', '\naddCoin', '\ndata', data, '\nuserData', userData);
 
@@ -116,7 +116,7 @@ const addCoin = async(data, userData) => {
   }
 };
 
-const listeners = async(data, userData) => {
+const listeners = async (data, userData) => {
   console.log('\noffchain/src/listeners.js', '\nlisteners', '\ndata', data, '\nuserData', userData);
 
   const actualPayload = data.payload;

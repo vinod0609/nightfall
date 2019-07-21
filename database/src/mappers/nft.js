@@ -16,7 +16,7 @@ export default function({
 }) {
   return {
     uri,
-    token_id : tokenId,
+    token_id: tokenId,
     shield_contract_address: shieldContractAddress,
 
     [transferee ? 'transferee' : undefined]: transferee,

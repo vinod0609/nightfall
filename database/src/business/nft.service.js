@@ -10,7 +10,7 @@ export default class NftService {
 
   /**
    * This function inset ERC-721(nft)
-   * either new minted or recived token in nft collection. 
+   * either new minted or recived token in nft collection.
    * Also, will insert transaction in nft_transaction collection
    * @param {object} data
    */

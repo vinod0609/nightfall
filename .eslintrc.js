@@ -6,10 +6,13 @@ module.exports = {
   },
   rules: {
     'no-console': 'off',
-    'space-before-function-paren': ['error', 'always'],
+    'space-before-function-paren': ['error', {
+      'asyncArrow': 'always',
+      'anonymous': 'never',
+      'named': 'never'
+    }],
     'radix': 'off',
     'func-names': ['error', 'as-needed'],
-    'prettier/prettier': 'off',   // make prettier config off
     'quotes': ['error', 'single', { 'allowTemplateLiterals': true }],
     'comma-dangle': ['error', 'always-multiline'],
     'semi': 'error',

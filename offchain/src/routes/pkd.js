@@ -17,7 +17,7 @@ import Response from '../../response/response'; // class for creating response o
 
 const router = express.Router();
 
-router.get('/name/exists', async(req, res) => {
+router.get('/name/exists', async (req, res) => {
   const response = Response();
   try {
     const status = await isNameInUse(req.query.name);
@@ -33,7 +33,7 @@ router.get('/name/exists', async(req, res) => {
 
 router
   .route('/name')
-  .post(async(req, res) => {
+  .post(async (req, res) => {
     const { name } = req.body;
     const { address } = req.headers;
     console.log(address, 'name post');
@@ -49,7 +49,7 @@ router
       res.status(500).json(response);
     }
   })
-  .get(async(req, res) => {
+  .get(async (req, res) => {
     const { address } = req.headers;
     console.log(address, 'name get');
     const response = Response();
@@ -65,7 +65,7 @@ router
     }
   });
 
-router.post('/set-all-publickey', async(req, res) => {
+router.post('/set-all-publickey', async (req, res) => {
   const {
     pk,
     auditor_pk: auditorPk,
@@ -89,7 +89,7 @@ router.post('/set-all-publickey', async(req, res) => {
 
 router
   .route('/zkp-publickey')
-  .post(async(req, res) => {
+  .post(async (req, res) => {
     const { pk } = req.body;
     const { address } = req.headers;
     const response = Response();
@@ -105,7 +105,7 @@ router
       res.status(500).json(response);
     }
   })
-  .get(async(req, res) => {
+  .get(async (req, res) => {
     const { name } = req.query;
     const response = Response();
 
@@ -123,7 +123,7 @@ router
 
 router
   .route('/whisperkey')
-  .post(async(req, res) => {
+  .post(async (req, res) => {
     const { whisper_pk: whisperPk } = req.body;
     const { address } = req.headers;
     const response = Response();
@@ -140,7 +140,7 @@ router
       res.status(500).json(response);
     }
   })
-  .get(async(req, res) => {
+  .get(async (req, res) => {
     const { name } = req.query;
     const response = Response();
 
@@ -156,7 +156,7 @@ router
     }
   });
 
-router.get('/address', async(req, res) => {
+router.get('/address', async (req, res) => {
   const { name } = req.query;
   const response = Response();
 
@@ -172,7 +172,7 @@ router.get('/address', async(req, res) => {
   }
 });
 
-router.get('/names', async(req, res) => {
+router.get('/names', async (req, res) => {
   const response = Response();
   try {
     const data = await getNames();

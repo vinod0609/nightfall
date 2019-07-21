@@ -4,7 +4,7 @@ import web3 from './web3';
 /**
  * Bootstrap the application. Start express.
  */
-const main = async() => {
+const main = async () => {
   try {
     web3.connect();
 

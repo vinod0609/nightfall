@@ -7,7 +7,7 @@ const utils = Utils('../config/stats');
 const { rndHex, padHex } = utils;
 const HASHLENGTH = config.get('HASHLENGTH');
 
-const generateTokenID = async() => rndHex(32);
+const generateTokenID = async () => rndHex(32);
 const numberToHexString = int => padHex(int, 128);
 
 // test data.

@@ -47,7 +47,7 @@ describe('PKD Controller testing', () => {
     expect(str, 'Test for hex to string converstion failed!').toEqual('zero-knowledge');
   });
 
-  test('Name can be set and retrieved using the PKD name to address association', async() => {
+  test('Name can be set and retrieved using the PKD name to address association', async () => {
     nameInput = `duncan${Date.now()}`;
     const accounts = await getEthAccounts();
     await setName(nameInput, accounts[0]);
@@ -63,13 +63,13 @@ describe('PKD Controller testing', () => {
     );
   });
 
-  test('Presence of name can be checked if it has been registered previously or not', async() => {
+  test('Presence of name can be checked if it has been registered previously or not', async () => {
     const checkName = await isNameInUse(nameInput);
 
     expect(checkName, 'Test for checking if name is present failed!').toEqual(true);
   });
 
-  test('Registered name is in the list of names registered', async() => {
+  test('Registered name is in the list of names registered', async () => {
     const nameList = await getNames();
 
     expect(
@@ -78,7 +78,7 @@ describe('PKD Controller testing', () => {
     ).toContain(nameInput);
   });
 
-  test('Whisper public key can be set and retrieved using the PKD whisper public key to address association', async() => {
+  test('Whisper public key can be set and retrieved using the PKD whisper public key to address association', async () => {
     whisperPublicKeyInput =
       '0x04f39b93e3c7968df4358e17222adc0cd8a12d24f94ad63d3cb5abf536381bca4234af17102338638ab40cec85cffe9a021f699e2c84064c492f3f4442a1f147eb';
     const accounts = await getEthAccounts();
@@ -91,7 +91,7 @@ describe('PKD Controller testing', () => {
     ).toEqual(whisperPublicKeyInput);
   });
 
-  test('Whisper public key can be set and retrieved using the PKD whisper public key to name association', async() => {
+  test('Whisper public key can be set and retrieved using the PKD whisper public key to name association', async () => {
     const accounts = await getEthAccounts();
     const nameFromAddress = await getNameFromAddress(accounts[0]);
     const whisperPublicKeyOutput = await getWhisperPublicKeyFromName(nameFromAddress);
@@ -102,7 +102,7 @@ describe('PKD Controller testing', () => {
     ).toEqual(whisperPublicKeyInput);
   });
 
-  test('ZKP public key can be set and retrieved using the ZKP public key to address association', async() => {
+  test('ZKP public key can be set and retrieved using the ZKP public key to address association', async () => {
     zkpPublicKeyInput = await utils.rndHex(27);
     const accounts = await getEthAccounts();
     await setZkpPublicKey(zkpPublicKeyInput, accounts[0]);
@@ -114,7 +114,7 @@ describe('PKD Controller testing', () => {
     ).toEqual(zkpPublicKeyInput);
   });
 
-  test('ZKP public key can be set and retrieved using the ZKP public key to name association', async() => {
+  test('ZKP public key can be set and retrieved using the ZKP public key to name association', async () => {
     const accounts = await getEthAccounts();
     const nameFromAddress = await getNameFromAddress(accounts[0]);
     const zkpPublicKeyOutput = await getZkpPublicKeyFromName(nameFromAddress);
@@ -125,7 +125,7 @@ describe('PKD Controller testing', () => {
     ).toEqual(zkpPublicKeyInput);
   });
 
-  test('Public key can be set and retrieved using the Public key to address association', async() => {
+  test('Public key can be set and retrieved using the Public key to address association', async () => {
     const accounts = await getEthAccounts();
     zkpPublicKeyInput = await utils.rndHex(27);
 
@@ -146,7 +146,7 @@ describe('PKD Controller testing', () => {
     ).toEqual(publicKeyInput.sort());
   });
 
-  test('Public key can be set and retrieved using the Public key to name association', async() => {
+  test('Public key can be set and retrieved using the Public key to name association', async () => {
     const accounts = await getEthAccounts();
 
     const publicKeyInput = [];

@@ -27,7 +27,7 @@ const router = express.Router();
  *    }
  *  }
  */
-router.post('/generateShhIdentity', async(req, res) => {
+router.post('/generateShhIdentity', async (req, res) => {
   const response = Response();
   try {
     const { address } = req.body;
@@ -60,7 +60,7 @@ router.post('/generateShhIdentity', async(req, res) => {
  *    }
  *  }
  */
-router.get('/getWhisperPublicKey', async(req, res) => {
+router.get('/getWhisperPublicKey', async (req, res) => {
   const response = Response();
   try {
     const { shhIdentity } = req.query;
@@ -96,7 +96,7 @@ router.get('/getWhisperPublicKey', async(req, res) => {
  *
  */
 
-router.post('/subscribe', async(req, res) => {
+router.post('/subscribe', async (req, res) => {
   const response = Response();
   try {
     const { shhIdentity, topic, jwtToken, sk_A: skA } = req.body;
@@ -134,7 +134,7 @@ router.post('/subscribe', async(req, res) => {
  *  }
  *
  */
-router.post('/sendMessage', async(req, res) => {
+router.post('/sendMessage', async (req, res) => {
   const response = Response();
   try {
     const { message, shhPkRecipient, shhIdentity } = req.body;
