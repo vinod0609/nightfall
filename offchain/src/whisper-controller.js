@@ -18,7 +18,7 @@ function to generate Whisper keys and return them
 as a minimum it must contain an Etherium address and a name string
 @returns {object} the users identity, with the Whisper key-pair added
 */
-async function generateWhisperKeys (id) {
+async function generateWhisperKeys(id) {
   if (!web3.utils.isAddress(id.address))
     throw new Error('no valid Ethereum Address has been set for this party');
   return web3.shh.newKeyPair(); // generate a new shh keyPair
@@ -30,7 +30,7 @@ generateWhisperKeys function above
 @param {object} id - the 'identity' of the Whisper user.  Contains addresses, names, key material
 as a minimum it must contain the Whisper shhIdenity
 */
-async function getWhisperPublicKey (id) {
+async function getWhisperPublicKey(id) {
   return web3.shh.getPublicKey(id.shhIdentity);
 }
 
@@ -42,7 +42,7 @@ As a minimum it must contain the Whisper key pair.
 @param {function} listener - callback that will be called when a topical message is received
 This version returns the raw hex Whisper payload
 */
-async function subscribe (idRecipient, topic = TRANSFER_TOPIC, listener) {
+async function subscribe(idRecipient, topic = TRANSFER_TOPIC, listener) {
   if (utils.strip0x(topic).length !== 8) throw new Error('Whisper topic must be 4 bytes long');
   if (idRecipient.shhIdentity === undefined)
     throw new Error(
@@ -62,7 +62,7 @@ Function to decode a javascript object encoded as a Whisper hex message payload 
 @param {object} msgHex - a hex string encoding the javascript object
 @returns {string} - the decoded javascript object
 */
-function decodeMessage (msgHex) {
+function decodeMessage(msgHex) {
   const msgStr = utils.hexToUtf8String(msgHex);
   return JSON.parse(msgStr);
 }
@@ -80,7 +80,7 @@ on the user's behalf
 This version will return a Javascript object as the payload (assuming sendObject was used to send
 the object)
 */
-async function subscribeObject (idRecipient, topic = TRANSFER_TOPIC, userData, listener) {
+async function subscribeObject(idRecipient, topic = TRANSFER_TOPIC, userData, listener) {
   if (utils.strip0x(topic).length !== 8) throw new Error('Whisper topic must be 4 bytes long');
   if (idRecipient.shhIdentity === undefined)
     throw new Error(
@@ -98,7 +98,7 @@ async function subscribeObject (idRecipient, topic = TRANSFER_TOPIC, userData, l
   return subscription;
 }
 
-async function unsubscribe () {
+async function unsubscribe() {
   web3.shh.clearSubscriptions();
 }
 
@@ -110,7 +110,7 @@ function to send a Whisper message
 @param {bytes4} topic - the topic to post to (four bytes)
 @param {string} pkRecipient - the receipient's public key
 */
-async function sendMessage (message, idSender, pkRecipient, topic = TRANSFER_TOPIC) {
+async function sendMessage(message, idSender, pkRecipient, topic = TRANSFER_TOPIC) {
   if (utils.strip0x(topic).length !== 8) throw new Error('Whisper topic must be 4 bytes long');
   if (idSender.shhIdentity === undefined)
     throw new Error('Whisper identity not found in id object');
@@ -134,7 +134,7 @@ Function to encode a javascript object as a Whisper hex message payload string
 @param {object} msgObj - the object to encode
 @returns {string} - a hex string encoding the javascript object
 */
-function encodeMessage (msgObj) {
+function encodeMessage(msgObj) {
   const msgStr = JSON.stringify(msgObj);
   const buf = Buffer.from(msgStr, 'utf8');
   const msgHex = buf.toString('hex');
@@ -153,12 +153,12 @@ to 'receive'.  It's a little crude and 3s is overkill but will do for now.
 @param {bytes4} topic - the topic to post to (four bytes)
 @param {string} pkRecipient - the receipient's public key
 */
-async function sendObject (message, idSender, pkRecipient, topic = TRANSFER_TOPIC) {
+async function sendObject(message, idSender, pkRecipient, topic = TRANSFER_TOPIC) {
   if (utils.strip0x(topic).length !== 8) throw new Error('Whisper topic must be 4 bytes long');
   if (idSender.shhIdentity === undefined)
     throw new Error('Whisper identity not found in id object');
   try {
-    setTimeout(async () => {
+    setTimeout(async() => {
       web3.shh.post({
         pubKey: pkRecipient, // encrypts using the recipient's public key
         sig: idSender.shhIdentity, // signs the message using the keyPair ID

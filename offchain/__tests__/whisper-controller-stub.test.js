@@ -11,7 +11,7 @@ const alice = {};
 const bob = {};
 
 describe('Whisper-controller-stub tests', () => {
-  test('Generate & retrieve a Whisper key-pair', async () => {
+  test('Generate & retrieve a Whisper key-pair', async() => {
     const accounts = await getEthAccounts();
     // eslint-disable-next-line prefer-destructuring
     alice.address = accounts[0];
@@ -53,7 +53,7 @@ describe('Whisper-controller-stub tests', () => {
     ).toEqual(getBobRecord);
   });
 
-  test('Encode a node object and decode it', async () => {
+  test('Encode a node object and decode it', async() => {
     const testObj = { a: '0x12eff34317', b: { c: 'oh no a nested object' }, definitelyLong: 24 };
     // const testStr = encodeMessage(testObj)
     // const testStr = "0x7b2261223a22307831326566663334333137222c2262223a7b2263223a226f68206e6f2061206e6573746564206f626a656374227d2c22646566696e6974656c794c6f6e67223a32347d"
