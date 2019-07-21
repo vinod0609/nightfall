@@ -35,11 +35,11 @@ initializeFtCommitmentRoutes(router);
 app.use(function logError(err, req, res) {
   logger.error(
     `${req.method}:${req.url}
-		${JSON.stringify({ error: err.message })}
-		${JSON.stringify({ body: req.body })}
-		${JSON.stringify({ params: req.params })}
-		${JSON.stringify({ query: req.query })}
-	`,
+    ${JSON.stringify({ error: err.message })}
+    ${JSON.stringify({ body: req.body })}
+    ${JSON.stringify({ params: req.params })}
+    ${JSON.stringify({ query: req.query })}
+  `,
   );
   res
     .status(err.status || 500)
