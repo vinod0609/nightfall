@@ -4,7 +4,7 @@ import { newAccount, sendEtherToAccount, getBalance, pay } from '../services/acc
 
 const router = express.Router({ mergeParams: true });
 
-router.post('/new', async (req, res) => {
+router.post('/new', async(req, res) => {
   const { password } = req.body;
 
   try {
@@ -21,7 +21,7 @@ router.post('/new', async (req, res) => {
   }
 });
 
-router.post('/anonymous', async (req, res) => {
+router.post('/anonymous', async(req, res) => {
   try {
     const address = await newAccount();
 
@@ -35,14 +35,14 @@ router.post('/anonymous', async (req, res) => {
   }
 });
 
-router.get('/:address', async (req, res) => {
+router.get('/:address', async(req, res) => {
   const { address } = req.params;
   const balance = await getBalance(address);
 
   res.send(balance);
 });
 
-router.put('/pay/:address', async (req, res) => {
+router.put('/pay/:address', async(req, res) => {
   const { address } = req.params;
   const { from, amount } = req.body;
 

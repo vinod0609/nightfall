@@ -4,7 +4,7 @@ import { unlockAccount } from '../services/accounts';
 
 const router = express.Router({ mergeParams: true });
 
-router.post('/unlock', async (req, res) => {
+router.post('/unlock', async(req, res) => {
   const { address, password } = req.body;
 
   try {
