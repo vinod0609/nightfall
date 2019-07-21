@@ -36,7 +36,7 @@ let statsPath;
 utility function to remove a leading 0x on a string representing a hex number.
 If no 0x is present then it returns the string un-altered.
 */
-function strip0x (hex) {
+function strip0x(hex) {
   if (typeof hex === 'undefined') return '';
   if (typeof hex === 'string' && hex.indexOf('0x') === 0) {
     return hex.slice(2).toString();
@@ -44,7 +44,7 @@ function strip0x (hex) {
   return hex.toString();
 }
 
-function isHex (h) {
+function isHex(h) {
   const regexp = /^[0-9a-fA-F]+$/;
   return regexp.test(strip0x(h));
 }
@@ -54,7 +54,7 @@ utility function to check that a string has a leading 0x (which the Solidity
 compiler uses to check for a hex string).  It adds it if it's not present. If
 it is present then it returns the string unaltered
 */
-function ensure0x (hex = '') {
+function ensure0x(hex = '') {
   const hexString = hex.toString();
   if (typeof hexString === 'string' && hexString.indexOf('0x') !== 0) {
     return `0x${hexString}`;
@@ -69,7 +69,7 @@ Utility function to convert a string into a hex representation of fixed length.
 if the string is too short to fill the output hex string, it is padded on the left with 0s
 if the string is too long, an error is thrown
 */
-function utf8StringToHex (str, outLengthBytes) {
+function utf8StringToHex(str, outLengthBytes) {
   const outLength = outLengthBytes * 2; // work in characters rather than bytes
   const buf = Buffer.from(str, 'utf8');
   let hex = buf.toString('hex');
@@ -79,7 +79,7 @@ function utf8StringToHex (str, outLengthBytes) {
   return ensure0x(hex);
 }
 
-function hexToUtf8String (hex) {
+function hexToUtf8String(hex) {
   const cleanHex = strip0x(hex).replace(/00/g, '');
 
   const buf = Buffer.from(cleanHex, 'hex');
@@ -90,13 +90,13 @@ function hexToUtf8String (hex) {
 Converts hex strings into binary, so that they can be passed into merkle-proof.code
 for example (0xff -> [1,1,1,1,1,1,1,1])
 */
-function hexToBin (hex) {
+function hexToBin(hex) {
   return hexToBinary(strip0x(hex)).split('');
 }
 
 /** Helper function for the converting any base to any base
  */
-function parseToDigitsArray (str, base) {
+function parseToDigitsArray(str, base) {
   const digits = str.split('');
   const ary = [];
   for (let i = digits.length - 1; i >= 0; i -= 1) {
@@ -109,7 +109,7 @@ function parseToDigitsArray (str, base) {
 
 /** Helper function for the converting any base to any base
  */
-function add (x, y, base) {
+function add(x, y, base) {
   const z = [];
   const n = Math.max(x.length, y.length);
   let carry = 0;
@@ -129,7 +129,7 @@ function add (x, y, base) {
  Returns a*x, where x is an array of decimal digits and a is an ordinary
  JavaScript number. base is the number base of the array x.
 */
-function multiplyByNumber (num, x, base) {
+function multiplyByNumber(num, x, base) {
   if (num < 0) return null;
   if (num === 0) return [];
 
@@ -148,7 +148,7 @@ function multiplyByNumber (num, x, base) {
 
 /** Helper function for the converting any base to any base
  */
-function convertBase (str, fromBase, toBase) {
+function convertBase(str, fromBase, toBase) {
   const digits = parseToDigitsArray(str, fromBase);
   if (digits === null) return null;
 
@@ -179,7 +179,7 @@ function convertBase (str, fromBase, toBase) {
 }
 
 // the hexToBinary library was giving some funny values with 'undefined' elements within the binary string. Using convertBase seems to be working nicely. THe 'Simple' suffix is to distinguish from hexToBin, which outputs an array of bit elements.
-function hexToBinSimple (hex) {
+function hexToBinSimple(hex) {
   const bin = convertBase(strip0x(hex), 16, 2);
   return bin;
 }
@@ -189,7 +189,7 @@ Converts hex strings into byte (decimal) values.  This is so that they can
 be passed into  merkle-proof.code in a more compressed fromat than bits.
 Each byte is invididually converted so 0xffff becomes [15,15]
 */
-function hexToBytes (hex) {
+function hexToBytes(hex) {
   const cleanHex = strip0x(hex);
   const out = [];
   for (let i = 0; i < cleanHex.length; i += 2) {
@@ -200,7 +200,7 @@ function hexToBytes (hex) {
 }
 
 // Converts hex strings to decimal values
-function hexToDec (hexStr) {
+function hexToDec(hexStr) {
   if (hexStr.substring(0, 2) === '0x') {
     return convertBase(hexStr.substring(2).toLowerCase(), 16, 10);
   }
@@ -212,7 +212,7 @@ function hexToDec (hexStr) {
 @param {integer} fieldSize The number of elements in the finite field.
 @return {string} A Field Value (decimal value) (formatted as string, because they're very large)
 */
-function hexToField (hexStr, fieldSize) {
+function hexToField(hexStr, fieldSize) {
   const cleanHexStr = strip0x(hexStr);
   const decStr = hexToDec(cleanHexStr);
   const q = BI(fieldSize);
@@ -228,7 +228,7 @@ Left-pads the input binary string with zeros, so that it becomes of size N bits.
 @param {integer} N The 'chunk size'.
 @return A binary string (padded) to size N bits.
 */
-function leftPadBitsN (bitStr, N) {
+function leftPadBitsN(bitStr, N) {
   const len = bitStr.length;
   let paddedStr;
   if (len > N) {
@@ -249,7 +249,7 @@ Checks whether a binary number is larger than N bits, and splits its binary repr
 @param {integer} N The 'chunk size'.
 @return An array whose elements are binary 'chunks' which altogether represent the input binary number.
 */
-function splitAndPadBitsN (bitStr, N) {
+function splitAndPadBitsN(bitStr, N) {
   let a = [];
   const len = bitStr.length;
   if (len <= N) {
@@ -268,7 +268,7 @@ function splitAndPadBitsN (bitStr, N) {
 @param {integer} N The 'chunk size'.
 @return An array whose elements are binary 'chunks' which altogether represent the input hex number.
 */
-function splitHexToBitsN (hexStr, N) {
+function splitHexToBitsN(hexStr, N) {
   const strippedHexStr = strip0x(hexStr);
   const bitStr = hexToBinSimple(strippedHexStr.toString());
   let a = [];
@@ -277,7 +277,7 @@ function splitHexToBitsN (hexStr, N) {
 }
 
 // Converts binary value strings to decimal values
-function binToDec (binStr) {
+function binToDec(binStr) {
   const dec = convertBase(binStr, 2, 10);
   return dec;
 }
@@ -285,7 +285,7 @@ function binToDec (binStr) {
 /** Preserves the magnitude of a hex number in a finite field, even if the order of the field is smaller than hexStr. hexStr is converted to decimal (as fields work in decimal integer representation) and then split into chunks of size packingSize. Relies on a sensible packing size being provided (ZoKrates uses packingSize = 128).
  *if the result has fewer elements than it would need for compatibiity with the dsl, it's padded to the left with zero elements
  */
-function hexToFieldPreserve (hexStr, packingSize, packets) {
+function hexToFieldPreserve(hexStr, packingSize, packets) {
   let bitsArr = [];
   bitsArr = splitHexToBitsN(strip0x(hexStr).toString(), packingSize.toString());
   let decArr = []; // decimal array
@@ -304,7 +304,7 @@ checks whether a hex string is smaller than a finite field size.
 @param {integer} fieldSize The number of elements in the finite field.
 @return {bool} True if less than the field size.
 */
-function hexLessThan (hexStr, fieldSize) {
+function hexLessThan(hexStr, fieldSize) {
   const decStr = hexToDec(hexStr);
   const q = new BI(fieldSize);
   return new BI(decStr.toString()).lesserOrEquals(q);
@@ -314,13 +314,13 @@ function hexLessThan (hexStr, fieldSize) {
 @param {string} hexStr A hex string.
 @return {integer} The number of bits of information which are encoded by the hex value.
 */
-function getBitLengthHex (hexStr) {
+function getBitLengthHex(hexStr) {
   const decStr = hexToDec(hexStr);
   return new BI(decStr).bitLength().toString();
 }
 
 // Converts binary value strings to hex values
-function binToHex (binStr) {
+function binToHex(binStr) {
   const hex = convertBase(binStr, 2, 16);
   return hex ? `0x${hex}` : null;
 }
@@ -330,7 +330,7 @@ function binToHex (binStr) {
 @param {integer} n The number of bits to slice (from the right)
 @return {string} The right n bits of the hexStr.
 */
-function sliceRightBitsHex (hexStr, n) {
+function sliceRightBitsHex(hexStr, n) {
   let binStr = hexToBinSimple(hexStr);
   binStr = binStr.slice(-n);
   return binToHex(binStr);
@@ -339,19 +339,19 @@ function sliceRightBitsHex (hexStr, n) {
 // FUNCTIONS ON DECIMAL VALUES
 
 // Convert bits to decimal values between 0...255
-function decToBytes (decimal) {
+function decToBytes(decimal) {
   const digit = parseInt(decimal, 2);
   return digit;
 }
 
 // Converts decimal value strings to hex values
-function decToHex (decStr) {
+function decToHex(decStr) {
   const hex = convertBase(decStr, 10, 16);
   return hex ? `0x${hex}` : null;
 }
 
 // Converts decimal value strings to binary values
-function decToBin (decStr) {
+function decToBin(decStr) {
   return convertBase(decStr, 10, 2);
 }
 
@@ -359,7 +359,7 @@ function decToBin (decStr) {
 @param {string} decStr A decimal value string.
 @return {integer} The number of bits of information which are encoded by the decimal value.
 */
-function getBitLengthDec (decStr) {
+function getBitLengthDec(decStr) {
   return new BI(decStr).bitLength().toString();
 }
 
@@ -368,7 +368,7 @@ function getBitLengthDec (decStr) {
 @param {integer} N The 'chunk size'.
 @return An array whose elements are binary 'chunks' which altogether represent the input decimal number.
 */
-function splitDecToBitsN (decStr, N) {
+function splitDecToBitsN(decStr, N) {
   const bitStr = decToBin(decStr.toString());
   let a = [];
   a = splitAndPadBitsN(bitStr, N);
@@ -377,7 +377,7 @@ function splitDecToBitsN (decStr, N) {
 
 /** Preserves the magnitude of a decimal number in a finite field, even if the order of the field is smaller than decStr. decStr split into chunks of size packingSize. Relies on a sensible packing size being provided (ZoKrates uses packingSize = 128).
  */
-function decToFieldPreserve (decStr, packingSize) {
+function decToFieldPreserve(decStr, packingSize) {
   let bitsArr = [];
   bitsArr = splitDecToBitsN(decStr.toString(), packingSize.toString());
   let decArr = []; // decimal array
@@ -395,7 +395,7 @@ Converts an array of Field Elements (decimal numbers which are smaller in magnit
 @param {integer} packingSize Each field element of fieldsArr is a 'packing' of exactly 'packingSize' bits. I.e. packingSize is the size (in bits) of each chunk (element) of fieldsArr. We use this to reconstruct the underlying decimal value which was, at some point previously, packed into a fieldsArr format.
 @returns {string} A decimal number (as a string, because it might be a very large number)
 */
-function fieldsToDec (fieldsArr, packingSize) {
+function fieldsToDec(fieldsArr, packingSize) {
   const len = fieldsArr.length;
   let acc = new BI('0');
   const s = [];
@@ -419,7 +419,7 @@ Converts an array of Field Elements (decimal numbers which are smaller in magnit
 @param {integer} packingSize Each field element of fieldsArr is a 'packing' of exactly 'packingSize' bits. I.e. packingSize is the size (in bits) of each chunk (element) of fieldsArr. We use this to reconstruct the underlying decimal value which was, at some point previously, packed into a fieldsArr format.
 @returns {string} A hex value
 */
-function fieldsToHex (fieldsArr, packingSize) {
+function fieldsToHex(fieldsArr, packingSize) {
   const decStr = fieldsToDec(fieldsArr, packingSize).toString();
   const hexStr = decToHex(decStr);
   return ensure0x(hexStr);
@@ -431,7 +431,7 @@ function fieldsToHex (fieldsArr, packingSize) {
 Utility function to xor to two hex strings and return as buffer
 Looks like the inputs are somehow being changed to decimal!
 */
-function xor (a, b) {
+function xor(a, b) {
   const length = Math.max(a.length, b.length);
   const buffer = Buffer.allocUnsafe(length); // creates a buffer object of length 'length'
   for (let i = 0; i < length; i += 1) {
@@ -446,7 +446,7 @@ function xor (a, b) {
 /**
 Utility function to xor to multiple hex strings and return as string
 */
-function xorItems (...items) {
+function xorItems(...items) {
   const xorvalue = items
     .map(item => Buffer.from(strip0x(item), 'hex'))
     .reduce((acc, item) => xor(acc, item));
@@ -457,7 +457,7 @@ function xorItems (...items) {
 Utility function to concatenate two hex strings and return as buffer
 Looks like the inputs are somehow being changed to decimal!
 */
-function concat (a, b) {
+function concat(a, b) {
   const length = a.length + b.length;
   const buffer = Buffer.allocUnsafe(length); // creates a buffer object of length 'length'
   for (let i = 0; i < a.length; i += 1) {
@@ -472,14 +472,14 @@ function concat (a, b) {
 /**
 Utility function to concatenate multiple hex strings and return as string
 */
-function concatItems (...items) {
+function concatItems(...items) {
   const concatvalue = items
     .map(item => Buffer.from(strip0x(item), 'hex'))
     .reduce((acc, item) => concat(acc, item));
   return `0x${concatvalue.toString('hex')}`;
 }
 
-function hashC (c) {
+function hashC(c) {
   let hsh = '';
   let conc = c;
   while (conc) {
@@ -502,7 +502,7 @@ and then repeating the process until you end up with a single hash.  That way
 we can generate a hash without needing to use more than a single sha round.  It's
 not the same value as we'd get using rounds but it's at least doable.
 */
-function recursiveHashConcat (...items) {
+function recursiveHashConcat(...items) {
   const conc = items // run all the items together in a string
     .map(item => Buffer.from(strip0x(item), 'hex'))
     .reduce((acc, item) => concat(acc, item))
@@ -521,7 +521,7 @@ and then repeating the process until you end up with a single hash.  That way
 we can generate a hash without needing to use more than a single sha round.  It's
 not the same value as we'd get using rounds but it's at least doable.
 */
-function hash (...items) {
+function hash(...items) {
   return recursiveHashConcat(...items);
 }
 
@@ -537,7 +537,7 @@ update: [input string to hash (an array of bytes (in decimal representaion) [byt
 digest: [output format ("hex" in our case)]
 slice: [begin value] outputs the items in the array on and after the 'begin value'
 */
-function hashConcat (...items) {
+function hashConcat(...items) {
   const concatvalue = items
     .map(item => Buffer.from(strip0x(item), 'hex'))
     .reduce((acc, item) => concat(acc, item));
@@ -552,7 +552,7 @@ function hashConcat (...items) {
 
 // CONVERSION TO FINITE FIELD ELEMENTS:
 
-function splitBinToBitsN (binStr, N) {
+function splitBinToBitsN(binStr, N) {
   const bitStr = binStr.toString();
   let a = [];
   a = splitAndPadBitsN(bitStr, N);
@@ -563,7 +563,7 @@ function splitBinToBitsN (binStr, N) {
 function to generate a promise that resolves to a string of hex
 @param {int} bytes - the number of bytes of hex that should be returned
 */
-function rndHex (bytes) {
+function rndHex(bytes) {
   return new Promise((resolve, reject) => {
     crypto.randomBytes(bytes, (err, buf) => {
       if (err) reject(err);
@@ -572,7 +572,7 @@ function rndHex (bytes) {
   });
 }
 
-function getLeafIndexFromZCount (zCount) {
+function getLeafIndexFromZCount(zCount) {
   // force it to be a number:
   const zCountInt = parseInt(zCount, 10);
   const MERKLE_DEPTH = parseInt(merkleDepth, 10);
@@ -616,14 +616,14 @@ A vk of the form:
 is converted to:
 ['1','2','3','4','5','6',...]
 */
-function flattenDeep (arr) {
+function flattenDeep(arr) {
   return arr.reduce(
     (acc, val) => (Array.isArray(val) ? acc.concat(flattenDeep(val)) : acc.concat(val)),
     [],
   );
 }
 
-async function progressBar (timeEst) {
+async function progressBar(timeEst) {
   const adjustedTimeEst = timeEst > 1000 ? timeEst - 1000 : 0;
   bar.start(100, 0);
   let nextPercentage = 0;
@@ -636,12 +636,12 @@ async function progressBar (timeEst) {
   }, adjustedTimeEst / 100);
 }
 
-async function stopProgressBar () {
+async function stopProgressBar() {
   clearInterval(interval);
   bar.stop();
 }
 
-async function getTimeEst (proofDescription, _process) {
+async function getTimeEst(proofDescription, _process) {
   if (!fs.existsSync(statsPath)) {
     stats[proofDescription] = {};
     // if stats.json not found, we don't have any prior time estimates to use for a progress bar. We'll artificially set the time estimates to 0 (which isn't too useful for a developer initially, but will be updated after their first proof).
@@ -674,7 +674,7 @@ async function getTimeEst (proofDescription, _process) {
   }
 }
 
-async function updateTimeEst (proofDescription, _process, newTimeEst) {
+async function updateTimeEst(proofDescription, _process, newTimeEst) {
   console.log('Writing new time estimate of', newTimeEst, 'to stats.json file...');
 
   if (!fs.existsSync(statsPath)) {
@@ -720,12 +720,12 @@ async function updateTimeEst (proofDescription, _process, newTimeEst) {
 
 // function to pad out a Hex value with leading zeros to l bits total length,
 // preserving the '0x' at the start
-function padHex (A, l) {
+function padHex(A, l) {
   if (l % 8 !== 0) throw new Error('cannot convert bits into a whole number of bytes');
   return ensure0x(strip0x(A).padStart(l / 4, '0'));
 }
 
-function String2Hex (tmp) {
+function String2Hex(tmp) {
   let str = '';
   for (let i = 0; i < tmp.length; i += 1) {
     str += tmp[i].charCodeAt(0).toString(16);
