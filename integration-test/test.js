@@ -17,8 +17,8 @@ let erc721;
 let erc721Commitment;
 let erc20Commitments;
 
-describe('****** Integration Test ******\n', function () {
-  before(async function () {
+describe('****** Integration Test ******\n', function() {
+  before(async function() {
     await testData.configureDependentTestData();
     ({ erc721, erc721Commitment, erc20Commitments } = testData);
   });
@@ -26,11 +26,11 @@ describe('****** Integration Test ******\n', function () {
    *  Step 1.
    *  This Suite will create Alice and Bob.
    */
-  describe('*** Create Users ***', async function () {
+  describe('*** Create Users ***', async function() {
     /*
      * Create account for Alice.
      */
-    it(`Sign up ${alice.name}`, function (done) {
+    it(`Sign up ${alice.name}`, function(done) {
       request
         .post('/createAccount')
         .use(prefix(apiServerURL))
@@ -45,7 +45,7 @@ describe('****** Integration Test ******\n', function () {
     /*
      * Create account for bob.
      */
-    it(`Sign up ${bob.name}`, function (done) {
+    it(`Sign up ${bob.name}`, function(done) {
       request
         .post('/createAccount')
         .use(prefix(apiServerURL))
@@ -62,11 +62,11 @@ describe('****** Integration Test ******\n', function () {
    * Step 2.
    * This Suite will login Alice and Bob/
    */
-  describe('*** Login Users ***', function () {
+  describe('*** Login Users ***', function() {
     /*
      * Login User Alice.
      */
-    it(`Sign in ${alice.name}`, function (done) {
+    it(`Sign in ${alice.name}`, function(done) {
       request
         .post('/login')
         .use(prefix(apiServerURL))
@@ -84,7 +84,7 @@ describe('****** Integration Test ******\n', function () {
     /*
      * Login User Bob.
      */
-    it(`Sign in ${bob.name}`, function (done) {
+    it(`Sign in ${bob.name}`, function(done) {
       request
         .post('/login')
         .use(prefix(apiServerURL))
@@ -110,13 +110,13 @@ describe('****** Integration Test ******\n', function () {
    *  and then transferred resultant ERC-721 token to Alice.
    * finally, Alice burns received ERC-721 token
    */
-  describe('*** ERC-721 and ERC-721 Commitment ***', function () {
-    context(`${alice.name} tasks: `, function () {
+  describe('*** ERC-721 and ERC-721 Commitment ***', function() {
+    context(`${alice.name} tasks: `, function() {
       /*
        * Step 3.
        * Mint ERC-721 Token.
        */
-      it('Mint ERC-721 token', function (done) {
+      it('Mint ERC-721 token', function(done) {
         request
           .post('/nft/mint')
           .use(prefix(apiServerURL))
@@ -134,7 +134,7 @@ describe('****** Integration Test ******\n', function () {
        * Step 4.
        * Mint ERC-721 token commitment.
        */
-      it('Mint ERC-721 token commitment', function (done) {
+      it('Mint ERC-721 token commitment', function(done) {
         request
           .post('/token/mint')
           .use(prefix(apiServerURL))
@@ -158,7 +158,7 @@ describe('****** Integration Test ******\n', function () {
        * Step 5.
        * Transfer ERC-721 Commitment.
        */
-      it('Transfer ERC-721 Commitment to Bob', function (done) {
+      it('Transfer ERC-721 Commitment to Bob', function(done) {
         request
           .post('/token/transfer')
           .use(prefix(apiServerURL))
@@ -188,7 +188,7 @@ describe('****** Integration Test ******\n', function () {
           });
       });
     });
-    context(`${bob.name} tasks: `, function () {
+    context(`${bob.name} tasks: `, function() {
       /*
        * This act as a delay.
        * Which is needed, presuming till then transfree Whisper will able receive transferred data.
@@ -198,7 +198,7 @@ describe('****** Integration Test ******\n', function () {
        * Step 6.
        * Burn ERC-721 Commitment.
        */
-      it('Burn ERC-721 Commitment', function (done) {
+      it('Burn ERC-721 Commitment', function(done) {
         request
           .post('/token/burn')
           .use(prefix(apiServerURL))
@@ -224,7 +224,7 @@ describe('****** Integration Test ******\n', function () {
        * Step 7.
        * Tranfer ERC-721 Token.
        */
-      it('Transfer ERC-721 token to Alice', function (done) {
+      it('Transfer ERC-721 token to Alice', function(done) {
         request
           .post('/nft/transfer')
           .use(prefix(apiServerURL))
@@ -243,7 +243,7 @@ describe('****** Integration Test ******\n', function () {
           });
       });
     });
-    context(`${alice.name} tasks: `, function () {
+    context(`${alice.name} tasks: `, function() {
       /*
        * This act as a delay.
        * Which is needed, presuming till then transfree Whisper will able receive transferred data.
@@ -253,7 +253,7 @@ describe('****** Integration Test ******\n', function () {
        * Step 8.
        * Burn ERC-721 Token.
        */
-      it('Burn ERC-721 token', function (done) {
+      it('Burn ERC-721 token', function(done) {
         request
           .post('/nft/burn')
           .use(prefix(apiServerURL))
@@ -282,13 +282,13 @@ describe('****** Integration Test ******\n', function () {
    *  and then transferred resultant  4 ERC-20 token to Alice.
    * finally, Alice burns her received and change, 5 ERC-20 token
    */
-  describe('*** ERC-20 and ERC-20 Commitment ***', function () {
-    context(`${alice.name} tasks: `, function () {
+  describe('*** ERC-20 and ERC-20 Commitment ***', function() {
+    context(`${alice.name} tasks: `, function() {
       /*
        * Step 9.
        * Mint ERC-20 token,
        */
-      it(`Mint ${erc20.mint} ERC-20 tokens`, function (done) {
+      it(`Mint ${erc20.mint} ERC-20 tokens`, function(done) {
         request
           .post('/ft/mint')
           .use(prefix(apiServerURL))
@@ -308,7 +308,7 @@ describe('****** Integration Test ******\n', function () {
        * Step 10.
        * Mint ERC-20 token commitment.
        */
-      it(`Mint ${erc20.toBeMintedAsCommitment[0]} ERC-20 token commitment`, function (done) {
+      it(`Mint ${erc20.toBeMintedAsCommitment[0]} ERC-20 token commitment`, function(done) {
         request
           .post('/coin/mint')
           .use(prefix(apiServerURL))
@@ -332,7 +332,7 @@ describe('****** Integration Test ******\n', function () {
        * Step 11.
        * Mint ERC-20 token commitment.
        */
-      it(`Mint ${erc20.toBeMintedAsCommitment[1]} ERC-20 token commitment`, function (done) {
+      it(`Mint ${erc20.toBeMintedAsCommitment[1]} ERC-20 token commitment`, function(done) {
         request
           .post('/coin/mint')
           .use(prefix(apiServerURL))
@@ -356,7 +356,7 @@ describe('****** Integration Test ******\n', function () {
        * Step 12.
        * Transfer ERC-20 Commitment.
        */
-      it(`Transfer ${erc20.transfer} ERC-20 Commitment to Bob`, function (done) {
+      it(`Transfer ${erc20.transfer} ERC-20 Commitment to Bob`, function(done) {
         const [C, z_C_index, z_C, S_C] = Object.values(erc20Commitments.mint[0]);
         const [D, z_D_index, z_D, S_D] = Object.values(erc20Commitments.mint[1]);
         const [E] = Object.values(erc20Commitments.transfer);
@@ -403,7 +403,7 @@ describe('****** Integration Test ******\n', function () {
        * Step 13.
        * Burn ERC-20 Commitment.
        */
-      it(`Burn ${erc20.change} ERC-20 Commitment`, function (done) {
+      it(`Burn ${erc20.change} ERC-20 Commitment`, function(done) {
         if (!erc20.change) this.skip();
         request
           .post('/coin/burn')
@@ -427,7 +427,7 @@ describe('****** Integration Test ******\n', function () {
           });
       });
     });
-    context(`${bob.name} tasks: `, function () {
+    context(`${bob.name} tasks: `, function() {
       /*
        * This act as a delay.
        * Which is needed, presuming till then transfree Whisper will able receive transferred data.
@@ -437,7 +437,7 @@ describe('****** Integration Test ******\n', function () {
        * Step 14.
        * Burn ERC-20 Commitment.
        */
-      it(`Burn ${erc20.transfer} ERC-20 Commitment`, function (done) {
+      it(`Burn ${erc20.transfer} ERC-20 Commitment`, function(done) {
         request
           .post('/coin/burn')
           .use(prefix(apiServerURL))
@@ -463,7 +463,7 @@ describe('****** Integration Test ******\n', function () {
        * Step 15.
        * Transfer ERC-20 token
        */
-      it(`Transfer ${erc20.transfer} ERC-20 tokens to Alice`, function (done) {
+      it(`Transfer ${erc20.transfer} ERC-20 tokens to Alice`, function(done) {
         request
           .post('/ft/transfer')
           .use(prefix(apiServerURL))
@@ -481,7 +481,7 @@ describe('****** Integration Test ******\n', function () {
           });
       });
     });
-    context(`${alice.name} tasks: `, function () {
+    context(`${alice.name} tasks: `, function() {
       /*
        * This act as a delay.
        * Which is needed, presuming till then transfree Whisper will able receive transferred data.
@@ -491,7 +491,7 @@ describe('****** Integration Test ******\n', function () {
        * Step 16.
        * Burn ERC-20 Token.
        */
-      it(`Burn ${erc20.mint} ERC-20 tokens`, function (done) {
+      it(`Burn ${erc20.mint} ERC-20 tokens`, function(done) {
         request
           .post('/ft/burn')
           .use(prefix(apiServerURL))

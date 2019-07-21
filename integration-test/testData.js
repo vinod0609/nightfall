@@ -7,7 +7,7 @@ const utils = Utils('../config/stats');
 const { rndHex, padHex } = utils;
 const HASHLENGTH = config.get('HASHLENGTH');
 
-const generateTokenID = async () => rndHex(32);
+const generateTokenID = async() => rndHex(32);
 const numberToHexString = int => padHex(int, 128);
 
 // test data.
@@ -16,7 +16,7 @@ export default {
     name: 'alice',
     email: 'alice@ey.com',
     password: 'pass',
-    get pk () {
+    get pk() {
       return utils.hash(this.sk); // sk - set at login test suit (step 2)
     },
   },
@@ -24,7 +24,7 @@ export default {
     name: 'bob',
     email: 'bob@ey.com',
     password: 'pass',
-    get pk () {
+    get pk() {
       return utils.hash(this.sk); // sk - set at login test suit (step 2)
     },
   },
@@ -36,13 +36,13 @@ export default {
     mint: 5,
     toBeMintedAsCommitment: [2, 3],
     transfer: 4,
-    get change () {
+    get change() {
       return this.toBeMintedAsCommitment.reduce((a, b) => a + b, -this.transfer);
     },
   },
 
   // dependent data
-  async erc721Commitment () {
+  async erc721Commitment() {
     const { alice, bob, erc721 } = this;
 
     erc721.tokenID = await erc721.tokenID;
@@ -54,7 +54,7 @@ export default {
       transferCommitmentIndex: '1',
 
       // commitment while mint
-      get mintCommitment () {
+      get mintCommitment() {
         return utils.recursiveHashConcat(
           utils.strip0x(this.tokenID).slice(-(HASHLENGTH * 2)),
           alice.pk,
@@ -63,7 +63,7 @@ export default {
       },
 
       // commitment while transfer
-      get transferCommitment () {
+      get transferCommitment() {
         return utils.recursiveHashConcat(
           utils.strip0x(this.tokenID).slice(-(HASHLENGTH * 2)),
           bob.pk,
@@ -74,7 +74,7 @@ export default {
   },
 
   // dependent data
-  async erc20Commitments () {
+  async erc20Commitments() {
     const { alice, bob, erc20 } = this;
 
     return {
@@ -82,7 +82,7 @@ export default {
         {
           A: numberToHexString(erc20.toBeMintedAsCommitment[0]),
           commitmentIndex: 0,
-          get commitment () {
+          get commitment() {
             return utils.recursiveHashConcat(
               this.A,
               alice.pk,
@@ -93,7 +93,7 @@ export default {
         {
           A: numberToHexString(erc20.toBeMintedAsCommitment[1]),
           commitmentIndex: 1,
-          get commitment () {
+          get commitment() {
             return utils.recursiveHashConcat(
               this.A,
               alice.pk,
@@ -105,7 +105,7 @@ export default {
       transfer: {
         value: numberToHexString(erc20.transfer),
         commitmentIndex: 2,
-        get commitment () {
+        get commitment() {
           return utils.recursiveHashConcat(
             this.value,
             bob.pk,
@@ -116,7 +116,7 @@ export default {
       change: {
         value: numberToHexString(erc20.change),
         commitmentIndex: 3,
-        get commitment () {
+        get commitment() {
           return utils.recursiveHashConcat(
             this.value,
             alice.pk,
@@ -130,7 +130,7 @@ export default {
   /*
    *  a function which will configure dependent test data.
    */
-  async configureDependentTestData () {
+  async configureDependentTestData() {
     this.erc721Commitment = await this.erc721Commitment();
     this.erc20Commitments = await this.erc20Commitments();
   },
