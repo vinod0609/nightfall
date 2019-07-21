@@ -4,7 +4,7 @@
  *  as usecase is identical
  */
 
-export default function ({
+export default function({
   amount,
   salt,
   commitment,

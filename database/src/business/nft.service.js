@@ -3,7 +3,7 @@ import { nftMapper } from '../mappers';
 import NftTransactionService from './nft-transaction.service';
 
 export default class NftService {
-  constructor (_db) {
+  constructor(_db) {
     this.db = _db;
     this.nftTransactionService = new NftTransactionService(_db);
   }
@@ -14,7 +14,7 @@ export default class NftService {
    * Also, will insert transaction in nft_transaction collection
    * @param {object} data
    */
-  async addNFToken (data) {
+  async addNFToken(data) {
     const { isReceived } = data;
     const mappedData = nftMapper(data);
 
@@ -38,7 +38,7 @@ export default class NftService {
    * Also, will insert transaction in nft_transaction collection
    * @param {object} data
    */
-  async updateNFToken (data) {
+  async updateNFToken(data) {
     const { tokenId, isBurned, isShielded } = data;
     const mappedData = nftMapper(data);
 
@@ -75,7 +75,7 @@ export default class NftService {
    * @param {object} data - req query object containing public account
    * @returns {Promise} array of coins transaction minted by that
    */
-  getNFTokens (query) {
+  getNFTokens(query) {
     if (!query || !query.pageNo || !query.limit) {
       return this.db.getData(COLLECTIONS.NFT, {
         shield_contract_address: query.shieldContractAddress ? query.shieldContractAddress : null,
@@ -105,7 +105,7 @@ export default class NftService {
    * @param {string} tokenId - unique tokenId generated at mint
    * @returns {Promise}
    */
-  getNFToken (tokenId) {
+  getNFToken(tokenId) {
     return this.db.findOne(COLLECTIONS.NFT, {
       token_id: tokenId,
       is_transferred: { $exists: false },
@@ -117,7 +117,7 @@ export default class NftService {
    * from nft_transction collection
    * @param {object} query
    */
-  getNFTTransactions (query) {
+  getNFTTransactions(query) {
     return this.nftTransactionService.getTransactions(query);
   }
 }

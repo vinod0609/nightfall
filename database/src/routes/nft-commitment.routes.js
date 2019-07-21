@@ -17,7 +17,7 @@ import { NftCommitmentService } from '../business';
  * @param {*} req
  * @param {*} res
  */
-async function addTokenHandler (req, res, next) {
+async function addTokenHandler(req, res, next) {
   try {
     const nftCommitmentService = new NftCommitmentService(req.user.db);
     await nftCommitmentService.addNewToken(req.body);
@@ -40,7 +40,7 @@ async function addTokenHandler (req, res, next) {
  * @param {*} req
  * @param {*} res
  */
-async function getTokenHandler (req, res, next) {
+async function getTokenHandler(req, res, next) {
   const nftCommitmentService = new NftCommitmentService(req.user.db);
   try {
     const tokens = await nftCommitmentService.getToken(req.query);
@@ -73,7 +73,7 @@ async function getTokenHandler (req, res, next) {
  * @param {*} req
  * @param {*} res
  */
-async function updateTokenHandler (req, res, next) {
+async function updateTokenHandler(req, res, next) {
   const nftCommitmentService = new NftCommitmentService(req.user.db);
   try {
     await nftCommitmentService.updateToken(req.body);
@@ -92,7 +92,7 @@ async function updateTokenHandler (req, res, next) {
  * @param {*} req
  * @param {*} res
  */
-async function getPrivateTokenTransactions (req, res, next) {
+async function getPrivateTokenTransactions(req, res, next) {
   const nftCommitmentService = new NftCommitmentService(req.user.db);
   try {
     const transactions = await nftCommitmentService.getPrivateTokenTransactions(req.query);
@@ -106,7 +106,7 @@ async function getPrivateTokenTransactions (req, res, next) {
 }
 
 // initializing routes
-export default function (router) {
+export default function(router) {
   router
     .route('/token')
     .post(addTokenHandler)

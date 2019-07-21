@@ -2,7 +2,7 @@ import Utils from 'zkp-utils';
 
 const utils = Utils('/app/config/stats.json');
 
-export default async function ({ name, email, address, isAuditor, shhIdentity }) {
+export default async function({ name, email, address, isAuditor, shhIdentity }) {
   const hash = await utils.rndHex(27);
   return {
     name,

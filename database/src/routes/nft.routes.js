@@ -17,7 +17,7 @@ import { NftService } from '../business';
  * @param {*} req
  * @param {*} res
  */
-async function addNFToken (req, res, next) {
+async function addNFToken(req, res, next) {
   try {
     const nftService = new NftService(req.user.db);
     await nftService.addNFToken(req.body);
@@ -47,7 +47,7 @@ async function addNFToken (req, res, next) {
  * @param {*} req
  * @param {*} res
  */
-async function updateNFToken (req, res, next) {
+async function updateNFToken(req, res, next) {
   try {
     const nftService = new NftService(req.user.db);
     await nftService.updateNFToken(req.body);
@@ -74,7 +74,7 @@ async function updateNFToken (req, res, next) {
  * @param {*} res
  * @param {*} next
  */
-async function getNFTokens (req, res, next) {
+async function getNFTokens(req, res, next) {
   try {
     const nftService = new NftService(req.user.db);
     const tokens = await nftService.getNFTokens(req.query);
@@ -96,7 +96,7 @@ async function getNFTokens (req, res, next) {
  * @param {*} req
  * @param {*} res
  */
-async function getNFTTransactions (req, res, next) {
+async function getNFTTransactions(req, res, next) {
   const nftService = new NftService(req.user.db);
   try {
     const transactions = await nftService.getNFTTransactions(req.query);
@@ -117,7 +117,7 @@ async function getNFTTransactions (req, res, next) {
  * @param {*} req
  * @param {*} res
  */
-async function getNFToken (req, res, next) {
+async function getNFToken(req, res, next) {
   try {
     const nftService = new NftService(req.user.db);
     const token = await nftService.getNFToken(req.params.tokenId);
@@ -131,7 +131,7 @@ async function getNFToken (req, res, next) {
 }
 
 // initializing routes
-export default function (router) {
+export default function(router) {
   router
     .route('/nft')
     .post(addNFToken)

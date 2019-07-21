@@ -14,14 +14,14 @@ import {
 const { mongo } = getProps();
 
 export default class DB {
-  constructor (db, username) {
+  constructor(db, username) {
     this.database = db;
     this.username = username;
     if (!username) return;
     this.createTablesForUser();
   }
 
-  createTablesForUser () {
+  createTablesForUser() {
     const { username, database } = this;
     this.Models = {
       user: database.model(`${username}_${COLLECTIONS.USER}`, UserSchema),
@@ -50,7 +50,7 @@ export default class DB {
     };
   }
 
-  async saveData (modelName, data) {
+  async saveData(modelName, data) {
     try {
       const Model = this.Models[modelName];
       const modelInstance = new Model(data);
@@ -61,7 +61,7 @@ export default class DB {
     }
   }
 
-  async getData (modelName, query = {}) {
+  async getData(modelName, query = {}) {
     try {
       const model = this.Models[modelName];
       const data = await model.find(query).exec();
@@ -72,7 +72,7 @@ export default class DB {
     }
   }
 
-  async getDbData (
+  async getDbData(
     modelName,
     query,
     projection = { path: '', select: '' },
@@ -99,7 +99,7 @@ export default class DB {
     }
   }
 
-  async getDbValues (modelName, query, projection, sort = {}, pageNo, limit) {
+  async getDbValues(modelName, query, projection, sort = {}, pageNo, limit) {
     try {
       const model = this.Models[modelName];
       const mQuery = model.find(query);
@@ -123,7 +123,7 @@ export default class DB {
     }
   }
 
-  async findOne (modelName, query) {
+  async findOne(modelName, query) {
     try {
       const model = this.Models[modelName];
       const data = await model.findOne(query);
@@ -133,7 +133,7 @@ export default class DB {
     }
   }
 
-  async getListData (modelName, query, page) {
+  async getListData(modelName, query, page) {
     try {
       const model = this.Models[modelName];
       const data = await model
@@ -147,7 +147,7 @@ export default class DB {
     }
   }
 
-  async updateData (modelName, condition, updateData, options = { upsert: true }) {
+  async updateData(modelName, condition, updateData, options = { upsert: true }) {
     try {
       const model = this.Models[modelName];
       const data = await model.updateOne(condition, updateData, options);
@@ -157,7 +157,7 @@ export default class DB {
     }
   }
 
-  async aggregation (modelName, condition, projection, options) {
+  async aggregation(modelName, condition, projection, options) {
     try {
       const model = this.Models[modelName];
       const pipeline = [{ $match: condition }];
@@ -174,7 +174,7 @@ export default class DB {
     }
   }
 
-  async populate (modelName, data, populates) {
+  async populate(modelName, data, populates) {
     try {
       const model = this.Models[modelName];
       return await model.populate(data, populates);
@@ -183,7 +183,7 @@ export default class DB {
     }
   }
 
-  addUser (name, password) {
+  addUser(name, password) {
     return this.database.db.addUser(name, password, {
       roles: [
         {

@@ -1,7 +1,7 @@
 import { COLLECTIONS } from '../common/constants';
 
 export default class NftCommitmentTransactionService {
-  constructor (_db) {
+  constructor(_db) {
     this.db = _db;
   }
 
@@ -21,7 +21,7 @@ export default class NftCommitmentTransactionService {
    *  transferred_token_commitment_index,
    * }
    */
-  insertTransaction (data) {
+  insertTransaction(data) {
     return this.db.saveData(COLLECTIONS.NFT_COMMITMENT_TRANSACTION, data);
   }
 
@@ -30,7 +30,7 @@ export default class NftCommitmentTransactionService {
    * from nft_commitment_transction collection
    * @param {object} query
    */
-  getTransactions (query) {
+  getTransactions(query) {
     const { pageNo, limit } = query;
     return this.db.getDbData (
       COLLECTIONS.NFT_COMMITMENT_TRANSACTION,

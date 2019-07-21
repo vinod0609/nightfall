@@ -14,7 +14,7 @@ import { FtService } from '../business';
  * @param {*} req
  * @param {*} res
  */
-async function addFTTransaction (req, res, next) {
+async function addFTTransaction(req, res, next) {
   try {
     const ftService = new FtService(req.user.db);
     await ftService.addFTokenTransaction(req.body);
@@ -33,7 +33,7 @@ async function addFTTransaction (req, res, next) {
  * @param {*} req
  * @param {*} res
  */
-async function getFTTransactions (req, res, next) {
+async function getFTTransactions(req, res, next) {
   const ftService = new FtService(req.user.db);
   try {
     const transactions = await ftService.getFTTransactions(req.query);
@@ -47,7 +47,7 @@ async function getFTTransactions (req, res, next) {
 }
 
 // initializing routes
-export default function (router) {
+export default function(router) {
   router
     .route('/ft/transaction')
     .post(addFTTransaction)

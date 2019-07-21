@@ -1,7 +1,7 @@
 import { COLLECTIONS } from '../common/constants';
 
 export default class FtCommitmentTransactionService {
-  constructor (_db) {
+  constructor(_db) {
     this.db = _db;
   }
 
@@ -29,7 +29,7 @@ export default class FtCommitmentTransactionService {
    *  }],
    * }
    */
-  insertTransaction (data) {
+  insertTransaction(data) {
     return this.db.saveData(COLLECTIONS.FT_COMMITMENT_TRANSACTION, data);
   }
 
@@ -38,7 +38,7 @@ export default class FtCommitmentTransactionService {
    * from ft_commitment_transction collection
    * @param {object} query 
    */
-  getTransactions (query) {
+  getTransactions(query) {
     const { pageNo, limit } = query;
     return this.db.getDbData (
       COLLECTIONS.FT_COMMITMENT_TRANSACTION,

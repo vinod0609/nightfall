@@ -36,7 +36,7 @@ const props = {
  * Set the environment
  * @param { string } environment - environment of app
  */
-export function setEnv (environment) {
+export function setEnv(environment) {
   if (props[environment]) {
     env = environment;
   }

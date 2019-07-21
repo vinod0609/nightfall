@@ -32,7 +32,7 @@ initializeNftCommitmentRoutes(router);
 initializeFtRoutes(router);
 initializeFtCommitmentRoutes(router);
 
-app.use(function logError (err, req, res) {
+app.use(function logError(err, req, res) {
   logger.error(
     `${req.method}:${req.url}
 		${JSON.stringify({ error: err.message })}

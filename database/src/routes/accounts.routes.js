@@ -12,7 +12,7 @@ import { AccountService, NftCommitmentService, FtCommitmentService } from '../bu
  * @param {*} req
  * @param {*} res
  */
-async function addCoinShieldContractAddress (req, res, next) {
+async function addCoinShieldContractAddress(req, res, next) {
   const accountService = new AccountService(req.user.db);
   try {
     await accountService.addCoinShieldContractAddress(req.body);
@@ -33,7 +33,7 @@ async function addCoinShieldContractAddress (req, res, next) {
  * @param {*} req
  * @param {*} res
  */
-async function deleteCoinShieldContractAddress (req, res, next) {
+async function deleteCoinShieldContractAddress(req, res, next) {
   const accountService = new AccountService(req.user.db);
   try {
     const status = await accountService.deleteCoinShieldContractAddress(req.query);
@@ -57,7 +57,7 @@ async function deleteCoinShieldContractAddress (req, res, next) {
  * @param {*} req
  * @param {*} res
  */
-async function updateCoinShieldContractAddress (req, res, next) {
+async function updateCoinShieldContractAddress(req, res, next) {
   const accountService = new AccountService(req.user.db);
   try {
     await accountService.updateCoinShieldContractAddress(req.body);
@@ -81,7 +81,7 @@ async function updateCoinShieldContractAddress (req, res, next) {
  * @param {*} req
  * @param {*} res
  */
-async function addTokenShieldContractAddress (req, res, next) {
+async function addTokenShieldContractAddress(req, res, next) {
   const accountService = new AccountService(req.user.db);
   try {
     await accountService.addTokenShieldContractAddress(req.body);
@@ -102,7 +102,7 @@ async function addTokenShieldContractAddress (req, res, next) {
  * @param {*} req
  * @param {*} res
  */
-async function deleteTokenShieldContractAddress (req, res, next) {
+async function deleteTokenShieldContractAddress(req, res, next) {
   const accountService = new AccountService(req.user.db);
   try {
     const status = await accountService.deleteTokenShieldContractAddress(req.query);
@@ -126,7 +126,7 @@ async function deleteTokenShieldContractAddress (req, res, next) {
  * @param {*} req
  * @param {*} res
  */
-async function updateTokenShieldContractAddress (req, res, next) {
+async function updateTokenShieldContractAddress(req, res, next) {
   const accountService = new AccountService(req.user.db);
   try {
     await accountService.updateTokenShieldContractAddress(req.body);
@@ -145,7 +145,7 @@ async function updateTokenShieldContractAddress (req, res, next) {
  * @param {*} req
  * @param {*} res
  */
-async function updateWhisperIdentity (req, res, next) {
+async function updateWhisperIdentity(req, res, next) {
   const { shhIdentity } = req.body;
   const accountService = new AccountService(req.user.db);
   try {
@@ -165,7 +165,7 @@ async function updateWhisperIdentity (req, res, next) {
  * @param {*} req
  * @param {*} res
  */
-async function getWhisperIdentity (req, res, next) {
+async function getWhisperIdentity(req, res, next) {
   const accountService = new AccountService(req.user.db);
   try {
     const keys = await accountService.getWhisperIdentity();
@@ -183,7 +183,7 @@ async function getWhisperIdentity (req, res, next) {
  * @param {*} req
  * @param {*} res
  */
-async function getCountHandler (req, res, next) {
+async function getCountHandler(req, res, next) {
   const nftCommitmentService = new NftCommitmentService(req.user.db);
   const ftCommitmentService = new FtCommitmentService(req.user.db);
   try {
@@ -211,7 +211,7 @@ async function getCountHandler (req, res, next) {
  * @param {*} req
  * @param {*} res
  */
-async function getUserByName (req, res, next) {
+async function getUserByName(req, res, next) {
   const accountService = new AccountService(req.user.db);
   try {
     const data = await accountService.getUser({ name: req.body.name });
@@ -234,7 +234,7 @@ async function getUserByName (req, res, next) {
  * @param {*} req
  * @param {*} res
  */
-async function createAccountHandler (req, res, next) {
+async function createAccountHandler(req, res, next) {
   const accountService = new AccountService(req.user.db);
   try {
     const data = await accountService.createAccount(req.body);
@@ -256,7 +256,7 @@ async function createAccountHandler (req, res, next) {
  * @param {*} req
  * @param {*} res
  */
-async function createPrivateAccountHandler (req, res, next) {
+async function createPrivateAccountHandler(req, res, next) {
   const accountService = new AccountService(req.user.db);
   try {
     const data = await accountService.updateUserWithPrivateAccount(req.body);
@@ -275,7 +275,7 @@ async function createPrivateAccountHandler (req, res, next) {
  * @param {*} req
  * @param {*} res
  */
-async function getUserHandler (req, res, next) {
+async function getUserHandler(req, res, next) {
   const accountService = new AccountService(req.user.db);
   try {
     const data = await accountService.getUser();
@@ -289,7 +289,7 @@ async function getUserHandler (req, res, next) {
 }
 
 // initializing routes
-export default function (router) {
+export default function(router) {
   // Route to get user by name, also use while login
   router.route('/login').post(getUserByName);
 

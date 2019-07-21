@@ -13,7 +13,7 @@ import { FtCommitmentService } from '../business';
  * @param {*} req
  * @param {*} res
  */
-async function addCoinHandler (req, res, next) {
+async function addCoinHandler(req, res, next) {
   try {
     const ftCommitmentService = new FtCommitmentService(req.user.db);
     await ftCommitmentService.addNewCoin(req.body);
@@ -31,7 +31,7 @@ async function addCoinHandler (req, res, next) {
  * @param {*} req
  * @param {*} res
  */
-async function getCoinHandler (req, res, next) {
+async function getCoinHandler(req, res, next) {
   try {
     const ftCommitmentService = new FtCommitmentService(req.user.db);
 
@@ -67,7 +67,7 @@ async function getCoinHandler (req, res, next) {
  * @param {*} req
  * @param {*} res
  */
-async function updateCoinHandler (req, res, next) {
+async function updateCoinHandler(req, res, next) {
   try {
     const ftCommitmentService = new FtCommitmentService(req.user.db);
     await ftCommitmentService.updateCoin(req.body);
@@ -90,7 +90,7 @@ async function updateCoinHandler (req, res, next) {
  * @param {*} req
  * @param {*} res
  */
-async function getCoinTransactions (req, res, next) {
+async function getCoinTransactions(req, res, next) {
   try {
     const ftCommitmentService = new FtCommitmentService(req.user.db);
     const transactions = await ftCommitmentService.getCoinTransactions(req.query);
@@ -130,7 +130,7 @@ async function getCoinTransactions (req, res, next) {
  * @param {*} req
  * @param {*} res
  */
-async function addCoinTransaction (req, res, next) {
+async function addCoinTransaction(req, res, next) {
   try {
     const ftCommitmentService = new FtCommitmentService(req.user.db);
     await ftCommitmentService.addCoinTransaction(req.body);
@@ -144,7 +144,7 @@ async function addCoinTransaction (req, res, next) {
 }
 
 // initializing routes
-export default function (router) {
+export default function(router) {
   router
     .route('/coin')
     .post(addCoinHandler)

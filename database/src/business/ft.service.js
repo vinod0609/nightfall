@@ -2,7 +2,7 @@ import { ftMapper } from '../mappers';
 import FtTransactionService from './ft-transaction.service';
 
 export default class FtService {
-  constructor (_db) {
+  constructor(_db) {
     this.db = _db;
     this.ftTransactionService = new FtTransactionService(_db);
   }
@@ -12,7 +12,7 @@ export default class FtService {
    * in ft_transction collection
    * @param {object} data
    */
-  addFTokenTransaction (data) {
+  addFTokenTransaction(data) {
     const { isReceived, isTransferred, isBurned } = data;
     const mappedData = ftMapper(data);
 
@@ -31,7 +31,7 @@ export default class FtService {
    * in ft_transction collection
    * @param {object} query
    */
-  getFTTransactions (query) {
+  getFTTransactions(query) {
     return this.ftTransactionService.getTransactions(query);
   }
 }

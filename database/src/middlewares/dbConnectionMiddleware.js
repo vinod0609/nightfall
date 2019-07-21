@@ -11,7 +11,7 @@ const connections = {
   ),
 };
 
-export default async function (req, res, next) {
+export default async function(req, res, next) {
   try {
     // signup need admin privalage as it create user sepcific tables.
     if (req.path === '/createAccount') {

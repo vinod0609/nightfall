@@ -3,7 +3,7 @@ import { nftCommitmentMapper } from '../mappers';
 import NftCommitmentTransactionService from './nft-commitment-transaction.service';
 
 export default class NftCommitmentService {
-  constructor (_db) {
+  constructor(_db) {
     this.db = _db;
     this.nftCommitmentTransactionService = new NftCommitmentTransactionService(_db);
   }
@@ -14,7 +14,7 @@ export default class NftCommitmentService {
    * Also, will insert transaction in nft_commitment_transaction collection
    * @param {object} data
    */
-  async addNewToken (data) {
+  async addNewToken(data) {
     const { isReceived } = data;
     const mappedData = nftCommitmentMapper(data);
 
@@ -38,7 +38,7 @@ export default class NftCommitmentService {
    * Also, will insert transaction in nft_commitment_transaction collection
    * @param {object} data
    */
-  async updateToken (data) {
+  async updateToken(data) {
     const { tokenId, isBurned } = data;
     const mappedData = nftCommitmentMapper(data);
 
@@ -69,7 +69,7 @@ export default class NftCommitmentService {
    * @param {object} data - req query object containing public account
    * @returns {array} of coins transaction minted by that
    */
-  getToken (pageination) {
+  getToken(pageination) {
     if (!pageination || !pageination.pageNo || !pageination.limit) {
       return this.db.getData(COLLECTIONS.NFT_COMMITMENT, {
         is_transferred: { $exists: false },
@@ -95,7 +95,7 @@ export default class NftCommitmentService {
    * from nft_commitment_transction collection
    * @param {object} query
    */
-  getPrivateTokenTransactions (query) {
+  getPrivateTokenTransactions(query) {
     return this.nftCommitmentTransactionService.getTransactions(query);
   }
 }

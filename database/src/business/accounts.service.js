@@ -5,7 +5,7 @@ import { userMapper } from '../mappers';
 
 const { mongo } = getProps();
 
-function updateUserRole () {
+function updateUserRole() {
   return new Promise((resolve, reject) =>
     exec(
       `mongo ${mongo.databaseName} --host=${mongo.host} -u ${mongo.admin} -p ${mongo.adminPassword} setup-mongo-acl-for-new-users.js`,
@@ -15,7 +15,7 @@ function updateUserRole () {
 }
 
 export default class AccountService {
-  constructor (_db) {
+  constructor(_db) {
     this.db = _db;
   }
 
@@ -24,7 +24,7 @@ export default class AccountService {
    * @param {object} options - an object containing public key
    * @returns {object} a user document matching the public key
    */
-  getUser (options) {
+  getUser(options) {
     return this.db.findOne(COLLECTIONS.USER, options);
   }
 
@@ -33,7 +33,7 @@ export default class AccountService {
    * @param {object} data - data contains user details
    * @returns {object} a user object
    */
-  async createAccount (data) {
+  async createAccount(data) {
     const mappedData = await userMapper(data);
     await this.db.addUser(data.name, data.password);
     await updateUserRole();
@@ -44,7 +44,7 @@ export default class AccountService {
    * This function will return all the user collection
    * @returns {array} a user collection
    */
-  async getUsers () {
+  async getUsers() {
     return this.db.getData(COLLECTIONS.USER, {});
   }
 
@@ -54,7 +54,7 @@ export default class AccountService {
    * @param {object} privateAccountDetails - contains ethereum private account and password
    * @returns {string} a account
    */
-  async updateUserWithPrivateAccount (privateAccountDetails) {
+  async updateUserWithPrivateAccount(privateAccountDetails) {
     const updateData = {
       $push: {
         accounts: {
@@ -72,7 +72,7 @@ export default class AccountService {
    * @param {object} headers - req object header
    * @returns {array} all private accounts
    */
-  getPrivateAccounts (headers) {
+  getPrivateAccounts(headers) {
     const condition = { address: headers.address };
     return this.db.getData(COLLECTIONS.USER, condition);
   }
@@ -82,7 +82,7 @@ export default class AccountService {
    * @param {string} account - private ethereum account
    * @returns {object} a matched private account details
    */
-  async getPrivateAccountDetails (account) {
+  async getPrivateAccountDetails(account) {
     const condition = {
       'accounts.address': account,
     };
@@ -98,7 +98,7 @@ export default class AccountService {
    * @param {String} shhIdentity - key hash
    * @returns {Promise}
    */
-  updateWhisperIdentity (shhIdentity) {
+  updateWhisperIdentity(shhIdentity) {
     return this.db.updateData(
       COLLECTIONS.USER,
       {},
@@ -112,7 +112,7 @@ export default class AccountService {
    * This function will fetch user's whisper key from its user collection
    * @returns {Promise} which resolve to whisper key.
    */
-  async getWhisperIdentity () {
+  async getWhisperIdentity() {
     const users = await this.db.getData(COLLECTIONS.USER);
     const shhIdentity = users[0].shh_identity || '';
     return { shhIdentity };
@@ -126,7 +126,7 @@ export default class AccountService {
    * contractAddress - address of coinShield contract
    * @returns {Promise}
    */
-  async addCoinShieldContractAddress ({ contractName, contractAddress }) {
+  async addCoinShieldContractAddress({ contractName, contractAddress }) {
     await this.db.updateData(
       COLLECTIONS.USER,
       {
@@ -154,7 +154,7 @@ export default class AccountService {
    * isCoinShieldPreviousSelected - current state of contract; is selected one or not
    * @returns {Promise}
    */
-  async updateCoinShieldContractAddress ({
+  async updateCoinShieldContractAddress({
     contractName,
     contractAddress,
     isSelected,
@@ -185,7 +185,7 @@ export default class AccountService {
    * contractAddress - address of coinShield contract
    * @returns {Promise}
    */
-  selectCoinShieldContractAddress ({ contractAddress }) {
+  selectCoinShieldContractAddress({ contractAddress }) {
     return this.db.updateData(
       COLLECTIONS.USER,
       {},
@@ -202,7 +202,7 @@ export default class AccountService {
    * contractAddress - address of coinShield contract
    * @returns {Promise}
    */
-  async deleteCoinShieldContractAddress ({ contractAddress }) {
+  async deleteCoinShieldContractAddress({ contractAddress }) {
     await this.db.updateData(
       COLLECTIONS.USER,
       {},
@@ -230,7 +230,7 @@ export default class AccountService {
    * contractAddress - address of tokenShield contract
    * @returns {Promise}
    */
-  async addTokenShieldContractAddress ({ contractName, contractAddress }) {
+  async addTokenShieldContractAddress({ contractName, contractAddress }) {
     await this.db.updateData(
       COLLECTIONS.USER,
       {
@@ -258,7 +258,7 @@ export default class AccountService {
    * isTokenShieldPreviousSelected - current state of contract; is selected one or not
    * @returns {Promise}
    */
-  async updateTokenShieldContractAddress ({
+  async updateTokenShieldContractAddress({
     contractName,
     contractAddress,
     isSelected,
@@ -289,7 +289,7 @@ export default class AccountService {
    * contractAddress - address of tokenShield contract
    * @returns {Promise}
    */
-  selectTokenShieldContractAddress ({ contractAddress }) {
+  selectTokenShieldContractAddress({ contractAddress }) {
     return this.db.updateData(
       COLLECTIONS.USER,
       {},
@@ -306,7 +306,7 @@ export default class AccountService {
    * contractAddress - address of tokenShield contract
    * @returns {Promise}
    */
-  async deleteTokenShieldContractAddress ({ contractAddress }) {
+  async deleteTokenShieldContractAddress({ contractAddress }) {
     await this.db.updateData(
       COLLECTIONS.USER,
       {},
