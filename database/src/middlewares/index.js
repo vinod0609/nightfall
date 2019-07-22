@@ -1,2 +1,2 @@
-export { default as setDB } from './setDBMiddleware';
-export { default as dbConnection } from './dbConnectionMiddleware';
+export { default as setDB } from './configure-db';
+export { default as dbConnection } from './configure-db-connection';
