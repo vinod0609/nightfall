@@ -34,7 +34,7 @@ export class BurnPublicCoinComponent implements OnInit {
   /**
    *  Total available balance of ERC-20
    */
-  erc20Balance: number
+  erc20Balance: number;
 
   constructor(
     private toastr: ToastrService,
@@ -54,26 +54,29 @@ export class BurnPublicCoinComponent implements OnInit {
   /**
    * Method to get balance of ERC-20 tokens.
    */
-  getCoins(){
+  getCoins() {
     this.accountsApiService.getCoins().subscribe(
       data => {
-        this.erc20Balance = data['data']['balance']
+        this.erc20Balance = data['data']['balance'];
         console.log('this.erc20Balance', this.erc20Balance);
       },
       error => {
-        console.log("error in user get", error)
+        console.log('error in user get', error);
       }
-    )
+    );
   }
 
   /**
    * Method to burn ERC-20 tokens.
    */
   burnPublicCoin() {
-    if (!this.amount) return;
+    if (!this.amount) {
+      return;
+    }
     if (this.amount > this.erc20Balance) {
       return this.toastr.error('You do not have enough ERC-20 tokens');
     }
+
     this.isRequesting = true;
     this.coinApiService.burnPublicCoin(localStorage.getItem('address'), this.amount).subscribe(transaction => {
       this.isRequesting = false;
