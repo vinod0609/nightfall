@@ -95,7 +95,7 @@ export class OverviewComponent extends Config implements OnInit {
   /**
    * Current selected tab
    */
-  selectedTab:string = 'publictokens';
+  selectedTab = 'publictokens';
 
   constructor(
     private toastr: ToastrService,
@@ -114,15 +114,15 @@ export class OverviewComponent extends Config implements OnInit {
       .queryParams
       .subscribe(params => {
         this.selectedTab = params['selectedTab'] || 'publictokens';
-        if(this.selectedTab === 'publictokens'){
+        if (this.selectedTab === 'publictokens') {
           this.getTransactions('publictokens');
-        }if(this.selectedTab === 'tokens'){ 
+        } else if (this.selectedTab === 'tokens') {
           this.getTransactions('tokens');
-        }if(this.selectedTab === 'publiccoins'){
+        } else if (this.selectedTab === 'publiccoins') {
           this.getTransactions('publiccoins');
-        }if(this.selectedTab === 'coins'){
+        } else if (this.selectedTab === 'coins') {
           this.getTransactions('coins');
-        }else{
+        } else {
           this.getTransactions('publictokens');
         }
       });

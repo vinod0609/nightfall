@@ -39,7 +39,7 @@ export class SpendPublicCoinComponent implements OnInit {
   /**
    * Fungeble Token name , read from ERC-20 contract.
    */
-  ftName:string;
+  ftName: string;
   /**
    * To store the ERC-20 token count.
    */
@@ -65,28 +65,30 @@ export class SpendPublicCoinComponent implements OnInit {
   /**
    * Method to list down all ERC-20 tokens.
    */
-  getCoins(){
+  getCoins() {
     this.accountApiService.getCoins().subscribe(
       data => {
-        this.coinCount = data['data']['balance']
+        this.coinCount = data['data']['balance'];
       },
       error => {
-        console.log("error in user get", error)
+        console.log('error in user get', error);
       }
-    )
+    );
   }
   /**
    * Method to transfer two ERC-20 tokens to selected user.
    */
   transferPublicCoin() {
-    if (!this.amount || !this.receiverName) return;
+    if (!this.amount || !this.receiverName) {
+      return;
+    }
     if (this.amount > this.coinCount) {
       return this.toastr.error('You do not have enough ERC-20 tokens');
     }
     this.isRequesting = true;
     this.coinApiService.transferPublicCoin(this.amount, localStorage.getItem('address'), this.receiverName).subscribe(transaction => {
       this.isRequesting = false;
-      this.toastr.success('Public Coin transferred Successfully.');     
+      this.toastr.success('Public Coin transferred Successfully.');
       this.router.navigate(['/overview'], { queryParams: { selectedTab: 'publiccoins' } });
     }, error => {
         this.isRequesting = false;

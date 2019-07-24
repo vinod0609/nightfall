@@ -14,6 +14,7 @@ import { UtilService } from '../../services/utils/util.service';
   providers: [CoinApiService, UtilService, AccountsApiService],
   styleUrls: ['./burn-public-coin.component.css']
 })
+
 export class BurnPublicCoinComponent implements OnInit {
 
   /**
@@ -80,16 +81,11 @@ export class BurnPublicCoinComponent implements OnInit {
     this.isRequesting = true;
     this.coinApiService.burnPublicCoin(localStorage.getItem('address'), this.amount).subscribe(transaction => {
       this.isRequesting = false;
-      this.toastr.success('Public Coin Burned Successfully.');     
+      this.toastr.success('Public Coin Burned Successfully.');
       this.router.navigate(['/overview'], { queryParams: { selectedTab: 'publiccoins' } });
     }, error => {
         this.isRequesting = false;
         this.toastr.error('Please try again', 'Error');
     });
   }
-
-
-
-
 }
-
