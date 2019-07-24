@@ -29,6 +29,7 @@ export async function loginHandler(req, res) {
     await accounts.unlockAccount({ address: data.address, password });
     // get jwt token
     const token = createToken(data, password);
+
     const userData = {
       address: data.address,
       name: data.name,

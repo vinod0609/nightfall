@@ -12,10 +12,9 @@ import { UtilService } from '../../services/utils/util.service';
   selector: 'app-mint-coin',
   templateUrl: './mint-coin.component.html',
   providers: [CoinApiService, AccountsApiService, UtilService],
-  styleUrls: ['./mint-coin.component.css']
+  styleUrls: ['./mint-coin.component.css'],
 })
 export class MintCoinsComponent implements OnInit {
-
   /**
    * Flag for http request
    */
@@ -43,9 +42,8 @@ export class MintCoinsComponent implements OnInit {
     private coinApiService: CoinApiService,
     private accountService: AccountsApiService,
     private utilService: UtilService,
-    private router: Router
-  ) { }
-
+    private router: Router,
+  ) {}
 
   ngOnInit() {
     this.ftName = localStorage.getItem('ftName');
@@ -72,7 +70,7 @@ export class MintCoinsComponent implements OnInit {
    */
   createForm() {
     this.mintCoinForm = this.fb.group({
-      A : ['', Validators.required]
+      A: ['', Validators.required],
     });
   }
 
@@ -80,6 +78,11 @@ export class MintCoinsComponent implements OnInit {
    * Method to Mint ERC-20 token commitemnt.
    */
   mintCoin() {
+    const coinToMint = this.mintCoinForm.controls['A'].value;
+    if (!coinToMint) { return; }
+    if (coinToMint > this.coinCount) {
+      return this.toastr.error('You do not have enough ERC-20 tokens');
+    }
     this.isRequesting = true;
     const hexValue = (this.mintCoinForm.controls['A'].value).toString(16);
     const hexString = '0x' + hexValue.padStart(32, '0');
@@ -87,11 +90,10 @@ export class MintCoinsComponent implements OnInit {
     this.coinApiService.mintCoin(hexString, localStorage.getItem('publickey')).subscribe(tokenDetails => {
       this.isRequesting = false;
       this.toastr.success('Coin Minted is ' + tokenDetails['data']['coin']);
-      this.router.navigate(['/coin/list']);
+      this.router.navigate(['/overview'], { queryParams: { selectedTab: 'coins' } });
     }, error => {
         this.isRequesting = false;
         this.toastr.error('Please try again', 'Error');
     });
   }
-
 }

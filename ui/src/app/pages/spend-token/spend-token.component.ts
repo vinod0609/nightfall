@@ -116,7 +116,7 @@ export class SpendTokenComponent implements OnInit, AfterContentInit {
         this.toastr.success('Transfer to Recipient ' + receiverName);
         transactions.splice(Number(index), 1);
         this.selectedToken = undefined;
-        this.router.navigate(['/token/list']);
+        this.router.navigate(['/overview'], { queryParams: { selectedTab: 'tokens' } });
       }, error => {
         this.isRequesting = false;
         this.toastr.error('Please try again', 'Error');
@@ -131,7 +131,7 @@ export class SpendTokenComponent implements OnInit, AfterContentInit {
     this.accountApiService.getUsers().subscribe(
       data => {
         this.isRequesting = false;
-        this.users = data['data'].filter(user => user !== 'auditor');
+        this.users = data['data'];
       }, error => {
         this.isRequesting = false;
         this.toastr.error('Please try again.', 'Error');

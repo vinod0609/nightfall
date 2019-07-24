@@ -84,7 +84,7 @@ export class SpendPublicTokenComponent implements OnInit, AfterContentInit {
     this.accountApiService.getUsers().subscribe(
       data => {
         this.isRequesting = false;
-        this.users = data['data'].filter(user => user !== 'auditor');
+        this.users = data['data'];
       }, error => {
         this.isRequesting = false;
         this.toastr.error('Please try again.', 'Error');
@@ -101,7 +101,7 @@ export class SpendPublicTokenComponent implements OnInit, AfterContentInit {
     this.tokenApiService.transferNFToken(this.selectedToken, this.receiverName).subscribe( data => {
         this.isRequesting = false;
         this.toastr.success('Transfer to Recipient ' + this.receiverName);
-        this.router.navigate(['token/public/list']);
+        this.router.navigate(['/overview'], { queryParams: { selectedTab: 'publictokens' } });
       }, error => {
         this.isRequesting = false;
         this.toastr.error('Please try again', error);
