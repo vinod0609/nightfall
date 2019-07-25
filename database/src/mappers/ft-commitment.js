@@ -21,6 +21,9 @@ export default function({
   isBurned,
   isReceived,
   isChange,
+
+  zCorrect,
+  zOnchainCorrect,
 }) {
   return {
     coin_value: amount,
@@ -47,5 +50,10 @@ export default function({
     [isBurned ? 'is_burned' : undefined]: isBurned,
     [isReceived ? 'is_received' : undefined]: isReceived,
     [isChange ? 'is_change' : undefined]: isChange,
+
+    zCorrect || zCorrect === false ? 'coin_commitment_reconciles' : undefined]: zCorrect,
+    [zOnchainCorrect || zOnchainCorrect === false
+      ? 'coin_commitment_exists_onchain'
+      : undefined]: zOnchainCorrect,
   };
 }
