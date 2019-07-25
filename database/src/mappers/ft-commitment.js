@@ -51,7 +51,7 @@ export default function({
     [isReceived ? 'is_received' : undefined]: isReceived,
     [isChange ? 'is_change' : undefined]: isChange,
 
-    zCorrect || zCorrect === false ? 'coin_commitment_reconciles' : undefined]: zCorrect,
+    [zCorrect || zCorrect === false ? 'coin_commitment_reconciles' : undefined]: zCorrect,
     [zOnchainCorrect || zOnchainCorrect === false
       ? 'coin_commitment_exists_onchain'
       : undefined]: zOnchainCorrect,
