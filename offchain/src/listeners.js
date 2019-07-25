@@ -1,39 +1,52 @@
-import db from './rest/db';
 import apiGateway from './rest/api-gateway';
 
-const addFToken = async data => {
+const addFToken = async (data, userData) => {
   try {
-    console.log('\noffchain/src/listeners.js', '\naddFToken', '\ndata', data);
-    await db.addFToken(data, {
-      amount: data.amount,
-      shieldContractAddress: data.shieldContractAddress,
-      transferor: data.transferor,
-      transferorAddress: data.transferorAddress,
-      isReceived: true,
-    });
+
+    console.log('\noffchain/src/listeners.js', '\addFToken', '\ndata', data);
+
+    await apiGateway.addFTokenToDB( 
+      {
+        authorization: userData.jwtToken,
+      },
+      {
+        amount: data.amount,
+        shieldContractAddress: data.shieldContractAddress,
+        transferor: data.transferor,
+        transferorAddress: data.transferorAddress,
+        isReceived: true,
+      }
+    );
+
   } catch (err) {
     console.log(err);
   }
 };
 
-const addNFTToken = async data => {
+const addNFToken = async (data, userData) => {
   try {
-    console.log('\noffchain/src/listeners.js', '\naddNFTToken', '\ndata', data);
+    console.log('\noffchain/src/listeners.js', '\addNFToken', '\ndata', data);
 
-    await db.addNFTToken(data, {
-      uri: data.uri,
-      tokenId: data.tokenId,
-      shieldContractAddress: data.shieldContractAddress,
-      transferor: data.transferor,
-      transferorAddress: data.transferorAddress,
-      isReceived: true,
-    });
+    await apiGateway.addNFTokenToDB(
+      {
+        authorization: userData.jwtToken,
+      },
+      {
+        uri: data.uri,
+        tokenId: data.tokenId,
+        shieldContractAddress: data.shieldContractAddress,
+        transferor: data.transferor,
+        transferorAddress: data.transferorAddress,
+        isReceived: true,
+      }
+    );
+
   } catch (err) {
     console.log(err);
   }
 };
 
-const addToken = async (data, userData) => {
+const addTokenCommitment = async (data, userData) => {
   try {
     console.log(
       '\noffchain/src/listeners.js',
@@ -59,29 +72,34 @@ const addToken = async (data, userData) => {
 
     console.log(
       '\noffchain/src/listeners.js',
-      '\naddToken',
+      '\naddTokenCommitment',
       '\ncorrectnessChecks',
       correctnessChecks,
     );
 
-    await db.addToken(data, {
-      tokenUri: data.tokenUri,
-      tokenId: data.tokenId,
-      salt: data.salt,
-      commitment: data.commitment,
-      commitmentIndex: data.commitmentIndex,
-      isReceived: true,
-      zCorrect: correctnessChecks.data.z_correct,
-      zOnchainCorrect: correctnessChecks.data.z_onchain_correct,
-    });
+    await apiGateway.addTokenCommitmentToDB(
+      {
+        authorization: userData.jwtToken,
+      }, 
+      {
+        tokenUri: data.tokenUri,
+        tokenId: data.tokenId,
+        salt: data.salt,
+        commitment: data.commitment,
+        commitmentIndex: data.commitmentIndex,
+        isReceived: true,
+        zCorrect: correctnessChecks.data.z_correct,
+        zOnchainCorrect: correctnessChecks.data.z_onchain_correct,
+      }
+    );
   } catch (err) {
     console.log(err);
   }
 };
 
-const addCoin = async (data, userData) => {
+const addCoinCommitment = async (data, userData) => {
   try {
-    console.log('\noffchain/src/listeners.js', '\naddCoin', '\ndata', data, '\nuserData', userData);
+    console.log('\noffchain/src/listeners.js', '\naddCoinCommitment', '\ndata', data, '\nuserData', userData);
 
     const correctnessChecks = await apiGateway.checkCorrectnessCoin(
       {
@@ -98,19 +116,25 @@ const addCoin = async (data, userData) => {
 
     console.log(
       '\noffchain/src/listeners.js',
-      '\naddCoin',
+      '\naddCoinCommitment',
       '\ncorrectnessChecks',
       correctnessChecks,
     );
 
-    await db.addCoin(data, {
-      amount: data.amount,
-      salt: data.salt,
-      commitment: data.commitment,
-      commitmentIndex: data.commitmentIndex,
-      isReceived: true,
-      ...correctnessChecks.data,
-    });
+    await apiGateway.addCoinCommitmentToDB(
+      {
+        authorization: userData.jwtToken,
+      },
+      {
+        amount: data.amount,
+        salt: data.salt,
+        commitment: data.commitment,
+        commitmentIndex: data.commitmentIndex,
+        isReceived: true,
+        zCorrect: correctnessChecks.data.z_correct,
+        zOnchainCorrect: correctnessChecks.data.z_onchain_correct,
+      }
+    );
   } catch (err) {
     console.log(err);
   }
@@ -122,13 +146,13 @@ const listeners = async (data, userData) => {
   const actualPayload = data.payload;
   switch (actualPayload.for) {
     case 'coin':
-      await addCoin(actualPayload, userData);
+      await addCoinCommitment(actualPayload, userData);
       break;
     case 'token':
-      await addToken(actualPayload, userData);
+      await addTokenCommitment(actualPayload, userData);
       break;
     case 'NFTToken':
-      await addNFTToken(actualPayload, userData);
+      await addNFToken(actualPayload, userData);
       break;
     case 'FToken':
       await addFToken(actualPayload, userData);
