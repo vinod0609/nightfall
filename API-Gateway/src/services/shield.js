@@ -1,5 +1,5 @@
-const zkp = require('../rest/zkp');
-const Response = require('../routes/response/response');
+import { zkp } from '../rest';
+import Response from '../routes/response';
 
 /**
  * This is used to get available shield address from blockchain.

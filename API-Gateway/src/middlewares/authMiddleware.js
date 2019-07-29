@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 import { encryptPassword, decryptPassword } from './passwordMiddleware';
-import Response from '../routes/response/response';
+import Response from '../routes/response';
 
 const response = new Response();
 const noAuthRoutes = ['/login', 'createAccount'];

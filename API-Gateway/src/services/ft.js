@@ -1,7 +1,6 @@
 import { whisperTransaction } from './whisper';
 import { db, offchain, zkp } from '../rest';
-
-const Response = require('../routes/response/response');
+import Response from '../routes/response';
 
 // ERC-20 token
 /**

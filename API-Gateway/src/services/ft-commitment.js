@@ -1,7 +1,6 @@
 import { whisperTransaction } from './whisper';
 import { accounts, db, offchain, zkp } from '../rest';
-
-const Response = require('../routes/response/response');
+import Response from '../routes/response';
 
 export async function checkCorrectnessCoin(req, res, next) {
   const response = new Response();
