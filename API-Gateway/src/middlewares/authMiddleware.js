@@ -1,15 +1,16 @@
-const jwt = require('jsonwebtoken');
-const { encryptPassword, decryptPassword } = require('./passwordMiddleware');
-const Response = require('../routes/response/response');
+import jwt from 'jsonwebtoken';
+import { encryptPassword, decryptPassword } from './passwordMiddleware';
+import Response from '../routes/response/response';
 
 const response = new Response();
 const noAuthRoutes = ['/login', 'createAccount'];
 const JWT_SECRET = 'secret';
-const createToken = (data, password) => {
-  return jwt.sign({ ...data, password: encryptPassword(password) }, JWT_SECRET);
-};
 
-const authentication = (req, res, next) => {
+export function createToken(data, password) {
+  return jwt.sign({ ...data, password: encryptPassword(password) }, JWT_SECRET);
+}
+
+export function authentication(req, res, next) {
   for (let i = 0; i < noAuthRoutes.length; i += 1) {
     if (req.path.indexOf(noAuthRoutes[i]) !== -1) {
       return next();
@@ -30,7 +31,7 @@ const authentication = (req, res, next) => {
         req.user.name = decoded.name; // this is to get public keys from blockchain
         req.user.pk_A = decoded.publickey; // for zkp purpose.
         req.user.password = decryptPassword(decoded.password); // decrypting password for unlocking account
-        req.headers.name = decoded.name; // used when call database microservice directly.
+        req.headers.name = decoded.name; // used when call database microservice directly (proxy call).
         req.headers.address = decoded.address;
         return next();
       });
@@ -44,9 +45,4 @@ const authentication = (req, res, next) => {
     response.data.message = 'No Token Provided';
     return res.status(499).json(response);
   }
-};
-
-module.exports = {
-  authentication,
-  createToken,
-};
+}
