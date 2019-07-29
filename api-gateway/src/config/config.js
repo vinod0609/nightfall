@@ -18,7 +18,7 @@ const props = {
       host: 'http://offchain',
       port: '80',
     },
-    enable_logger: true,
+    isLoggerEnable: true,
   },
   test: {
     HASHLENGTH: 8, // expected length of a hash in bytes
@@ -38,7 +38,7 @@ const props = {
       host: 'http://offchain_test',
       port: '80',
     },
-    enable_logger: true,
+    isLoggerEnable: true,
   },
 };
 
