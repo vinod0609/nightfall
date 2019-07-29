@@ -5,13 +5,15 @@
 
 **************************************************************************** */
 
-import rootRouter from './routes/api-gateway';
-import nftCommitmentRoutes from './routes/nft_commitment';
-import ftCommitmentRoutes from './routes/ft_commitment';
-import ftRoutes from './routes/ft';
-import nftRoutes from './routes/nft';
-import userRoutes from './routes/user';
-import shieldRoutes from './routes/shield';
+import {
+  rootRouter,
+  nftCommitmentRoutes,
+  ftCommitmentRoutes,
+  ftRoutes,
+  nftRoutes,
+  userRoutes,
+  shieldRoutes,
+} from './routes';
 
 const express = require('express');
 

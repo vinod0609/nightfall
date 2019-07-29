@@ -1,10 +1,7 @@
 import { setWhisperIdentityAndSubscribe } from './whisper';
+import { accounts, db, offchain, zkp } from '../rest';
 
-const zkp = require('../rest/zkp');
-const db = require('../rest/db');
 const Response = require('../routes/response/response');
-const accounts = require('../rest/accounts');
-const offchain = require('../rest/offchain');
 const {
   createToken,
 } = require('../middlewares/authMiddleware'); /* Authorization filter used to verify Role of the user */
@@ -24,7 +21,7 @@ export async function loginHandler(req, res) {
   const { name, password } = req.body;
 
   try {
-    const data = await db.login(name, password);
+    const data = await db.login({ name, password });
     if (!data) throw new Error('User does not exist');
     await accounts.unlockAccount({ address: data.address, password });
     // get jwt token
@@ -69,7 +66,7 @@ export async function createAccountHandler(req, res, next) {
     const address = (await accounts.createAccount(password)).data;
     const shhIdentity = '';
 
-    const { data } = await db.createAccount({
+    const data = await db.createAccount({
       ...req.body,
       address,
       shhIdentity,
