@@ -12,8 +12,6 @@ import {
   initializeFtCommitmentRoutes,
 } from './routes';
 
-config.setEnv(process.argv[2]);
-
 const app = express();
 const router = Router();
 
