@@ -1,10 +1,7 @@
 import { whisperTransaction } from './whisper';
+import { accounts, db, offchain, zkp } from '../rest';
 
-const zkp = require('../rest/zkp');
-const db = require('../rest/db');
 const Response = require('../routes/response/response');
-const accounts = require('../rest/accounts');
-const offchain = require('../rest/offchain');
 
 // check correctness
 export async function checkCorrectnessToken(req, res, next) {
@@ -202,7 +199,7 @@ export async function burnToken(req, res, next) {
       isBurned: true,
     });
 
-    const user = await db.getNFToken(req.user, req.body.A);
+    const user = await db.getNFTokenByTokenId(req.user, req.body.A);
 
     if (req.body.payTo) {
       // Send details of the token to the transferee via Whisper
