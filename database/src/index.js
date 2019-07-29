@@ -1,7 +1,6 @@
 import express, { Router } from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
-import * as config from './config';
 import logger from './logger';
 import { setDB, dbConnection } from './middlewares';
 import {
