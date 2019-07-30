@@ -23,7 +23,7 @@ import {
   setPublicKeys,
 } from '../src/pkd-controller';
 
-import AccountUtils from '../src/account-utils/account-utils';
+import AccountUtils from '../src/account-utils';
 
 const utils = Utils('/app/config/stats.json');
 

@@ -1,6 +1,6 @@
 /* eslint-disable import/no-unresolved */
 
-import AccountUtils from '../src/account-utils/account-utils';
+import AccountUtils from '../src/account-utils';
 
 import {
   generateWhisperKeys,
