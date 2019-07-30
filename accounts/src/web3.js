@@ -9,7 +9,7 @@ export default {
   /**
    * Connects to web3 and then sets proper handlers for events
    */
-  connect: () => {
+  connect() {
     console.log('Blockchain Connecting ...');
     const provider = new Web3.providers.WebsocketProvider(config.get('web3Provider'));
 
@@ -33,7 +33,7 @@ export default {
    *
    * @return {Boolean} - Resolves to true or false
    */
-  isConnected: () => {
+  isConnected() {
     if (web3) {
       return web3.eth.net.isListening();
     }
