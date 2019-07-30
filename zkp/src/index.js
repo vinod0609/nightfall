@@ -4,11 +4,11 @@
  * @desc This restapi.js file gives api endpoints to access the functions of Asset, Auth, TokenHolder, TokenHolderList smart contracts */
 //
 
-/* eslint-disable camelcase */
+/* eslint-disable camelcase, func-names */
 
 import express from 'express';
 import bodyParser from 'body-parser';
-import Response from '../response/response'; // class for creating response object
+import Response from '../response'; // class for creating response object
 import nfController from './nf-token-controller';
 import vkController from './vk-controller';
 import fTokenController from './f-token-controller';
@@ -17,7 +17,7 @@ const utils = require('zkp-utils')('/app/config/stats.json');
 
 const app = express();
 
-app.use((req, res, next) => {
+app.use(function cros(req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
   res.header(
@@ -38,7 +38,7 @@ app.use(
 );
 app.use(bodyParser.json());
 
-app.route('/vk').post(async (req, res) => {
+app.route('/vk').post(async function(req, res) {
   const response = new Response();
 
   try {
@@ -54,7 +54,7 @@ app.route('/vk').post(async (req, res) => {
   }
 });
 
-app.route('/token/mint').post(async (req, res) => {
+app.route('/token/mint').post(async function(req, res) {
   const { address } = req.headers;
   const { A, pk_A } = req.body;
   const S_A = await utils.rndHex(27);
@@ -78,7 +78,7 @@ app.route('/token/mint').post(async (req, res) => {
   }
 });
 
-app.route('/token/transfer').post(async (req, res) => {
+app.route('/token/transfer').post(async function(req, res) {
   const { A, pk_B, S_A, sk_A, z_A, z_A_index } = req.body;
   const S_B = await utils.rndHex(27);
   const { address } = req.headers;
@@ -111,7 +111,7 @@ app.route('/token/transfer').post(async (req, res) => {
   }
 });
 
-app.route('/token/burn').post(async (req, res) => {
+app.route('/token/burn').post(async function(req, res) {
   const { A, S_A, Sk_A, z_A, z_A_index, payTo } = req.body;
   const { address } = req.headers;
   const response = new Response();
@@ -138,7 +138,7 @@ app.route('/token/burn').post(async (req, res) => {
   }
 });
 
-app.route('/token/checkCorrectness').post(async (req, res) => {
+app.route('/token/checkCorrectness').post(async function(req, res) {
   const response = new Response();
 
   console.log('\nzkp/src/restapi', '\n/token/checkCorrectness', '\nreq.body', req.body);
@@ -165,7 +165,7 @@ app.route('/token/checkCorrectness').post(async (req, res) => {
 
 app
   .route('/coin/shield')
-  .post(async (req, res) => {
+  .post(async function(req, res) {
     const { address } = req.headers;
     const { coinShield } = req.body;
 
@@ -187,7 +187,7 @@ app
       res.status(500).json(response);
     }
   })
-  .delete(async (req, res) => {
+  .delete(async function(req, res) {
     const { address } = req.headers;
 
     const response = new Response();
@@ -205,7 +205,7 @@ app
       res.status(500).json(response);
     }
   })
-  .get(async (req, res) => {
+  .get(async function(req, res) {
     const { address } = req.headers;
 
     const response = new Response();
@@ -227,7 +227,7 @@ app
     }
   });
 
-app.route('/coin/mint').post(async (req, res) => {
+app.route('/coin/mint').post(async function(req, res) {
   const { address } = req.headers;
   const { A, pk_A } = req.body;
   const S_A = await utils.rndHex(27);
@@ -250,7 +250,7 @@ app.route('/coin/mint').post(async (req, res) => {
   }
 });
 
-app.route('/coin/transfer').post(async (req, res) => {
+app.route('/coin/transfer').post(async function(req, res) {
   const { address } = req.headers;
   const { C, D, E, F, pk_B, S_C, S_D, sk_A, z_C, z_C_index, z_D, z_D_index } = req.body;
   const S_E = await utils.rndHex(27);
@@ -293,7 +293,7 @@ app.route('/coin/transfer').post(async (req, res) => {
   }
 });
 
-app.route('/coin/burn').post(async (req, res) => {
+app.route('/coin/burn').post(async function(req, res) {
   const { A, sk_A, S_A, z_A, z_A_index, payTo } = req.body;
   const { address } = req.headers;
 
@@ -314,7 +314,7 @@ app.route('/coin/burn').post(async (req, res) => {
   }
 });
 
-app.route('/coin/checkCorrectness').post(async (req, res) => {
+app.route('/coin/checkCorrectness').post(async function(req, res) {
   const response = new Response();
 
   console.log('\nzkp/src/restapi', '\n/coin/checkCorrectness', '\nreq.body', req.body);
@@ -339,7 +339,7 @@ app.route('/coin/checkCorrectness').post(async (req, res) => {
   }
 });
 
-app.route('/ft/mint').post(async (req, res) => {
+app.route('/ft/mint').post(async function(req, res) {
   const { amount } = req.body;
   const { address } = req.headers;
   const response = new Response();
@@ -357,7 +357,7 @@ app.route('/ft/mint').post(async (req, res) => {
   }
 });
 
-app.route('/ft/transfer').post(async (req, res) => {
+app.route('/ft/transfer').post(async function(req, res) {
   const { amount, toAddress } = req.body;
   const { address } = req.headers;
   const response = new Response();
@@ -375,7 +375,7 @@ app.route('/ft/transfer').post(async (req, res) => {
   }
 });
 
-app.route('/ft/burn').post(async (req, res) => {
+app.route('/ft/burn').post(async function(req, res) {
   const { amount } = req.body;
   const { address } = req.headers;
   const response = new Response();
@@ -393,7 +393,7 @@ app.route('/ft/burn').post(async (req, res) => {
   }
 });
 
-app.route('/address/coin').get(async (req, res) => {
+app.route('/address/coin').get(async function(req, res) {
   const { address } = req.headers;
   const response = new Response();
 
@@ -415,7 +415,7 @@ app.route('/address/coin').get(async (req, res) => {
   }
 });
 
-app.route('/nft/mint').post(async (req, res) => {
+app.route('/nft/mint').post(async function(req, res) {
   const { address } = req.headers;
 
   const { tokenID, tokenURI } = req.body;
@@ -438,7 +438,7 @@ app.route('/nft/mint').post(async (req, res) => {
   }
 });
 
-app.route('/nft/transfer').post(async (req, res) => {
+app.route('/nft/transfer').post(async function(req, res) {
   const { address } = req.headers;
 
   const { tokenID, to } = req.body;
@@ -461,7 +461,7 @@ app.route('/nft/transfer').post(async (req, res) => {
   }
 });
 
-app.route('/nft/burn').post(async (req, res) => {
+app.route('/nft/burn').post(async function(req, res) {
   const { address } = req.headers;
 
   const { tokenID } = req.body;
@@ -486,7 +486,7 @@ app.route('/nft/burn').post(async (req, res) => {
 
 app
   .route('/token/shield')
-  .post(async (req, res) => {
+  .post(async function(req, res) {
     const { address } = req.headers;
     const { tokenShield } = req.body;
 
@@ -508,7 +508,7 @@ app
       res.status(500).json(response);
     }
   })
-  .delete(async (req, res) => {
+  .delete(async function(req, res) {
     const { address } = req.headers;
 
     const response = new Response();
@@ -526,7 +526,7 @@ app
       res.status(500).json(response);
     }
   })
-  .get(async (req, res) => {
+  .get(async function(req, res) {
     const { address } = req.headers;
 
     const response = new Response();
@@ -548,7 +548,7 @@ app
     }
   });
 
-app.route('/address/nft-balance').get(async (req, res) => {
+app.route('/address/nft-balance').get(async function(req, res) {
   const { address } = req.headers;
   const response = new Response();
 
@@ -571,7 +571,7 @@ app.route('/address/nft-balance').get(async (req, res) => {
   }
 });
 
-app.route('/nft/address').get(async (req, res) => {
+app.route('/nft/address').get(async function(req, res) {
   const { address } = req.headers;
   const response = new Response();
 
@@ -590,7 +590,7 @@ app.route('/nft/address').get(async (req, res) => {
   }
 });
 
-app.route('/ft/address').get(async (req, res) => {
+app.route('/ft/address').get(async function(req, res) {
   const { address } = req.headers;
   const response = new Response();
 
