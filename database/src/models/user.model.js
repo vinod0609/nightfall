@@ -5,7 +5,7 @@
 import mongoose from 'mongoose';
 
 const { Schema } = mongoose;
-const utils = require('zkp-utils')('/app/config/stats.json');
+const utils = require('zkp-utils')('/app/stat_config/stats.json');
 
 const UserSchema = new Schema({
   name: { type: String, required: true },

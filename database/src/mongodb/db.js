@@ -14,7 +14,10 @@ let PublicTokenSchema = require('../models/public_token.model')
 let PublicTokenTransactionSchema = require('../models/public_token_transaction.model')
 let PublicCoinTransactionSchema = require('../models/public_coin_transaction.model')
 
-const config = require('../config').getProps()
+const config = require('config');
+console.log('dbjs', config);
+
+
 module.exports = class DB {
   constructor(db, username) {
     this.database = db;

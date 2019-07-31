@@ -2,9 +2,11 @@
 
 import mongoose from 'mongoose';
 
-const config = require('../config').getProps();
+const config = require('config');
 
 const { host, port, databaseName, admin, password } = config.mongo;
+
+console.log('dbmiddleware: host, port, databaseName, admin, password ', host, port, databaseName, admin, password);
 
 const connections = {
   admin: mongoose.createConnection(
