@@ -6,6 +6,8 @@ import config from 'config';
 
 const { host, port, databaseName, admin, password } = config.mongo;
 
+console.log('dbmiddleware: host, port, databaseName, admin, password ', host, port, databaseName, admin, password);
+
 const connections = {
   admin: mongoose.createConnection(
     `mongodb://${admin}:${password}@${host}:${port}/${databaseName}`,
