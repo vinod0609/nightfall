@@ -6,8 +6,9 @@ import fs from 'fs';
 
 import 'winston-daily-rotate-file';
 
-const { enable_logger } = require('./config').getProps();
+import config from 'config';
 
+const { enable_logger } = config;
 const logDir = 'logs';
 
 // Create the log directory if it does not exist

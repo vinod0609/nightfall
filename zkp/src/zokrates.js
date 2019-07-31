@@ -10,9 +10,7 @@ much from a standard linux kernel for this to work efficiently with Docker.
 import os from 'os';
 import path from 'path';
 import { Docker } from 'node-docker-api';
-import Config from './config';
-
-const config = Config.getProps();
+import config from 'config';
 
 const docker = new Docker({
   socketPath: '/var/run/docker.sock',
@@ -290,7 +288,7 @@ export default {
   setup,
   generateProof,
   exportVerifier,
-  Config,
+  config,
   runContainer,
   runContainerMounted,
   killContainer,

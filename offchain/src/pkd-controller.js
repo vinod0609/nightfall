@@ -8,15 +8,14 @@ import tc from 'truffle-contract';
 import Web3 from 'web3';
 import jsonfile from 'jsonfile';
 import Utils from 'zkp-utils';
-import Config from './config';
+import config from 'config';
 
-const utils = Utils('/app/config/stats.json');
+const utils = Utils('/app/stats_config/stats.json');
 
 const bytes32 = name => utils.utf8StringToHex(name, 32);
 const stringify = hex => utils.hexToUtf8String(hex);
 
-const config = Config.getProps();
-const provider = new Web3.providers.HttpProvider(`${config.offchain.rpc.host}:${config.offchain.rpc.port}`);
+const provider = new Web3.providers.HttpProvider(`${config.rpc.host}:${config.rpc.port}`);
 const PKD = tc(jsonfile.readFileSync('/app/build/contracts/PKD.json'));
 PKD.setProvider(provider);
 

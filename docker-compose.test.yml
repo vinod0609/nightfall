@@ -24,6 +24,7 @@ services:
     restart: on-failure
     volumes:
       - ./api-gateway/src:/app/src
+      - ./api-gateway/config:/app/config
       - ./api-gateway/.babelrc:/app/.babelrc
     environment:
       - NODE_ENV=test
@@ -45,7 +46,9 @@ services:
       - ./offchain/.babelrc:/app/.babelrc
       - ./offchain/__tests__:/app/__tests__
       - ./zkp-utils:/app/node_modules/zkp-utils
-      - ./config:/app/config
+      - ./account-utils:/app/src/account-utils
+      - ./config:/app/stats_config
+      - ./offchain/config:/app/config
     environment:
       - NODE_ENV=test
     networks: 
@@ -65,8 +68,10 @@ services:
       - ./zkp/code:/app/code
       - ./zkp/.babelrc:/app/.babelrc
       - ./zkp-utils:/app/node_modules/zkp-utils
+      - ./account-utils:/app/src/account-utils
       - ./zkp/__tests__:/app/__tests__
-      - ./config:/app/config
+      - ./config:/app/stats_config
+      - ./zkp/config:/app/config
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
       - NODE_ENV=test
@@ -93,7 +98,8 @@ services:
       - ./database/response:/app/response
       - ./database/.babelrc:/app/.babelrc
       - ./zkp-utils:/app/node_modules/zkp-utils
-      - ./config:/app/config
+      - ./config:/app/stats_config
+      - ./database/config:/app/config
       - ./database/script_to_configure_roles.js:/app/script_to_configure_roles.js
     environment:
       - NODE_ENV=test

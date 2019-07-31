@@ -2,7 +2,7 @@
 
 import mongoose from 'mongoose';
 
-const config = require('../config').getProps();
+import config from 'config';
 
 const { host, port, databaseName, admin, password } = config.mongo;
 

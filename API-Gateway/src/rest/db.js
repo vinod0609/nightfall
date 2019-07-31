@@ -1,7 +1,8 @@
 const request = require('request')
 const jwt = require('jsonwebtoken')
 
-const Config = require('config');
+import Config from 'config';
+
 const host = Config.database.host + ':' + Config.database.port;
 
 const addToken = ({name}, body) => {

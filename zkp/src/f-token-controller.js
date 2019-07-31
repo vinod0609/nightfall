@@ -14,11 +14,10 @@ import zkp from './f-token-zkp';
 import zokrates from './zokrates';
 import cv from './compute-vectors';
 import Element from './Element';
-import Config from './config';
+import config from 'config';
 
-const utils = require('zkp-utils')('/app/config/stats.json');
+const utils = require('zkp-utils')('/app/stats_config/stats.json');
 
-const config = Config.getProps();
 const web3 = new Web3(
   Web3.givenProvider ||
     new Web3.providers.HttpProvider(`${config.zkp.rpc.host}:${config.zkp.rpc.port}`),

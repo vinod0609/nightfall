@@ -15,7 +15,7 @@ import vkController from './vk-controller';
 import fTokenController from './f-token-controller';
 
 
-const utils = require('zkp-utils')('/app/config/stats.json');
+const utils = require('zkp-utils')('/app/stats_config/stats.json');
 
 const app = express();
 

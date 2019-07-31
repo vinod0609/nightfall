@@ -1,5 +1,5 @@
 const request = require('request');
-const Config = require('config');
+import Config from 'config';
 
 const host = Config.accounts.host + ':' + Config.accounts.port;
 const createAccount = (password) => {

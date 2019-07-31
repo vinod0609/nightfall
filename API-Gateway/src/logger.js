@@ -2,8 +2,8 @@ const { createLogger, format, transports } = require('winston');
 const fs = require('fs');
 const path = require('path');
 require('winston-daily-rotate-file');
-
-const {enable_logger} = require('config');
+import config from 'config';
+const {enable_logger} = config
 
 const logDir = 'logs';
 

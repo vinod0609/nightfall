@@ -1,11 +1,3 @@
-/**
-@module config.js
-@author Westlad, Chaitanya-Konda, iAmMichaelConnor
-@desc constants used by a nubmer of other modules
-*/
-
-let env = 'local'; // set the environment to local if not mentioned while starting the app
-
 /* PATH NAMING CONVENTIONS:
 
 FILENAME_FILEPATH - path up to and including a file called /fileName.extension
@@ -85,57 +77,4 @@ const commonConfig = {
 
   GASPRICE: 20000000000,
 };
-
-const props = {
-  local: {
-    ...commonConfig,
-    zkp: {
-      app: {
-        host: 'http://zkp',
-        port: '80',
-      },
-      rpc: {
-        host: 'http://ganache',
-        port: '8545',
-      },
-      volume: 'nightfall_zkp-code'
-    },
-  },
-  test: {
-    ...commonConfig,
-    zkp: {
-      app: {
-        host: 'http://zkp_test',
-        port: '80',
-      },
-      rpc: {
-        host: 'http://ganache_test',
-        port: '8545',
-      },
-      volume: 'nightfall_zkp_code_test'
-    },
-  },
-};
-
-/**
- * Set the environment
- * @param { string } environment - environment of app
- */
-const setEnv = environment => {
-  if (props[environment]) {
-    env = environment;
-  }
-};
-setEnv(process.env.NODE_ENV);
-
-/**
- * get the appropriate environment config
- */
-const getProps = () => {
-  return props[env];
-};
-
-export default {
-  setEnv,
-  getProps,
-};
+module.exports = commonConfig;

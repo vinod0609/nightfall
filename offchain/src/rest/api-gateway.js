@@ -1,7 +1,5 @@
 import request from 'request';
-import Config from '../config';
-
-const config = Config.getProps();
+import config from 'config';
 
 const host = `${config.authenticationApi.host}:${config.authenticationApi.port}`;
 

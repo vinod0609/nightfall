@@ -3,7 +3,7 @@ import AccountUtils from '../src/account-utils/account-utils';
 
 import controller from '../src/f-token-controller';
 
-const utils = Utils('/app/config/stats.json');
+const utils = Utils('/app/stats_config/stats.json');
 
 jest.setTimeout(7200000);
 

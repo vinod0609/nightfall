@@ -14,13 +14,12 @@ import inquirer from 'inquirer';
 import codePreProp from './tools-code-preprop';
 import keyExtractor from './tools-key-extractor';
 
-import Config from '../src/config';
+import config from 'config';
 
 import zokrates from '../src/zokrates';
 
 const utils = require('../../zkp-utils/index.js'); // eslint-disable-line import/no-commonjs
 
-const config = Config.getProps();
 const isDirectory = source => fs.lstatSync(source).isDirectory();
 const getDirectories = source =>
   fs

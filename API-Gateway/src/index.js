@@ -19,7 +19,7 @@ const router = express.Router();
 var bodyParser = require('body-parser');
 const proxy = require('express-http-proxy');
 
-const Config = require('config'); //get the properties of environment
+import Config from 'config'; //get the properties of environment
 
 const logger = require('./logger');
 

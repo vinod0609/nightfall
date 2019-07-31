@@ -1,3 +1,3 @@
-{
+module.exports = {
   "web3Provider": "http://ganache_test:8545"
 }
