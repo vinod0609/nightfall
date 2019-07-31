@@ -1,6 +1,6 @@
 const request = require('request');
 
-const Config = require('../config/config').getProps();
+const Config = require('config');
 const host = Config.zkp.host + ':' + Config.zkp.port;
 
 

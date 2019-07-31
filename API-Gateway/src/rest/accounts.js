@@ -1,8 +1,7 @@
 const request = require('request');
+const Config = require('config');
 
-const Config = require('../config/config').getProps();
 const host = Config.accounts.host + ':' + Config.accounts.port;
-
 const createAccount = (password) => {
   return new Promise((resolve, reject) => {
     let options = {

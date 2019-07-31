@@ -19,8 +19,7 @@ const router = express.Router();
 var bodyParser = require('body-parser');
 const proxy = require('express-http-proxy');
 
-const config = require('./config/config'); // require the config file
-const Config = require('./config/config').getProps(); //get the properties of environment
+const Config = require('config'); //get the properties of environment
 
 const logger = require('./logger');
 

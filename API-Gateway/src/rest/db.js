@@ -1,7 +1,7 @@
 const request = require('request')
 const jwt = require('jsonwebtoken')
 
-const Config = require('../config/config').getProps();
+const Config = require('config');
 const host = Config.database.host + ':' + Config.database.port;
 
 const addToken = ({name}, body) => {
@@ -103,6 +103,7 @@ const createAccount = (details) => {
     }
     request(options, (err, res, body) => {
       if(err){
+        console.log('db error', err);
         reject(err)
       }
       if(body.statusCode !== 200)
