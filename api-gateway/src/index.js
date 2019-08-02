@@ -20,8 +20,13 @@ import {
   userRoutes,
   shieldRoutes,
 } from './routes';
-import { authentication } from './middlewares/authMiddleware'; /* Authorization filter used to verify Role of the user */
-import { unlockAccount } from './middlewares/passwordMiddleware';
+import {
+  authentication, // Authorization filter used to verify Role of the user
+  unlockAccount,
+  formatResponse,
+  formatError,
+  errorHandler,
+} from './middlewares';
 
 const app = express();
 const router = Router();
@@ -48,13 +53,9 @@ app.use('/nft', nftRoutes);
 app.use('/user', userRoutes);
 app.use('/shield', shieldRoutes);
 
-// handle bad calls
-function badCalls(req, res) {
-  res.status(404).send({ url: `${req.originalUrl} not found` });
-}
-app.use(badCalls);
-// error handler
-function errorHandler(err, req) {
+app.use(formatResponse);
+
+app.use(function logError(err, req, res, next) {
   logger.error(
     `${req.method}:${req.url}
       ${JSON.stringify({ error: err.message })}
@@ -63,8 +64,11 @@ function errorHandler(err, req) {
       ${JSON.stringify({ query: req.query })}
     `,
   );
-}
+  logger.error(JSON.stringify(err, null, 2));
+  next(err);
+});
 
+app.use(formatError);
 app.use(errorHandler);
 
 // handle unhandled promise rejects
@@ -72,9 +76,8 @@ process.on('unhandledRejection', (reason, p) => {
   console.log('Unhandled Rejection at:', p, 'reason:', reason);
 });
 
-function serverListener() {
-  logger.info('API-Gateway API server running on port 80');
-}
-const server = app.listen(80, '0.0.0.0', serverListener);
+const server = app.listen(80, '0.0.0.0', () =>
+  logger.info('API-Gateway API server running on port 80'),
+);
 
 server.setTimeout(120 * 60 * 1000);
