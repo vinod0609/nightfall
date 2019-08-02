@@ -40,7 +40,6 @@ services:
       - ganache_test
     volumes:
       - ./offchain/src:/app/src
-      - ./offchain/response:/app/response
       - ./offchain/build-test:/app/build
       - ./offchain/.babelrc:/app/.babelrc
       - ./offchain/__tests__:/app/__tests__
@@ -60,7 +59,6 @@ services:
       - ganache_test
     volumes:
       - ./zkp/src:/app/src
-      - ./zkp/response:/app/response
       - ./zkp/build-test:/app/build
       - ./zkp/code:/app/code
       - ./zkp/.babelrc:/app/.babelrc
@@ -90,7 +88,6 @@ services:
       - mongo_test
     volumes:
       - ./database/src:/app/src
-      - ./database/response:/app/response
       - ./database/.babelrc:/app/.babelrc
       - ./zkp-utils:/app/node_modules/zkp-utils
       - ./config:/app/config
