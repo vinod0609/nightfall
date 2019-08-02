@@ -13,171 +13,123 @@ import {
   getAddressFromName,
   isNameInUse,
 } from '../pkd-controller';
-import Response from '../../response'; // class for creating response object
 
 const router = express.Router();
 
-router.get('/name/exists', async function(req, res) {
-  const response = Response();
+router.get('/name/exists', async function(req, res, next) {
   try {
-    const status = await isNameInUse(req.query.name);
-    response.statusCode = 200;
-    response.status = status;
-    res.json(response);
+    res.data = await isNameInUse(req.query.name);
+    next();
   } catch (err) {
-    response.statusCode = 500;
-    response.err = { message: err.message };
-    res.status(500).json(response);
+    next(err);
   }
 });
 
 router
   .route('/name')
-  .post(async function(req, res) {
+  .post(async function(req, res, next) {
     const { name } = req.body;
     const { address } = req.headers;
-    console.log(address, 'name post');
-    const response = Response();
+
     try {
       await setName(name, address);
-      response.statusCode = 200;
-      response.data = { message: 'Name Added.' };
-      res.json(response);
+      res.data = { message: 'Name Added.' };
+      next();
     } catch (err) {
-      response.statusCode = 500;
-      response.err = { message: err.message };
-      res.status(500).json(response);
+      next(err);
     }
   })
-  .get(async function(req, res) {
+  .get(async function(req, res, next) {
     const { address } = req.headers;
-    console.log(address, 'name get');
-    const response = Response();
+
     try {
-      const name = await getNameFromAddress(address);
-      response.statusCode = 200;
-      response.name = name;
-      res.json(response);
+      res.data = await getNameFromAddress(address);
+      next();
     } catch (err) {
-      response.statusCode = 500;
-      response.err = { message: err.message };
-      res.status(500).json(response);
+      next(err);
     }
   });
 
-router.post('/set-all-publickey', async function(req, res) {
+router.post('/set-all-publickey', async function(req, res, next) {
   const { pk, whisper_pk: whisperPk } = req.body;
   const { address } = req.headers;
-  const response = Response();
 
   try {
     await setPublicKeys([whisperPk, pk], address);
-    response.statusCode = 200;
-    response.data = { message: 'Keys Added.' };
-    res.json(response);
+    res.data = { message: 'Keys Added.' };
+    next();
   } catch (err) {
-    response.statusCode = 500;
-    response.err = { message: err.message };
-    res.status(500).json(response);
+    next(err);
   }
 });
 
 router
   .route('/zkp-publickey')
-  .post(async function(req, res) {
+  .post(async function(req, res, next) {
     const { pk } = req.body;
     const { address } = req.headers;
-    const response = Response();
 
     try {
       await setZkpPublicKey(pk, address);
-      response.statusCode = 200;
-      response.data = { message: 'Keys Added.' };
-      res.json(response);
+      res.data = { message: 'Keys Added.' };
+      next();
     } catch (err) {
-      response.statusCode = 500;
-      response.err = { message: err.message };
-      res.status(500).json(response);
+      next(err);
     }
   })
-  .get(async function(req, res) {
+  .get(async function(req, res, next) {
     const { name } = req.query;
-    const response = Response();
 
     try {
-      const data = await getZkpPublicKeyFromName(name);
-      response.statusCode = 200;
-      response.pk = data;
-      res.json(response);
+      res.data = await getZkpPublicKeyFromName(name);
+      next();
     } catch (err) {
-      response.statusCode = 500;
-      response.err = { message: err.message };
-      res.status(500).json(response);
+      next(err);
     }
   });
 
 router
   .route('/whisperkey')
-  .post(async function(req, res) {
+  .post(async function(req, res, next) {
     const { whisper_pk: whisperPk } = req.body;
     const { address } = req.headers;
-    const response = Response();
 
     try {
-      console.log(whisperPk, address);
       await setWhisperPublicKey(whisperPk, address);
-      response.statusCode = 200;
-      response.data = { message: 'Keys Added.' };
-      res.json(response);
+      res.data = { message: 'Keys Added.' };
+      next();
     } catch (err) {
-      response.statusCode = 500;
-      response.err = { message: err.message };
-      res.status(500).json(response);
+      next(err);
     }
   })
-  .get(async function(req, res) {
+  .get(async function(req, res, next) {
     const { name } = req.query;
-    const response = Response();
 
     try {
-      const data = await getWhisperPublicKeyFromName(name);
-      response.statusCode = 200;
-      response.user_whisper_pk = data;
-      res.json(response);
+      res.data = await getWhisperPublicKeyFromName(name);
+      next();
     } catch (err) {
-      response.statusCode = 500;
-      response.err = { message: err.message };
-      res.status(500).json(response);
+      next(err);
     }
   });
 
-router.get('/address', async function(req, res) {
+router.get('/address', async function(req, res, next) {
   const { name } = req.query;
-  const response = Response();
 
   try {
-    const data = await getAddressFromName(name);
-    response.statusCode = 200;
-    response.address = data;
-    res.json(response);
+    res.data = await getAddressFromName(name);
+    next();
   } catch (err) {
-    response.statusCode = 500;
-    response.err = { message: err.message };
-    res.status(500).json(response);
+    next(err);
   }
 });
 
-router.get('/names', async function(req, res) {
-  const response = Response();
+router.get('/names', async function(req, res, next) {
   try {
-    const data = await getNames();
-    response.statusCode = 200;
-    response.data = data;
-    res.json(response);
+    res.data = await getNames();
+    next();
   } catch (err) {
-    response.statusCode = 500;
-    response.err = { message: err.message };
-    res.status(500).json(response);
+    next(err);
   }
 });
 

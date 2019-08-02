@@ -8,9 +8,7 @@ import {
   subscribeObject,
   sendObject,
 } from '../whisper-controller-stub';
-import Response from '../../response';
 
-// class for creating response object
 const router = express.Router();
 
 /**
@@ -28,21 +26,17 @@ const router = express.Router();
  *    }
  *  }
  */
-router.post('/generateShhIdentity', async function(req, res) {
-  const response = Response();
+router.post('/generateShhIdentity', async function(req, res, next) {
   try {
     const { address } = req.body;
     const id = {
       address,
     };
     const shhIdentity = await generateWhisperKeys(id);
-    response.statusCode = 200;
-    response.data = shhIdentity;
-    res.json(response);
+    res.data = shhIdentity;
+    next();
   } catch (err) {
-    response.statusCode = 500;
-    response.err = { message: err.message };
-    res.status(500).json(response);
+    next(err);
   }
 });
 
@@ -61,21 +55,17 @@ router.post('/generateShhIdentity', async function(req, res) {
  *    }
  *  }
  */
-router.get('/getWhisperPublicKey', async function(req, res) {
-  const response = Response();
+router.get('/getWhisperPublicKey', async function(req, res, next) {
   try {
     const { shhIdentity } = req.query;
     const id = {
       shhIdentity,
     };
     const whisperPublicKey = await getWhisperPublicKey(id);
-    response.statusCode = 200;
-    response.data = { whisperPublicKey };
-    res.json(response);
+    res.data = { whisperPublicKey };
+    next();
   } catch (err) {
-    response.statusCode = 500;
-    response.err = { message: err.message };
-    res.status(500).json(response);
+    next(err);
   }
 });
 
@@ -97,8 +87,7 @@ router.get('/getWhisperPublicKey', async function(req, res) {
  *
  */
 
-router.post('/subscribe', async function(req, res) {
-  const response = Response();
+router.post('/subscribe', async function(req, res, next) {
   try {
     const { shhIdentity, topic, jwtToken, sk_A: skA } = req.body;
     const usrData = { jwtToken, skA };
@@ -108,13 +97,10 @@ router.post('/subscribe', async function(req, res) {
     };
 
     await subscribeObject(idRecipient, topic, usrData, listeners);
-    response.statusCode = 200;
-    response.data = { subscribed: true };
-    res.json(response);
+    res.data = { subscribed: true };
+    next();
   } catch (err) {
-    response.statusCode = 500;
-    response.err = { message: err.message };
-    res.status(500).json(response);
+    next(err);
   }
 });
 
@@ -135,22 +121,18 @@ router.post('/subscribe', async function(req, res) {
  *  }
  *
  */
-router.post('/sendMessage', async function(req, res) {
-  const response = Response();
+router.post('/sendMessage', async function(req, res, next) {
   try {
     const { message, shhPkRecipient, shhIdentity } = req.body;
     const idSender = {
       shhIdentity,
     };
-    console.log(idSender);
+
     await sendObject(message, idSender, shhPkRecipient);
-    response.statusCode = 200;
-    response.data = { postMessage: true };
-    res.json(response);
+    res.data = { postMessage: true };
+    next();
   } catch (err) {
-    response.statusCode = 500;
-    response.err = { message: err.message };
-    res.status(500).json(response);
+    next(err);
   }
 });
 
