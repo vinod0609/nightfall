@@ -18,7 +18,7 @@ export function formatError(err, req, res, next) {
   });
 }
 
-export function errorHandler(err, req, res) {
+export function errorHandler(err, req, res, next) {
   res.status(err.status || 500).send({
     error: err,
     data: null,
