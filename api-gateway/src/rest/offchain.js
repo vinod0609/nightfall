@@ -7,10 +7,10 @@ const host = `${offchain.host}:${offchain.port}`;
 const requestWrapper = options =>
   new Promise(function promiseHandler(resolve, reject) {
     request(options, function responseHandler(err, res, body) {
-      if (err || res.statusCode === 500) {
+      if (err || res.statusCode !== 200) {
         return reject(err || res.body);
       }
-      return resolve(body);
+      return resolve(body.data);
     });
   });
 
@@ -22,7 +22,7 @@ export default {
   isNameInUse(name) {
     const options = {
       url: `${host}/pkd/name/exists`,
-      method: 'POST',
+      method: 'GET',
       json: true,
       qs: { name },
     };
