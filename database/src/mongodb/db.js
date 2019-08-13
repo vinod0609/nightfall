@@ -3,6 +3,8 @@
 /* eslint-disable  new-cap */
 /* eslint-disable  class-methods-use-this */
 
+import config from 'config';
+
 const { exec } = require('child_process');
 
 let UserSchema = require('../models/user.model')
@@ -13,9 +15,6 @@ let CoinTransactionSchema = require('../models/coin-transaction.model')
 let PublicTokenSchema = require('../models/public_token.model')
 let PublicTokenTransactionSchema = require('../models/public_token_transaction.model')
 let PublicCoinTransactionSchema = require('../models/public_coin_transaction.model')
-
-import config from 'config';
-
 
 module.exports = class DB {
   constructor(db, username) {
@@ -205,10 +204,9 @@ module.exports = class DB {
 
   updateUserRole() {
     return new Promise((resolve, reject) => {
-      exec(`mongo ${config.mongo.databaseName} --host=${config.mongo.host} -u ${
-        config.mongo.admin
-        } -p ${config.mongo.password} script_to_configure_roles.js`,
-        (err) => {
+      exec(
+        `mongo ${config.mongo.databaseName} --host=${config.mongo.host} -u ${config.mongo.admin} -p ${config.mongo.password} script_to_configure_roles.js`,
+        err => {
           if (err) return reject(err);
           resolve();
           return 0;
