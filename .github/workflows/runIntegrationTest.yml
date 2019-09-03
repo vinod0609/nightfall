@@ -1,0 +1,26 @@
+name: Run Nightfall Integration test
+
+on:
+  pull_request:
+    branches:
+    - master
+
+jobs:
+  integration-test:
+    name: Run integration test suits.
+    runs-on: macOS-10.14
+    
+  strategy:
+    matrix:
+      node-version: [10.15.3]
+ 
+    steps:
+    - name: Pull a compatible Docker image of ZoKrates
+      run:  docker pull michaelconnor/zok:2Jan2019
+    - name: Generate the keys and constraint files for Zero Knowledge Proofs
+      run:  npm run setupAll
+    - name: Build Docker Images
+      run:  docker-compose build
+    - name: Run nightfall-test script
+      run:
+        shell: sh nightfall-test
