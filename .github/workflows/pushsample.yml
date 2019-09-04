@@ -22,5 +22,4 @@ jobs:
     - name: Build Docker Images
       run:  docker-compose build
     - name: Run nightfall-test script
-      run:
-        shell: sh nightfall-test
+      run:  ./nightfall-test
