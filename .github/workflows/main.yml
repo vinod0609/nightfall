@@ -10,9 +10,9 @@ jobs:
     name: Run integration test suits.
     runs-on: macOS-10.14
     
-  strategy:
-    matrix:
-      node-version: [10.15.3]
+    strategy:
+      matrix:
+        node-version: [10.15.3]
  
     steps:
     - name: Pull a compatible Docker image of ZoKrates
