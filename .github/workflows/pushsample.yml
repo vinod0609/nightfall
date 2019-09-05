@@ -17,3 +17,4 @@ jobs:
         node-version: '10.15.3'
     - run: npm ci
     - run: npm run lint
+    - run: ls
