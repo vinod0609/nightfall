@@ -6,8 +6,8 @@ on:
     - liju.jose/configure-github-actions
 
 jobs:
-  integration-test:
-    name: Run integration test suits.
+  eslint:
+    name: check for eslint issues
     runs-on: macOS-10.14
     
     steps:
@@ -17,4 +17,9 @@ jobs:
         node-version: '10.15.3'
     - run: npm ci
     - run: npm run lint
-    - run: ls
+
+  docker:
+    name: Pull docker image
+    steps:
+    - name:  Pull docker images
+      run:  docker pull zokrates/zokrates:0.4.11  
