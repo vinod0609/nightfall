@@ -16,11 +16,9 @@ jobs:
     - uses: actions/setup-node@v1
       with:
         node-version: '10.15.3'
+      run: npm ci
     - name: check node node-version
       run: node -v
-    - uses: nightfall
-    - name: list files
-      run: ls
     - name: check working dir
       run: pwd
     - name: install node packages
