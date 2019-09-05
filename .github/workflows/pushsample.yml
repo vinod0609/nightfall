@@ -17,7 +17,9 @@ jobs:
     - name: check node node-version
       run: node -v
     - name: list files
-      run:  ls
+      run:  |
+        cd ..
+        ls
     - name: check working dir
       run: pwd
     - name: install node packages
