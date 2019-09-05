@@ -20,6 +20,8 @@ jobs:
 
   docker:
     name: Pull docker image
+    runs-on: macOS-10.14
+
     steps:
     - name:  Pull docker images
       run:  docker pull zokrates/zokrates:0.4.11  
