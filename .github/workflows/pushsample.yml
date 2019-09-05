@@ -12,8 +12,12 @@ jobs:
     
     steps:
     - uses: actions/setup-node@v1
+      with:
+        node-version: '10.15.3'
     - name: check node node-version
       run: node -v
+    - name: check working dir
+      run: pwd
     - name: install node packages
       run: npm ci
     - name: Run elslint
