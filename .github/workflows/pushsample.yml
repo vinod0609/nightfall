@@ -23,6 +23,6 @@ jobs:
     runs-on: macOS-10.14
 
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/action-builder/docker@master
     - name:  Pull docker images
       run:  docker pull zokrates/zokrates:0.4.11  
