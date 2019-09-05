@@ -16,7 +16,7 @@ jobs:
     - uses: actions/setup-node@v1
       with:
         node-version: '10.15.3'
-      run: npm ci
+    - run: npm ci
     - name: check node node-version
       run: node -v
     - name: check working dir
