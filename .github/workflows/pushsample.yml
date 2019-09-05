@@ -15,7 +15,9 @@ jobs:
         node-version: [10.15.3]
  
     steps:
-    - name: check node node-version
+    - name: check node node-version ${{ matrix.node_version }}
       run: node -v
+    - name: install node packages
+      run: npm ci
     - name: Run elslint
       run:  npm run lint
