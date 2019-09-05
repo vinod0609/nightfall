@@ -15,5 +15,7 @@ jobs:
         node-version: [10.15.3]
  
     steps:
+    - name: check node node-version
+      run: node -v
     - name: Run elslint
       run:  npm run lint
