@@ -11,17 +11,9 @@ jobs:
     runs-on: macOS-10.14
     
     steps:
-    - name: list files 1
-      run: ls
+    - uses: actions/checkout@v1
     - uses: actions/setup-node@v1
       with:
         node-version: '10.15.3'
     - run: npm ci
-    - name: check node node-version
-      run: node -v
-    - name: check working dir
-      run: pwd
-    - name: install node packages
-      run: npm ci
-    - name: Run elslint
-      run:  npm run lint
+    - run: npm run lint
