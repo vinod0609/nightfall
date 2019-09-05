@@ -10,13 +10,9 @@ jobs:
     name: Run integration test suits.
     runs-on: macOS-10.14
     
-    strategy:
-      matrix:
-        node-version: [10.15.3]
- 
     steps:
     - uses: actions/setup-node@v1
-    - name: check node node-version ${{ matrix.node_version }}
+    - name: check node node-version
       run: node -v
     - name: install node packages
       run: npm ci
