@@ -12,7 +12,7 @@ jobs:
     
     strategy:
       matrix:
-        node-version: [10]
+        node-version: [10.15.3]
  
     steps:
     - uses: actions/setup-node@v1
