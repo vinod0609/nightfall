@@ -12,10 +12,10 @@ jobs:
     
     strategy:
       matrix:
-        node-version: [10.15.3]
+        node-version: [10]
  
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/setup-node@v1
     - name: check node node-version ${{ matrix.node_version }}
       run: node -v
     - name: install node packages
