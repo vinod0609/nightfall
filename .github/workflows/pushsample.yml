@@ -11,15 +11,16 @@ jobs:
     runs-on: macOS-10.14
     
     steps:
+    - name: list files 1
+      run: ls
     - uses: actions/setup-node@v1
       with:
         node-version: '10.15.3'
     - name: check node node-version
       run: node -v
+    - uses: nightfall
     - name: list files
-      run:  |
-        cd ..
-        ls
+      run: ls
     - name: check working dir
       run: pwd
     - name: install node packages
