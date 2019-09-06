@@ -38,5 +38,4 @@ jobs:
       with:
         node-version: '10.15.3'
     - run: npm run setupAll
-    - run:
-        sh: sh nightfall-test
+    - run:  ./nightfall-test
