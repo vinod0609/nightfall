@@ -38,4 +38,11 @@ jobs:
       with:
         node-version: '10.15.3'
     - run: npm run setupAll
+
+  Integration-test:
+    needs: zkp-setup
+    name: Run nightfall-test script
+    runs-on: ubuntu-16.04
+
+    steps:
     - run:  ./nightfall-test
