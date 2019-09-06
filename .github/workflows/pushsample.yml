@@ -18,26 +18,21 @@ jobs:
     - run: npm ci
     - run: npm run lint
 
-  docker-setup:
-    name: Pull docker image
+  setup:
+    name: Setup Application
     runs-on: ubuntu-16.04
 
     steps:
     - uses: actions/docker/cli-multi@master
-    - run:  docker pull zokrates/zokrates:0.4.11
-
-
-  zkp-setup:
-    needs: [eslint, docker-setup]
-    name: Generate the keys and constraint files for Zero Knowledge Proofs
-    runs-on: ubuntu-16.04
-
-    steps:
+    - name: Pull docker image
+      run:  docker pull zokrates/zokrates:0.4.11
     - uses: actions/checkout@v1
     - uses: actions/setup-node@v1
       with:
         node-version: '10.15.3'
-    - run: npm run setupAll
+    - name: Generate the keys and constraint files for Zero Knowledge Proofs
+      run: npm run setupAll
+    
 
   Integration-test:
     needs: zkp-setup
