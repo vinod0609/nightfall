@@ -33,4 +33,10 @@ jobs:
     runs-on: ubuntu-16.04
 
     steps:
-    - run: npm run setupAll 
+    - uses: actions/checkout@v1
+    - uses: actions/setup-node@v1
+      with:
+        node-version: '10.15.3'
+    - run: npm run setupAll
+    - run:
+        sh: sh nightfall-test
