@@ -35,7 +35,7 @@ jobs:
     
 
   Integration-test:
-    needs: zkp-setup
+    needs: setup
     name: Run nightfall-test script
     runs-on: ubuntu-16.04
 
