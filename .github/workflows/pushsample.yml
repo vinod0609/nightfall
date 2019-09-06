@@ -8,7 +8,7 @@ on:
 jobs:
   eslint:
     name: check for eslint issues
-    runs-on: macOS-10.14
+    runs-on: ubuntu-16.04
     
     steps:
     - uses: actions/checkout@v1
@@ -18,22 +18,20 @@ jobs:
     - run: npm ci
     - run: npm run lint
 
-  setup-zkp:
-    needs: eslint
-    name: Generate the keys and constraint files for Zero Knowledge Proofs
-    runs-on: macOS-10.14
-
-    steps:
-    - uses: actions/checkout@v1
-    - uses: actions/setup-node@v1
-      with:
-        node-version: '10.15.3'
-    - run: npm run setupAll
-
-  docker:
+  docker-setup:
     name: Pull docker image
-    runs-on: macOS-10.14
+    runs-on: ubuntu-16.04
 
     steps:
     - uses: actions/docker/cli-multi@master
-    - run:  docker pull zokrates/zokrates:0.4.11  
+    - run:  docker pull zokrates/zokrates:0.4.11
+    - name: Build image
+      run:  docker-compose build
+
+  zkp-setup:
+    needs: [eslint, docker-setup]
+    name: Generate the keys and constraint files for Zero Knowledge Proofs
+    runs-on: ubuntu-16.04
+
+    steps:
+    - run: npm run setupAll 
