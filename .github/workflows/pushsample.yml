@@ -17,6 +17,7 @@ jobs:
         node-version: '10.15.3'
     - run: npm ci
     - run: npm run lint
+    - run: ls
 
   docker-setup:
     name: Pull docker image
@@ -27,6 +28,7 @@ jobs:
     - run:  docker pull zokrates/zokrates:0.4.11
 
   docker-build-image:
+    needs: eslint
     name: Build images
     runs-on: ubuntu-16.04
 
@@ -36,7 +38,7 @@ jobs:
     - run:  docker-compose build
 
   zkp-setup:
-    needs: [eslint, docker-build-image]
+    needs: docker-build-image
     name: Generate the keys and constraint files for Zero Knowledge Proofs
     runs-on: ubuntu-16.04
 
