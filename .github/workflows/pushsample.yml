@@ -28,8 +28,16 @@ jobs:
     - name: Build image
     - run:  docker-compose build
 
+  docker-build-image:
+    name: Build images
+    runs-on: ubuntu-16.04
+
+    steps:
+    - uses: actions/docker/cli-multi@master
+    - run:  docker-compose build
+
   zkp-setup:
-    needs: [eslint, docker-setup]
+    needs: [eslint, docker-build-image]
     name: Generate the keys and constraint files for Zero Knowledge Proofs
     runs-on: ubuntu-16.04
 
