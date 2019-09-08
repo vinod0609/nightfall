@@ -62,6 +62,8 @@ printf "${GREEN}*** Run Integration test ***${NC}\n"
 npm run test || {
 	isTestPassed=false
 	printf "${RED}*** Integration test failed ***${NC}\n"
+  printf "${GREEN}*** Saving the test logs to nightfall_test.log ***${NC}\n"
+  docker-compose -f docker-compose.test.yml logs -f >> nightfall_test.log
 }
 
 

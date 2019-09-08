@@ -23,7 +23,7 @@ jobs:
     runs-on: ubuntu-16.04
 
     steps:
-    - uses: actions/docker/cli-multi@master
+    - uses: actions/checkout@v1
     - name: Pull docker image
       run:  docker pull zokrates/zokrates:0.4.11
     - uses: actions/checkout@v1
