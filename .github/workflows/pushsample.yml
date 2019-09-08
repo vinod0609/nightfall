@@ -8,7 +8,7 @@ on:
 jobs:
   eslint:
     name: check for eslint issues
-    runs-on: ubuntu-16.04
+    runs-on: macOS-10.14
     
     steps:
     - uses: actions/checkout@v1
@@ -20,7 +20,7 @@ jobs:
 
   setup:
     name: Setup Application and Run integration test
-    runs-on: ubuntu-16.04
+    runs-on: macOS-10.14
 
     steps:
     - uses: actions/checkout@v1
@@ -44,4 +44,4 @@ jobs:
     - name: Run Integration test
       run:  ./nightfall-test
     - name: Docker logs
-      run:  docker-compose -f docker-compose.test.yml logs -f
+      run:  vi nightfall_test.log
