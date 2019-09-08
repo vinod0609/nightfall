@@ -8,7 +8,7 @@ on:
 jobs:
   eslint:
     name: check for eslint issues
-    runs-on: macOS-10.14
+    runs-on: ubuntu-16.04
     
     steps:
     - uses: actions/checkout@v1
@@ -20,14 +20,12 @@ jobs:
 
   setup:
     name: Setup Application and Run integration test
-    runs-on: macOS-10.14
+    runs-on: ubuntu-16.04
 
     steps:
     - uses: actions/checkout@v1
     - name: Pull docker image
       run:  docker pull zokrates/zokrates:0.4.11
-    - uses: actions/checkout@v1
-    - uses: actions/setup-node@v1
       with:
         node-version: '10.15.3'
     - name: Generate the keys and constraint files for Zero Knowledge Proofs
