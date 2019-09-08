@@ -26,6 +26,9 @@ jobs:
     - uses: actions/checkout@v1
     - name: Pull docker image
       run:  docker pull zokrates/zokrates:0.4.11
+    - uses: actions/setup-node@v1
+      with:
+        node-version: '10.15.3'
     - name: Generate the keys and constraint files for Zero Knowledge Proofs
       run: npm run setupAll
     - name: Integration test list
@@ -37,7 +40,6 @@ jobs:
         ls
         cd safe-dump/
         ls
-        node -v
     - name: Run Integration test
       run:  ./nightfall-test
     - name: Docker logs
