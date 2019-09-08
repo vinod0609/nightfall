@@ -36,8 +36,18 @@ jobs:
         ls
         cd code/
         ls
-        node -v
+        cd gm17/
+        ls
     - name: Generate the keys and constraint files for Zero Knowledge Proofs
       run: npm run setupAll
+    - name: Integration test list 2
+      run:  |
+        ls
+        cd zkp/
+        ls
+        cd code/
+        ls
+        cd safe-dump/
+        ls
     - name: Run Integration test
       run:  ./nightfall-test
