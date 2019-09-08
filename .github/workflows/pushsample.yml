@@ -29,8 +29,6 @@ jobs:
     - uses: actions/setup-node@v1
       with:
         node-version: '10.15.3'
-    - name: Generate the keys and constraint files for Zero Knowledge Proofs
-      run: npm run setupAll
     - name: Integration test list
       run:  |
         ls
@@ -38,9 +36,8 @@ jobs:
         ls
         cd code/
         ls
-        cd safe-dump/
-        ls
+        node -v
+    - name: Generate the keys and constraint files for Zero Knowledge Proofs
+      run: npm run setupAll
     - name: Run Integration test
       run:  ./nightfall-test
-    - name: Docker logs
-      run:  vi nightfall_test.log
