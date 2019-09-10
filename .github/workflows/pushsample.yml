@@ -15,8 +15,7 @@ jobs:
     - uses: actions/setup-node@v1
       with:
         node-version: '10.15.3'
-    - run: sudo npm ci
-    - run: sudo chmod -R 777 node_modules
+    - run: npm ci
     - run: npm run lint
 
   setup:
@@ -30,15 +29,13 @@ jobs:
     - uses: actions/setup-node@v1
       with:
         node-version: '10.15.3'
-    - run: npm install build-tools
+    - run: chmod -R 777 node_modules
     - name: Integration test list
       run:  |
         whoami
-        sudo -s
-        whoami
         python --version
         sudo python --version
-        ls
+        ls -l
         cd zkp/
         ls
         cd code/
