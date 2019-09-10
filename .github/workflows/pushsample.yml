@@ -6,8 +6,8 @@ on:
     - liju.jose/configure-github-actions
 
 jobs:
-  eslint:
-    name: check for eslint issues
+  eslint-and-integration-test:
+    name: do required check
     runs-on: ubuntu-18.04
     
     steps:
@@ -15,20 +15,12 @@ jobs:
     - uses: actions/setup-node@v1
       with:
         node-version: '10.15.3'
-    - run: npm ci
-    - run: npm run lint
-
-  setup:
-    name: Setup Application and Run integration test
-    runs-on: ubuntu-18.04
-
-    steps:
-    - uses: actions/checkout@v1
+    - name: check eslint
+      run:  |
+        npm ci
+        npm run lint
     - name: Pull docker image
       run:  docker pull zokrates/zokrates:0.4.11
-    - uses: actions/setup-node@v1
-      with:
-        node-version: '10.15.3'
     - name: Integration test list
       run:  |
         whoami
@@ -84,3 +76,5 @@ jobs:
         ls
     - name: Run Integration test
       run:  ./nightfall-test
+    
+    
