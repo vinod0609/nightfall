@@ -7,8 +7,8 @@ on:
 
 jobs:
   eslint-and-integration-test:
-    name: do required check
-    runs-on: ubuntu-18.04
+    name: run eslint and integration
+    runs-on: macOS-10.14
     
     steps:
     - uses: actions/checkout@v1
