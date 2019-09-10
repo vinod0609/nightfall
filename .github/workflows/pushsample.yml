@@ -15,8 +15,8 @@ jobs:
     - uses: actions/setup-node@v1
       with:
         node-version: '10.15.3'
-    - run: npm ci
-    - run: npm run lint
+    - run: sudo npm ci
+    - run: sudo npm run lint
 
   setup:
     name: Setup Application and Run integration test
@@ -24,9 +24,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-    - uses: actions/setup-python@v1
-      with:
-        python-version: '2.7'
     - name: Pull docker image
       run:  docker pull zokrates/zokrates:0.4.11
     - uses: actions/setup-node@v1
@@ -34,6 +31,7 @@ jobs:
         node-version: '10.15.3'
     - name: Integration test list
       run:  |
+        python --version
         ls
         cd zkp/
         ls
