@@ -28,7 +28,7 @@ jobs:
         ls -l
         cd zkp/
         pwd
-        npm ci
+        sudo npm ci
         ls -l
         sudo chmod -R 777 node_modules/
         ls -l
