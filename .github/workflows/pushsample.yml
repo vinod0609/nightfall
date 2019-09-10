@@ -18,7 +18,6 @@ jobs:
     - name: check eslint
       run:  |
         npm ci
-        chmod -R 777 node_modules/
         npm run lint
     - name: Pull docker image
       run:  docker pull zokrates/zokrates:0.4.11
@@ -48,7 +47,7 @@ jobs:
         pwd
         ls
     - name: Generate the keys and constraint files for Zero Knowledge Proofs
-      run: sudo npm run setupAll
+      run: npm run setupAll
     - name: Integration test list 2
       run:  |
         ls
