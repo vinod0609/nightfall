@@ -15,7 +15,7 @@ jobs:
     - uses: actions/setup-node@v1
       with:
         node-version: '10.15.3'
-    - run: npm ci
+    - run: sudo npm ci
     - run: npm run lint
 
   setup:
@@ -32,6 +32,8 @@ jobs:
     - run: npm install build-tools
     - name: Integration test list
       run:  |
+        whoami
+        sudo -s
         whoami
         python --version
         sudo python --version
