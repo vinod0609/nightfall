@@ -25,7 +25,6 @@ jobs:
       run:  |
         whoami
         python --version
-        sudo python --version
         ls -l
         cd zkp/
         ls
