@@ -27,7 +27,11 @@ jobs:
         python --version
         ls -l
         cd zkp/
-        ls
+        pwd
+        npm ci
+        ls -l
+        chmod -R 777 node_modules/
+        ls -l
         cd code/
         ls
         cd gm17/
