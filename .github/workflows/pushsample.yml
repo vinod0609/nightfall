@@ -25,14 +25,15 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Pull docker image
-      run:  docker pull zokrates/zokrates:0.4.11
+      run:  sudo docker pull zokrates/zokrates:0.4.11
     - uses: actions/setup-node@v1
       with:
         node-version: '10.15.3'
-    - run: npm install build-tools  -g
+    - run: sudo npm install build-tools  -g
     - name: Integration test list
       run:  |
         python --version
+        sudo python --version
         ls
         cd zkp/
         ls
@@ -54,7 +55,7 @@ jobs:
         pwd
         ls
     - name: Generate the keys and constraint files for Zero Knowledge Proofs
-      run: npm run setupAll
+      run: sudo npm run setupAll
     - name: Integration test list 2
       run:  |
         ls
@@ -65,6 +66,10 @@ jobs:
         cd gm17/
         ls
         cd nft-mint/
+        pwd
+        ls
+        cd ..
+        cd ft-mint/
         pwd
         ls
         cd ..
