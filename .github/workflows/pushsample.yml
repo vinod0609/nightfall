@@ -8,7 +8,7 @@ on:
 jobs:
   eslint:
     name: check for eslint issues
-    runs-on: ubuntu-16.04
+    runs-on: ubuntu-18.04
     
     steps:
     - uses: actions/checkout@v1
@@ -20,7 +20,7 @@ jobs:
 
   setup:
     name: Setup Application and Run integration test
-    runs-on: ubuntu-16.04
+    runs-on: ubuntu-18.04
 
     steps:
     - uses: actions/checkout@v1
@@ -39,10 +39,17 @@ jobs:
         cd gm17/
         ls
         cd nft-mint/
+        pwd
         ls
         cd ..
         cd ..
         cd safe-dump/
+        pwd
+        ls
+        cd ..
+        cd ..
+        cd src/
+        pwd
         ls
     - name: Generate the keys and constraint files for Zero Knowledge Proofs
       run: npm run setupAll
@@ -56,10 +63,17 @@ jobs:
         cd gm17/
         ls
         cd nft-mint/
+        pwd
         ls
         cd ..
         cd ..
         cd safe-dump/
+        pwd
+        ls
+        cd ..
+        cd ..
+        cd src/
+        pwd
         ls
     - name: Run Integration test
       run:  ./nightfall-test
