@@ -29,7 +29,6 @@ jobs:
     - uses: actions/setup-node@v1
       with:
         node-version: '10.15.3'
-    - run: chmod -R 777 node_modules
     - name: Integration test list
       run:  |
         whoami
