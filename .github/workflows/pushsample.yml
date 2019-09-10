@@ -15,9 +15,8 @@ jobs:
     - uses: actions/setup-node@v1
       with:
         node-version: '10.15.3'
-    - run: sudo npm ci
-    - run: sudo npm install build-tools  -g
-    - run: sudo npm run lint
+    - run: npm ci
+    - run: npm run lint
 
   setup:
     name: Setup Application and Run integration test
@@ -30,6 +29,7 @@ jobs:
     - uses: actions/setup-node@v1
       with:
         node-version: '10.15.3'
+    - run: npm install build-tools  -g
     - name: Integration test list
       run:  |
         python --version
@@ -54,7 +54,7 @@ jobs:
         pwd
         ls
     - name: Generate the keys and constraint files for Zero Knowledge Proofs
-      run: sudo npm run setupAll
+      run: npm run setupAll
     - name: Integration test list 2
       run:  |
         ls
