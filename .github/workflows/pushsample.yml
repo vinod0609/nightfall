@@ -52,7 +52,7 @@ jobs:
         pwd
         ls
     - name: Generate the keys and constraint files for Zero Knowledge Proofs
-      run: npm run setupAll
+      run: sudo npm run setupAll
     - name: Integration test list 2
       run:  |
         ls
