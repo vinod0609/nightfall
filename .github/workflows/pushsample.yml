@@ -30,7 +30,7 @@ jobs:
         pwd
         npm ci
         ls -l
-        chmod -R 777 node_modules/
+        sudo chmod -R 777 node_modules/
         ls -l
         cd code/
         ls
