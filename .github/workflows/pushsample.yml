@@ -28,10 +28,6 @@ jobs:
         ls -l
         cd zkp/
         pwd
-        sudo npm i
-        ls -l
-        sudo chmod -R 777 node_modules/
-        ls -l
         cd code/
         ls
         cd gm17/
@@ -50,7 +46,7 @@ jobs:
         pwd
         ls
     - name: Generate the keys and constraint files for Zero Knowledge Proofs
-      run: sudo npm run setupAll
+      run: npm run setupAll
     - name: Integration test list 2
       run:  |
         ls
