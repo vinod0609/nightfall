@@ -7,7 +7,7 @@ on:
 
 jobs:
   eslint-and-integration-test:
-    name: do required check
+    name: Run eslint and Integration test
     runs-on: ubuntu-18.04
     
     steps:
@@ -26,6 +26,8 @@ jobs:
       run:  |
         docker --version
         docker-compose --version
+        df -h
+        free -h
         whoami
         python --version
         ls -l
@@ -49,7 +51,11 @@ jobs:
         pwd
         ls
     - name: Generate the keys and constraint files for Zero Knowledge Proofs
-      run: npm run setupAll
+      run:  |
+        pwd
+        docker --version
+        docker-compose --version
+        npm run setupAll
     - name: Integration test list 2
       run:  |
         ls
