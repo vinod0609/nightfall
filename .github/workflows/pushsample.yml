@@ -20,9 +20,12 @@ jobs:
         npm ci
         npm run lint
     - name: Pull docker image
-      run:  docker pull zokrates/zokrates:0.4.11
+      run:  |
+        sudo usermod -a -G sudo runner
+        docker pull zokrates/zokrates:0.4.11
     - name: Integration test list
       run:  |
+        cut -d: -f1 /etc/passwd
         docker --version
         docker-compose --version
         df -h
