@@ -55,7 +55,7 @@ jobs:
         docker --version
         docker-compose --version
         sudo usermod -a -G sudo runner
-        sudo npm run setupAll
+        npm run setupAll
     - name: Integration test list 2
       run:  |
         df -h
@@ -86,5 +86,9 @@ jobs:
         ls
     - name: Run Integration test
       run:  ./nightfall-test
+    - name: check container files. rights
+      run:  |
+        IFS=' ' read -ra CONTAINER <<< "$(docker ps -q)"
+        docker  exec -it ${CONTAINER} bash
     
     
