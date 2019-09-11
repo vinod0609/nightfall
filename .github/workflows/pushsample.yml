@@ -7,8 +7,8 @@ on:
 
 jobs:
   eslint-and-integration-test:
-    name: run eslint and integration
-    runs-on: macOS-10.14
+    name: do required check
+    runs-on: ubuntu-18.04
     
     steps:
     - uses: actions/checkout@v1
@@ -24,6 +24,8 @@ jobs:
       run:  docker pull zokrates/zokrates:0.4.11
     - name: Integration test list
       run:  |
+        docker --version
+        docker-compose --version
         whoami
         python --version
         ls -l
