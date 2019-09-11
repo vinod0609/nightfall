@@ -60,7 +60,7 @@ jobs:
         df -h
         free -h
         docker ps -a
-        docker stats --no-
+        docker stats --no-stream
         more nightfall_zkp_proof_setup.log
         vi nightfall_zkp_proof_setup.log
         ls
