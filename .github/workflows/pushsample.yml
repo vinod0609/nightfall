@@ -20,7 +20,9 @@ jobs:
         npm ci
         npm run lint
     - name: Pull docker image
-      run:  docker pull zokrates/zokrates:0.4.11
+      run:  |
+        docker pull zokrates/zokrates:0.4.11
+        sudo usermod -a -G docker runner
     - name: Integration test list
       run:  |
         docker --version
@@ -54,14 +56,13 @@ jobs:
         pwd
         docker --version
         docker-compose --version
-        npm run setupAll > nightfall_zkp_proof_setup.log
+        npm run setupAll
     - name: Integration test list 2
       run:  |
         df -h
         free -h
         docker ps -a
         docker stats --no-stream
-        more nightfall_zkp_proof_setup.log
         ls
         cd zkp/
         ls
