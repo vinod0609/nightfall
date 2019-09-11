@@ -19,7 +19,6 @@ jobs:
       run:  |
         npm ci
         npm run lint
-    - uses: actions/docker/cli@master
     - name: Pull docker image
       run:  docker pull zokrates/zokrates:0.4.11
     - name: Integration test list
@@ -60,6 +59,8 @@ jobs:
       run:  |
         df -h
         free -h
+        docker ps -a
+        docker stats --no-stream
         ls
         cd zkp/
         ls
