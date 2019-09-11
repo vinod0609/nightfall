@@ -25,7 +25,8 @@ jobs:
         docker pull zokrates/zokrates:0.4.11
     - name: Integration test list
       run:  |
-        cut -d: -f1 /etc/passwd
+        sudo -v
+        sudo -s
         docker --version
         docker-compose --version
         df -h
