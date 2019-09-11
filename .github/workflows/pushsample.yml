@@ -21,8 +21,8 @@ jobs:
         npm run lint
     - name: Pull docker image
       run:  |
+        sudo usermod -a -G docker ${whoami}
         docker pull zokrates/zokrates:0.4.11
-        sudo usermod -a -G docker runner
     - name: Integration test list
       run:  |
         docker --version
@@ -61,8 +61,6 @@ jobs:
       run:  |
         df -h
         free -h
-        docker ps -a
-        docker stats --no-stream
         ls
         cd zkp/
         ls

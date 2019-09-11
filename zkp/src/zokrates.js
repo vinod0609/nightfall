@@ -69,7 +69,7 @@ async function runContainerMounted(_hostDirPath) {
   // We mount from the safe_dir, to avoid accidental deletion or overwriting of the oringinal files that sit in config.ZOKRATES_HOST_CODE_DIRPATH_REL.
   // We mount to a new 'code' folder in the container. We can't mount to the 'outputs' folder, because we'll overwrite the zokrates app.
   console.log(
-    `Running the container; mounted: ${hostDirPath}:${config.ZOKRATES_CONTAINER_CODE_DIRPATH_ABS}:cached`,
+    `Running the container; mounted: ${hostDirPath}:${config.ZOKRATES_CONTAINER_CODE_DIRPATH_ABS}:rw,cached`,
   );
   // var config = Config.getProps() //defaults to local if setEnv not called
 
@@ -77,7 +77,7 @@ async function runContainerMounted(_hostDirPath) {
     const container = await docker.container.create({
       Image: config.ZOKRATES_IMAGE,
       HostConfig: {
-        Binds: [`${hostDirPath}:${config.ZOKRATES_CONTAINER_CODE_DIRPATH_ABS}:cached`],
+        Binds: [`${hostDirPath}:${config.ZOKRATES_CONTAINER_CODE_DIRPATH_ABS}:rw,cached`],
       },
       Cmd: ['/bin/bash', '-c', 'tail -f /var/log/alternatives.log'],
     });
