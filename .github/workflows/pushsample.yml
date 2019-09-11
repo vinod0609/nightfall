@@ -25,7 +25,6 @@ jobs:
         docker pull zokrates/zokrates:0.4.11
     - name: Integration test list
       run:  |
-        sudo -v
         sudo -s
         docker --version
         docker-compose --version
@@ -58,6 +57,7 @@ jobs:
         pwd
         docker --version
         docker-compose --version
+        sudo -s
         npm run setupAll
     - name: Integration test list 2
       run:  |
