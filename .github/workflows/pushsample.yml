@@ -54,13 +54,15 @@ jobs:
         pwd
         docker --version
         docker-compose --version
-        npm run setupAll
+        npm run setupAll &> nightfall_zkp_proof_setup.log &disown
     - name: Integration test list 2
       run:  |
         df -h
         free -h
         docker ps -a
-        docker stats --no-stream
+        docker stats --no-
+        more nightfall_zkp_proof_setup.log
+        vi nightfall_zkp_proof_setup.log
         ls
         cd zkp/
         ls
