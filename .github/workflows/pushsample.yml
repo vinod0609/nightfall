@@ -63,6 +63,8 @@ jobs:
       run:  ./nightfall-test
     - name: Integration test list 2
       run:  |
+        df -h
+        free -h
         ls
         cd zkp/
         ls
