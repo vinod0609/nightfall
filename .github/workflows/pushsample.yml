@@ -24,8 +24,6 @@ jobs:
     - name: Generate the keys and constraint files for Zero Knowledge Proofs
       run:  |
         chmod -R 777 zkp/
-        sudo usermod -a -G sudo runner
-        sudo -s
         npm run setupAll
     - name: Integration test list 2
       run:  |
