@@ -29,6 +29,7 @@ jobs:
         free -h
         whoami
         python --version
+        chmod -R 777 zkp/
         ls -l
         cd zkp/
         pwd
@@ -55,6 +56,7 @@ jobs:
         docker --version
         docker-compose --version
         sudo usermod -a -G sudo runner
+        sudo -s
         npm run setupAll
     - name: Integration test list 2
       run:  |
@@ -88,7 +90,11 @@ jobs:
       run:  ./nightfall-test
     - name: check container files. rights
       run:  |
+        docker ps
         IFS=' ' read -ra CONTAINER <<< "$(docker ps -q)"
         docker  exec -it ${CONTAINER} bash
+        ls. -l
+        cd ..
+        ls -l
     
     
