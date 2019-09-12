@@ -66,6 +66,7 @@ jobs:
         df -h
         free -h
         docker stats --no-stream
+        swapon --show
         ls
         cd zkp/
         ls
