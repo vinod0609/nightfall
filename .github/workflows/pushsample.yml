@@ -21,41 +21,9 @@ jobs:
         npm run lint
     - name: Pull docker image
       run:  docker pull zokrates/zokrates:0.4.11
-    - name: Integration test list
-      run:  |
-        docker --version
-        docker-compose --version
-        df -h
-        free -h
-        whoami
-        python --version
-        chmod -R 777 zkp/
-        ls -l
-        cd zkp/
-        pwd
-        cd code/
-        ls
-        cd gm17/
-        ls
-        cd nft-mint/
-        pwd
-        ls
-        cd ..
-        cd ..
-        cd safe-dump/
-        pwd
-        ls
-        cd ..
-        cd ..
-        cd src/
-        pwd
-        ls
     - name: Generate the keys and constraint files for Zero Knowledge Proofs
       run:  |
-        pwd
-        docker --version
-        docker-compose --version
-        sudo usermod -a -G sudo runner
+        chmod -R 777 zkp/
         npm run setupAll
     - name: Integration test list 2
       run:  |
