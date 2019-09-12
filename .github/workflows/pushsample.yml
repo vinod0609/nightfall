@@ -23,12 +23,10 @@ jobs:
       run:  docker pull zokrates/zokrates:0.4.11
     - name: Generate the keys and constraint files for Zero Knowledge Proofs
       run:  |
-        chmod -R 777 zkp/
+        chmod -R 777 zkp/code/
         npm run setupAll
-    - name: Integration test list 2
+    - name: Integration test list
       run:  |
-        df -h
-        free -h
         ls
         cd zkp/
         ls
@@ -44,6 +42,14 @@ jobs:
         pwd
         ls
         cd ..
+        cd nft-transfer/
+        pwd
+        ls
+        cd ..
+        cd ft-transfer/
+        pwd
+        ls
+        cd ..
         cd ..
         cd safe-dump/
         pwd
@@ -55,5 +61,39 @@ jobs:
         ls
     - name: Run Integration test
       run:  ./nightfall-test
+    - name: Integration test list 2
+      run:  |
+        ls
+        cd zkp/
+        ls
+        cd code/
+        ls
+        cd gm17/
+        ls
+        cd nft-mint/
+        pwd
+        ls
+        cd ..
+        cd ft-mint/
+        pwd
+        ls
+        cd ..
+        cd nft-transfer/
+        pwd
+        ls
+        cd ..
+        cd ft-transfer/
+        pwd
+        ls
+        cd ..
+        cd ..
+        cd safe-dump/
+        pwd
+        ls
+        cd ..
+        cd ..
+        cd src/
+        pwd
+        ls
     
     
