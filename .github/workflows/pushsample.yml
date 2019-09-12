@@ -65,6 +65,7 @@ jobs:
       run:  |
         df -h
         free -h
+        docker stats --no-stream
         ls
         cd zkp/
         ls
