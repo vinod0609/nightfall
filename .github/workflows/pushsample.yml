@@ -10,11 +10,16 @@ jobs:
     name: docker stats live report
     runs-on: ubuntu-18.04
 
-    setps:
+    steps:
     - uses: actions/checkout@v1
-    - name: check docker stats
-      run: docker stats
-
+    - uses: actions/setup-node@v1
+      with:
+        node-version: '10.15.3'
+    - name: check eslint
+      run:  |
+        ls
+        docker stats
+  
   eslint-and-integration-test:
     name: Run eslint and Integration test
     runs-on: ubuntu-18.04
