@@ -31,6 +31,7 @@ jobs:
         docker rm $(docker ps -a -q)
     - name: Integration test list
       run:  |
+        mount
         docker ps -a
         ls
         cd zkp/
@@ -64,6 +65,10 @@ jobs:
         cd src/
         pwd
         ls
+        swapoff -a
+        dd if=/dev/zero of=/swapfile bs=1G count=12
+        mkswap /swapfile
+        swapon /swapfile
     - name: Run Integration test
       run:  ./nightfall-test
     - name: Integration test list 2
@@ -71,6 +76,7 @@ jobs:
         df -h
         free -h
         swapon --show
+        grep SwapTotal /proc/meminfo
         ls
         cd zkp/
         ls
