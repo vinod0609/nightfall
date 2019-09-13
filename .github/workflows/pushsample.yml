@@ -6,20 +6,6 @@ on:
     - liju.jose/configure-github-actions
 
 jobs:
-  monitor-docker-stats:
-    name: docker stats live report
-    runs-on: ubuntu-18.04
-
-    steps:
-    - uses: actions/checkout@v1
-    - uses: actions/setup-node@v1
-      with:
-        node-version: '10.15.3'
-    - name: check eslint
-      run:  |
-        ls
-        docker stats
-  
   eslint-and-integration-test:
     name: Run eslint and Integration test
     runs-on: ubuntu-18.04
@@ -39,8 +25,13 @@ jobs:
       run:  |
         chmod -R 777 zkp/code/
         npm run setupAll
+    - name: Remove zokrates Containers
+      run:  |
+        docker stop $(docker ps -a -q)
+        docker rm $(docker ps -a -q)
     - name: Integration test list
       run:  |
+        docker ps -a
         ls
         cd zkp/
         ls
