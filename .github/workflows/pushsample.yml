@@ -6,6 +6,15 @@ on:
     - liju.jose/configure-github-actions
 
 jobs:
+  monitor-docker-stats:
+    name: docker stats live report
+    runs-on: ubuntu-18.04
+
+    setps:
+    - uses: actions/checkout@v1
+    - name: check docker stats
+      run: docker stats
+
   eslint-and-integration-test:
     name: Run eslint and Integration test
     runs-on: ubuntu-18.04
@@ -65,7 +74,6 @@ jobs:
       run:  |
         df -h
         free -h
-        docker stats --no-stream
         swapon --show
         ls
         cd zkp/
