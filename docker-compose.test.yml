@@ -95,6 +95,8 @@ services:
       resources:
         limits:
           memory: 14G
+        reservations:
+          memory: 10G
 
   ganache_test:
     image: trufflesuite/ganache-cli:latest
