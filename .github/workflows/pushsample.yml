@@ -21,6 +21,14 @@ jobs:
         npm run lint
     - name: Pull docker image
       run:  docker pull zokrates/zokrates:0.4.11
+    - name: swap test
+      run:  |
+        swapoff -a
+        dd if=/dev/sda1 of=/swapfile bs=1G count=12
+        mkswap /swapfile
+        swapon /swapfile
+        swapon --show
+        grep SwapTotal /proc/meminfo
     - name: Generate the keys and constraint files for Zero Knowledge Proofs
       run:  |
         chmod -R 777 zkp/code/
@@ -74,8 +82,6 @@ jobs:
       run:  |
         df -h
         free -h
-        swapon --show
-        grep SwapTotal /proc/meminfo
         ls
         cd zkp/
         ls
