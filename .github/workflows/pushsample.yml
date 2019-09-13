@@ -23,10 +23,11 @@ jobs:
       run:  docker pull zokrates/zokrates:0.4.11
     - name: swap test
       run:  |
-        swapoff -a
-        dd if=/dev/sda1 of=/swapfile bs=1G count=12
-        mkswap /swapfile
-        swapon /swapfile
+        sudo usermod -a -G sudo runner
+        sudo swapoff -a
+        sudo dd if=/dev/sda1 of=/swapfile bs=1G count=12
+        sudo mkswap /swapfile
+        sudo swapon /swapfile
         swapon --show
         grep SwapTotal /proc/meminfo
     - name: Generate the keys and constraint files for Zero Knowledge Proofs
