@@ -33,7 +33,7 @@ export const testData = {
 	erc20: {
 		mint: 5,
 		toBeMintedAsCommitment: [2, 3],
-		transfer: 6,
+		transfer: 4,
     get change () {
       return this.toBeMintedAsCommitment.reduce((a, b) => a + b, - this.transfer)
     }
