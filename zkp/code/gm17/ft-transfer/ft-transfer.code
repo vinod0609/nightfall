@@ -1,0 +1,1112 @@
+import "hashes/sha256/512bit.code" as sha256compression
+import "utils/pack/unpack128.code" as unpack128
+
+def CONCAT128x216x216(field[128] a, field[216] b, field[216] c)->(field[560]):
+	return [...a, ...b, ...c]
+
+def CONCAT216x216(field[216] a, field[216] b)->(field[432]):
+	return [...a, ...b]
+
+def ORDEREDCONCAT216x216(field order, field[216] f, field[216] g)->(field[432]):
+	field[216] r = if order==0 then g else f fi
+	field[216] s = if order==0 then f else g fi
+	return [...r, ...s]
+
+def shaPad432To512(field[432] a)->(field[512]):
+	return [...a, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,1,0,1,1,0,0,0,0]
+
+def shaPad216To512(field[216] a)->(field[512]):
+	return [...a, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,1,0,1,1,0,0,0]
+
+def shaPad128To512(field[128] a)->(field[512]):
+	return [...a, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,0,0,0,0,0,0,0]
+
+
+//inputs for main are:
+//Alice's original coins are C and D
+
+// C, the amount contained in coin z_C (private)
+// SkA Alice's secret key (private)
+// Sc the serial number for coin z_C (private)
+// c0b-c7b - the Merkle path for C (private)
+
+// D, the amount contained in coin z_d (private)
+// Sd the serial number for coin z_d (private)
+// d0b-d7b - the Merkle path for D (private)
+
+//Nc the nullifier for C (public)
+//Nd the nullifier for D (public)
+
+// Alice's new coins
+// E, the amount in coin z_e (private)
+// PkB Bob's public key (private)
+// Se the serial number for coin E (private)
+// Ze the z-coin (commitment) corresponding to E (public)
+
+// F, the amount in coin f_e (private)
+// Sf the serial number for coin F (private)
+// Zf the z-coin (commitment) corresponding to F (public)
+
+// R - the Merkle root (public)
+
+// Note - We truncate the 256 bit SHA hash down to 216 bits to make it fit better with our sha, which can only handle a single round.
+
+//Each field element passed to main() can be at most 128bits, to make use of unpack128() so 216 bit variables span two fields
+
+def main(private field pC, private field  pSkA1, private field  pSkA0, private field  pSc1, private field  pSc0, private field c0bh, private field c0bl, private field c1bh, private field c1bl, private field c2bh, private field c2bl, private field c3bh, private field c3bl, private field c4bh, private field c4bl, private field c5bh, private field c5bl, private field c6bh, private field c6bl, private field c7bh, private field c7bl, private field c8bh, private field c8bl, private field c9bh, private field c9bl, private field c10bh, private field c10bl, private field c11bh, private field c11bl, private field c12bh, private field c12bl, private field c13bh, private field c13bl, private field c14bh, private field c14bl, private field c15bh, private field c15bl, private field c16bh, private field c16bl, private field c17bh, private field c17bl, private field c18bh, private field c18bl, private field c19bh, private field c19bl, private field c20bh, private field c20bl, private field c21bh, private field c21bl, private field c22bh, private field c22bl, private field c23bh, private field c23bl, private field c24bh, private field c24bl, private field c25bh, private field c25bl, private field c26bh, private field c26bl, private field c27bh, private field c27bl, private field c28bh, private field c28bl, private field c29bh, private field c29bl, private field c30bh, private field c30bl, private field c31bh, private field c31bl, private field pOrderC, private field pD, private field  pSd1, private field  pSd0, private field d0bh, private field d0bl, private field d1bh, private field d1bl, private field d2bh, private field d2bl, private field d3bh, private field d3bl, private field d4bh, private field d4bl, private field d5bh, private field d5bl, private field d6bh, private field d6bl, private field d7bh, private field d7bl, private field d8bh, private field d8bl, private field d9bh, private field d9bl, private field d10bh, private field d10bl, private field d11bh, private field d11bl, private field d12bh, private field d12bl, private field d13bh, private field d13bl, private field d14bh, private field d14bl, private field d15bh, private field d15bl, private field d16bh, private field d16bl, private field d17bh, private field d17bl, private field d18bh, private field d18bl, private field d19bh, private field d19bl, private field d20bh, private field d20bl, private field d21bh, private field d21bl, private field d22bh, private field d22bl, private field d23bh, private field d23bl, private field d24bh, private field d24bl, private field d25bh, private field d25bl, private field d26bh, private field d26bl, private field d27bh, private field d27bl, private field d28bh, private field d28bl, private field d29bh, private field d29bl, private field d30bh, private field d30bl, private field d31bh, private field d31bl, private field pOrderD, field  pNc1, field  pNc0, field  pNd1, field  pNd0, private field pE, private field  pPkB1, private field  pPkB0, private field  pSe1, private field  pSe0, field  pZe1, field  pZe0, private field pF, private field  pSf1, private field  pSf0, field  pZf1, field  pZf0, field  pR1, field  pR0)->(field):
+
+//Unpack the inputs of main() to 128 bits. We'll unpack each field to its own 128 bit string for simplicity for now. Later efficiencies could be made by grouping some inputs.
+
+	field[128] C = unpack128(pC)
+
+	field[128] SkA1 = unpack128(pSkA1)
+	field[128] SkA0 = unpack128(pSkA0)
+	field[256] SkA = [...SkA1, ...SkA0]
+
+	field[128] Sc1 = unpack128(pSc1) //this slightly long-winded approach needed so Zokrates can flatten the expressions
+	field[128] Sc0 = unpack128(pSc0)
+	field[256] Sc = [...Sc1, ...Sc0]
+
+	field[128] c31b1 = unpack128(c31bh)
+
+
+		field[128] c30b1 = unpack128(c30bh)
+
+
+		field[128] c29b1 = unpack128(c29bh)
+
+
+		field[128] c28b1 = unpack128(c28bh)
+
+
+		field[128] c27b1 = unpack128(c27bh)
+
+
+		field[128] c26b1 = unpack128(c26bh)
+
+
+		field[128] c25b1 = unpack128(c25bh)
+
+
+		field[128] c24b1 = unpack128(c24bh)
+
+
+		field[128] c23b1 = unpack128(c23bh)
+
+
+		field[128] c22b1 = unpack128(c22bh)
+
+
+		field[128] c21b1 = unpack128(c21bh)
+
+
+		field[128] c20b1 = unpack128(c20bh)
+
+
+		field[128] c19b1 = unpack128(c19bh)
+
+
+		field[128] c18b1 = unpack128(c18bh)
+
+
+		field[128] c17b1 = unpack128(c17bh)
+
+
+		field[128] c16b1 = unpack128(c16bh)
+
+
+		field[128] c15b1 = unpack128(c15bh)
+
+
+		field[128] c14b1 = unpack128(c14bh)
+
+
+		field[128] c13b1 = unpack128(c13bh)
+
+
+		field[128] c12b1 = unpack128(c12bh)
+
+
+		field[128] c11b1 = unpack128(c11bh)
+
+
+		field[128] c10b1 = unpack128(c10bh)
+
+
+		field[128] c9b1 = unpack128(c9bh)
+
+
+		field[128] c8b1 = unpack128(c8bh)
+
+
+		field[128] c7b1 = unpack128(c7bh)
+
+
+		field[128] c6b1 = unpack128(c6bh)
+
+
+		field[128] c5b1 = unpack128(c5bh)
+
+
+		field[128] c4b1 = unpack128(c4bh)
+
+
+		field[128] c3b1 = unpack128(c3bh)
+
+
+		field[128] c2b1 = unpack128(c2bh)
+
+
+		field[128] c1b1 = unpack128(c1bh)
+
+
+		field[128] c0b1 = unpack128(c0bh)
+	field[128] c31b0 = unpack128(c31bl)
+
+
+		field[128] c30b0 = unpack128(c30bl)
+
+
+		field[128] c29b0 = unpack128(c29bl)
+
+
+		field[128] c28b0 = unpack128(c28bl)
+
+
+		field[128] c27b0 = unpack128(c27bl)
+
+
+		field[128] c26b0 = unpack128(c26bl)
+
+
+		field[128] c25b0 = unpack128(c25bl)
+
+
+		field[128] c24b0 = unpack128(c24bl)
+
+
+		field[128] c23b0 = unpack128(c23bl)
+
+
+		field[128] c22b0 = unpack128(c22bl)
+
+
+		field[128] c21b0 = unpack128(c21bl)
+
+
+		field[128] c20b0 = unpack128(c20bl)
+
+
+		field[128] c19b0 = unpack128(c19bl)
+
+
+		field[128] c18b0 = unpack128(c18bl)
+
+
+		field[128] c17b0 = unpack128(c17bl)
+
+
+		field[128] c16b0 = unpack128(c16bl)
+
+
+		field[128] c15b0 = unpack128(c15bl)
+
+
+		field[128] c14b0 = unpack128(c14bl)
+
+
+		field[128] c13b0 = unpack128(c13bl)
+
+
+		field[128] c12b0 = unpack128(c12bl)
+
+
+		field[128] c11b0 = unpack128(c11bl)
+
+
+		field[128] c10b0 = unpack128(c10bl)
+
+
+		field[128] c9b0 = unpack128(c9bl)
+
+
+		field[128] c8b0 = unpack128(c8bl)
+
+
+		field[128] c7b0 = unpack128(c7bl)
+
+
+		field[128] c6b0 = unpack128(c6bl)
+
+
+		field[128] c5b0 = unpack128(c5bl)
+
+
+		field[128] c4b0 = unpack128(c4bl)
+
+
+		field[128] c3b0 = unpack128(c3bl)
+
+
+		field[128] c2b0 = unpack128(c2bl)
+
+
+		field[128] c1b0 = unpack128(c1bl)
+
+
+		field[128] c0b0 = unpack128(c0bl)
+	field[256] c31b = [...c31b1, ...c31b0]
+
+
+		field[256] c30b = [...c30b1, ...c30b0]
+
+
+		field[256] c29b = [...c29b1, ...c29b0]
+
+
+		field[256] c28b = [...c28b1, ...c28b0]
+
+
+		field[256] c27b = [...c27b1, ...c27b0]
+
+
+		field[256] c26b = [...c26b1, ...c26b0]
+
+
+		field[256] c25b = [...c25b1, ...c25b0]
+
+
+		field[256] c24b = [...c24b1, ...c24b0]
+
+
+		field[256] c23b = [...c23b1, ...c23b0]
+
+
+		field[256] c22b = [...c22b1, ...c22b0]
+
+
+		field[256] c21b = [...c21b1, ...c21b0]
+
+
+		field[256] c20b = [...c20b1, ...c20b0]
+
+
+		field[256] c19b = [...c19b1, ...c19b0]
+
+
+		field[256] c18b = [...c18b1, ...c18b0]
+
+
+		field[256] c17b = [...c17b1, ...c17b0]
+
+
+		field[256] c16b = [...c16b1, ...c16b0]
+
+
+		field[256] c15b = [...c15b1, ...c15b0]
+
+
+		field[256] c14b = [...c14b1, ...c14b0]
+
+
+		field[256] c13b = [...c13b1, ...c13b0]
+
+
+		field[256] c12b = [...c12b1, ...c12b0]
+
+
+		field[256] c11b = [...c11b1, ...c11b0]
+
+
+		field[256] c10b = [...c10b1, ...c10b0]
+
+
+		field[256] c9b = [...c9b1, ...c9b0]
+
+
+		field[256] c8b = [...c8b1, ...c8b0]
+
+
+		field[256] c7b = [...c7b1, ...c7b0]
+
+
+		field[256] c6b = [...c6b1, ...c6b0]
+
+
+		field[256] c5b = [...c5b1, ...c5b0]
+
+
+		field[256] c4b = [...c4b1, ...c4b0]
+
+
+		field[256] c3b = [...c3b1, ...c3b0]
+
+
+		field[256] c2b = [...c2b1, ...c2b0]
+
+
+		field[256] c1b = [...c1b1, ...c1b0]
+
+
+		field[256] c0b = [...c0b1, ...c0b0]
+
+	field[128] D = unpack128(pD)
+
+	field[128] Sd1 = unpack128(pSd1)
+	field[128] Sd0 = unpack128(pSd0)
+	field[256] Sd = [...Sd1, ...Sd0]
+
+	field[128] d31b1 = unpack128(d31bh)
+
+
+		field[128] d30b1 = unpack128(d30bh)
+
+
+		field[128] d29b1 = unpack128(d29bh)
+
+
+		field[128] d28b1 = unpack128(d28bh)
+
+
+		field[128] d27b1 = unpack128(d27bh)
+
+
+		field[128] d26b1 = unpack128(d26bh)
+
+
+		field[128] d25b1 = unpack128(d25bh)
+
+
+		field[128] d24b1 = unpack128(d24bh)
+
+
+		field[128] d23b1 = unpack128(d23bh)
+
+
+		field[128] d22b1 = unpack128(d22bh)
+
+
+		field[128] d21b1 = unpack128(d21bh)
+
+
+		field[128] d20b1 = unpack128(d20bh)
+
+
+		field[128] d19b1 = unpack128(d19bh)
+
+
+		field[128] d18b1 = unpack128(d18bh)
+
+
+		field[128] d17b1 = unpack128(d17bh)
+
+
+		field[128] d16b1 = unpack128(d16bh)
+
+
+		field[128] d15b1 = unpack128(d15bh)
+
+
+		field[128] d14b1 = unpack128(d14bh)
+
+
+		field[128] d13b1 = unpack128(d13bh)
+
+
+		field[128] d12b1 = unpack128(d12bh)
+
+
+		field[128] d11b1 = unpack128(d11bh)
+
+
+		field[128] d10b1 = unpack128(d10bh)
+
+
+		field[128] d9b1 = unpack128(d9bh)
+
+
+		field[128] d8b1 = unpack128(d8bh)
+
+
+		field[128] d7b1 = unpack128(d7bh)
+
+
+		field[128] d6b1 = unpack128(d6bh)
+
+
+		field[128] d5b1 = unpack128(d5bh)
+
+
+		field[128] d4b1 = unpack128(d4bh)
+
+
+		field[128] d3b1 = unpack128(d3bh)
+
+
+		field[128] d2b1 = unpack128(d2bh)
+
+
+		field[128] d1b1 = unpack128(d1bh)
+
+
+		field[128] d0b1 = unpack128(d0bh)
+	field[128] d31b0 = unpack128(d31bl)
+
+
+		field[128] d30b0 = unpack128(d30bl)
+
+
+		field[128] d29b0 = unpack128(d29bl)
+
+
+		field[128] d28b0 = unpack128(d28bl)
+
+
+		field[128] d27b0 = unpack128(d27bl)
+
+
+		field[128] d26b0 = unpack128(d26bl)
+
+
+		field[128] d25b0 = unpack128(d25bl)
+
+
+		field[128] d24b0 = unpack128(d24bl)
+
+
+		field[128] d23b0 = unpack128(d23bl)
+
+
+		field[128] d22b0 = unpack128(d22bl)
+
+
+		field[128] d21b0 = unpack128(d21bl)
+
+
+		field[128] d20b0 = unpack128(d20bl)
+
+
+		field[128] d19b0 = unpack128(d19bl)
+
+
+		field[128] d18b0 = unpack128(d18bl)
+
+
+		field[128] d17b0 = unpack128(d17bl)
+
+
+		field[128] d16b0 = unpack128(d16bl)
+
+
+		field[128] d15b0 = unpack128(d15bl)
+
+
+		field[128] d14b0 = unpack128(d14bl)
+
+
+		field[128] d13b0 = unpack128(d13bl)
+
+
+		field[128] d12b0 = unpack128(d12bl)
+
+
+		field[128] d11b0 = unpack128(d11bl)
+
+
+		field[128] d10b0 = unpack128(d10bl)
+
+
+		field[128] d9b0 = unpack128(d9bl)
+
+
+		field[128] d8b0 = unpack128(d8bl)
+
+
+		field[128] d7b0 = unpack128(d7bl)
+
+
+		field[128] d6b0 = unpack128(d6bl)
+
+
+		field[128] d5b0 = unpack128(d5bl)
+
+
+		field[128] d4b0 = unpack128(d4bl)
+
+
+		field[128] d3b0 = unpack128(d3bl)
+
+
+		field[128] d2b0 = unpack128(d2bl)
+
+
+		field[128] d1b0 = unpack128(d1bl)
+
+
+		field[128] d0b0 = unpack128(d0bl)
+	field[256] d31b = [...d31b1, ...d31b0]
+
+
+		field[256] d30b = [...d30b1, ...d30b0]
+
+
+		field[256] d29b = [...d29b1, ...d29b0]
+
+
+		field[256] d28b = [...d28b1, ...d28b0]
+
+
+		field[256] d27b = [...d27b1, ...d27b0]
+
+
+		field[256] d26b = [...d26b1, ...d26b0]
+
+
+		field[256] d25b = [...d25b1, ...d25b0]
+
+
+		field[256] d24b = [...d24b1, ...d24b0]
+
+
+		field[256] d23b = [...d23b1, ...d23b0]
+
+
+		field[256] d22b = [...d22b1, ...d22b0]
+
+
+		field[256] d21b = [...d21b1, ...d21b0]
+
+
+		field[256] d20b = [...d20b1, ...d20b0]
+
+
+		field[256] d19b = [...d19b1, ...d19b0]
+
+
+		field[256] d18b = [...d18b1, ...d18b0]
+
+
+		field[256] d17b = [...d17b1, ...d17b0]
+
+
+		field[256] d16b = [...d16b1, ...d16b0]
+
+
+		field[256] d15b = [...d15b1, ...d15b0]
+
+
+		field[256] d14b = [...d14b1, ...d14b0]
+
+
+		field[256] d13b = [...d13b1, ...d13b0]
+
+
+		field[256] d12b = [...d12b1, ...d12b0]
+
+
+		field[256] d11b = [...d11b1, ...d11b0]
+
+
+		field[256] d10b = [...d10b1, ...d10b0]
+
+
+		field[256] d9b = [...d9b1, ...d9b0]
+
+
+		field[256] d8b = [...d8b1, ...d8b0]
+
+
+		field[256] d7b = [...d7b1, ...d7b0]
+
+
+		field[256] d6b = [...d6b1, ...d6b0]
+
+
+		field[256] d5b = [...d5b1, ...d5b0]
+
+
+		field[256] d4b = [...d4b1, ...d4b0]
+
+
+		field[256] d3b = [...d3b1, ...d3b0]
+
+
+		field[256] d2b = [...d2b1, ...d2b0]
+
+
+		field[256] d1b = [...d1b1, ...d1b0]
+
+
+		field[256] d0b = [...d0b1, ...d0b0]
+
+	field[128] Nc1 = unpack128(pNc1)
+	field[128] Nc0 = unpack128(pNc0)
+	field[256] Nc = [...Nc1, ...Nc0]
+
+	field[128] Nd1 = unpack128(pNd1)
+	field[128] Nd0 = unpack128(pNd0)
+	field[256] Nd = [...Nd1, ...Nd0]
+
+	field[128] E = unpack128(pE)
+
+	field[128] PkB1 = unpack128(pPkB1)
+	field[128] PkB0 = unpack128(pPkB0)
+	field[256] PkB = [...PkB1, ...PkB0]
+
+	field[128] Se1 = unpack128(pSe1)
+	field[128] Se0 = unpack128(pSe0)
+	field[256] Se = [...Se1, ...Se0]
+
+	field[128] Ze1 = unpack128(pZe1)
+	field[128] Ze0 = unpack128(pZe0)
+	field[256] Ze = [...Ze1, ...Ze0]
+
+	field[128] F = unpack128(pF)
+
+	field[128] Sf1 = unpack128(pSf1)
+	field[128] Sf0 = unpack128(pSf0)
+	field[256] Sf = [...Sf1,...Sf0]
+
+	field[128] Zf1 = unpack128(pZf1)
+	field[128] Zf0 = unpack128(pZf0)
+	field[256] Zf = [...Zf1, ...Zf0]
+
+	field[128] R1 = unpack128(pR1)
+	field[128] R0 = unpack128(pR0)
+	field[256] R = [...R1, ...R0]
+
+	field[128] orderC = unpack128(pOrderC)
+	field[128] orderD = unpack128(pOrderD)
+
+//*************first we construct a proof that the nullifiers Nc and Nd are correct************
+	//concatenate Sc|Sk. The padding needs to be added to create a true hash
+
+		field[432] t = CONCAT216x216(Sc[40..256], SkA[40..256])
+		field[512] u = shaPad432To512(t)
+		field[256] nc = sha256compression(u[0..256],u[256..512])
+
+	//concatenate Sd|Sk. The padding needs to be added to create a true hash
+
+		t = CONCAT216x216(Sd[40..256], SkA[40..256])
+		u = shaPad432To512(t)
+		field[256] nd = sha256compression(u[0..256],u[256..512])
+
+// *********next, calculate Alice's public key from her private key: PkA = H(SkA) truncated to 216 bits.  This will be useful later
+
+		u = shaPad216To512(SkA[40..256])
+		field[256] PkA = sha256compression(u[0..256],u[256..512])
+
+//*************Prove that Zc and Zd are in the Merkle tree
+
+	// ***First calculate Zc = H(C|PkA|S)
+
+		field[560] d = CONCAT128x216x216(C, PkA[40..256], Sc[40..256])
+		//this is too big to handle in a single sha round and our sha can't handle multiple rounds
+		//as a work-around, we will split d, hash both parts and then hash the result - remember to do this in Node too!
+		//first 432 bits (432 is 216*2 - a convenient number in our 216 bit scheme)
+		field[512] q = shaPad432To512(d[128..560])
+		field[256] s = sha256compression(q[0..256],q[256..512])
+		//remaining 128 bits
+		u = shaPad128To512(d[0..128])
+		field[256] v = sha256compression(u[0..256],u[256..512])
+		//then concat the results msb first
+		t = CONCAT216x216(v[40..256], s[40..256])
+		//and hash the result
+		q = shaPad432To512(t)
+		s = sha256compression(q[0..256],q[256..512]) //zc
+
+		//concat 1st through 31st siblings
+		t = ORDEREDCONCAT216x216(orderC[31], s[40..256], c31b[40..256])
+		u = shaPad432To512(t)
+		s = sha256compression(u[0..256],u[256..512])
+
+
+		t = ORDEREDCONCAT216x216(orderC[30], s[40..256], c30b[40..256])
+		u = shaPad432To512(t)
+		s = sha256compression(u[0..256],u[256..512])
+
+
+		t = ORDEREDCONCAT216x216(orderC[29], s[40..256], c29b[40..256])
+		u = shaPad432To512(t)
+		s = sha256compression(u[0..256],u[256..512])
+
+
+		t = ORDEREDCONCAT216x216(orderC[28], s[40..256], c28b[40..256])
+		u = shaPad432To512(t)
+		s = sha256compression(u[0..256],u[256..512])
+
+
+		t = ORDEREDCONCAT216x216(orderC[27], s[40..256], c27b[40..256])
+		u = shaPad432To512(t)
+		s = sha256compression(u[0..256],u[256..512])
+
+
+		t = ORDEREDCONCAT216x216(orderC[26], s[40..256], c26b[40..256])
+		u = shaPad432To512(t)
+		s = sha256compression(u[0..256],u[256..512])
+
+
+		t = ORDEREDCONCAT216x216(orderC[25], s[40..256], c25b[40..256])
+		u = shaPad432To512(t)
+		s = sha256compression(u[0..256],u[256..512])
+
+
+		t = ORDEREDCONCAT216x216(orderC[24], s[40..256], c24b[40..256])
+		u = shaPad432To512(t)
+		s = sha256compression(u[0..256],u[256..512])
+
+
+		t = ORDEREDCONCAT216x216(orderC[23], s[40..256], c23b[40..256])
+		u = shaPad432To512(t)
+		s = sha256compression(u[0..256],u[256..512])
+
+
+		t = ORDEREDCONCAT216x216(orderC[22], s[40..256], c22b[40..256])
+		u = shaPad432To512(t)
+		s = sha256compression(u[0..256],u[256..512])
+
+
+		t = ORDEREDCONCAT216x216(orderC[21], s[40..256], c21b[40..256])
+		u = shaPad432To512(t)
+		s = sha256compression(u[0..256],u[256..512])
+
+
+		t = ORDEREDCONCAT216x216(orderC[20], s[40..256], c20b[40..256])
+		u = shaPad432To512(t)
+		s = sha256compression(u[0..256],u[256..512])
+
+
+		t = ORDEREDCONCAT216x216(orderC[19], s[40..256], c19b[40..256])
+		u = shaPad432To512(t)
+		s = sha256compression(u[0..256],u[256..512])
+
+
+		t = ORDEREDCONCAT216x216(orderC[18], s[40..256], c18b[40..256])
+		u = shaPad432To512(t)
+		s = sha256compression(u[0..256],u[256..512])
+
+
+		t = ORDEREDCONCAT216x216(orderC[17], s[40..256], c17b[40..256])
+		u = shaPad432To512(t)
+		s = sha256compression(u[0..256],u[256..512])
+
+
+		t = ORDEREDCONCAT216x216(orderC[16], s[40..256], c16b[40..256])
+		u = shaPad432To512(t)
+		s = sha256compression(u[0..256],u[256..512])
+
+
+		t = ORDEREDCONCAT216x216(orderC[15], s[40..256], c15b[40..256])
+		u = shaPad432To512(t)
+		s = sha256compression(u[0..256],u[256..512])
+
+
+		t = ORDEREDCONCAT216x216(orderC[14], s[40..256], c14b[40..256])
+		u = shaPad432To512(t)
+		s = sha256compression(u[0..256],u[256..512])
+
+
+		t = ORDEREDCONCAT216x216(orderC[13], s[40..256], c13b[40..256])
+		u = shaPad432To512(t)
+		s = sha256compression(u[0..256],u[256..512])
+
+
+		t = ORDEREDCONCAT216x216(orderC[12], s[40..256], c12b[40..256])
+		u = shaPad432To512(t)
+		s = sha256compression(u[0..256],u[256..512])
+
+
+		t = ORDEREDCONCAT216x216(orderC[11], s[40..256], c11b[40..256])
+		u = shaPad432To512(t)
+		s = sha256compression(u[0..256],u[256..512])
+
+
+		t = ORDEREDCONCAT216x216(orderC[10], s[40..256], c10b[40..256])
+		u = shaPad432To512(t)
+		s = sha256compression(u[0..256],u[256..512])
+
+
+		t = ORDEREDCONCAT216x216(orderC[9], s[40..256], c9b[40..256])
+		u = shaPad432To512(t)
+		s = sha256compression(u[0..256],u[256..512])
+
+
+		t = ORDEREDCONCAT216x216(orderC[8], s[40..256], c8b[40..256])
+		u = shaPad432To512(t)
+		s = sha256compression(u[0..256],u[256..512])
+
+
+		t = ORDEREDCONCAT216x216(orderC[7], s[40..256], c7b[40..256])
+		u = shaPad432To512(t)
+		s = sha256compression(u[0..256],u[256..512])
+
+
+		t = ORDEREDCONCAT216x216(orderC[6], s[40..256], c6b[40..256])
+		u = shaPad432To512(t)
+		s = sha256compression(u[0..256],u[256..512])
+
+
+		t = ORDEREDCONCAT216x216(orderC[5], s[40..256], c5b[40..256])
+		u = shaPad432To512(t)
+		s = sha256compression(u[0..256],u[256..512])
+
+
+		t = ORDEREDCONCAT216x216(orderC[4], s[40..256], c4b[40..256])
+		u = shaPad432To512(t)
+		s = sha256compression(u[0..256],u[256..512])
+
+
+		t = ORDEREDCONCAT216x216(orderC[3], s[40..256], c3b[40..256])
+		u = shaPad432To512(t)
+		s = sha256compression(u[0..256],u[256..512])
+
+
+		t = ORDEREDCONCAT216x216(orderC[2], s[40..256], c2b[40..256])
+		u = shaPad432To512(t)
+		s = sha256compression(u[0..256],u[256..512])
+
+
+		t = ORDEREDCONCAT216x216(orderC[1], s[40..256], c1b[40..256])
+		u = shaPad432To512(t)
+		s = sha256compression(u[0..256],u[256..512])
+
+		// concat with the 32nd sibling. This should equal the root.
+		t = ORDEREDCONCAT216x216(orderC[0], s[40..256], c0b[40..256])
+		u = shaPad432To512(t)
+		field[256] rc = sha256compression(u[0..256],u[256..512])
+
+	// ***Next calculate Zd = H(D|PkA|S)
+
+		d = CONCAT128x216x216(D, PkA[40..256], Sd[40..256])
+		//this is too big to handle in a single sha round and our sha can't handle multiple rounds
+		//as a work-around, we will split d, hash both parts and then hash the result - remember to do this in Node too!
+		//first 432 bits (432 is 216*2 - a convenient number in our 216 bit scheme)
+		q = shaPad432To512(d[128..560])
+		s = sha256compression(q[0..256],q[256..512])
+		//remaining 128 bits
+		u = shaPad128To512(d[0..128])
+		v = sha256compression(u[0..256],u[256..512])
+		//then concat the results msb first
+		t = CONCAT216x216(v[40..256], s[40..256])
+		//and hash the result
+		q = shaPad432To512(t)
+		s = sha256compression(q[0..256],q[256..512]) //zd
+
+	//concat 1st through 31st siblings
+
+		t = ORDEREDCONCAT216x216(orderD[31], s[40..256], d31b[40..256])
+		u = shaPad432To512(t)
+		s = sha256compression(u[0..256],u[256..512])
+
+
+		t = ORDEREDCONCAT216x216(orderD[30], s[40..256], d30b[40..256])
+		u = shaPad432To512(t)
+		s = sha256compression(u[0..256],u[256..512])
+
+
+		t = ORDEREDCONCAT216x216(orderD[29], s[40..256], d29b[40..256])
+		u = shaPad432To512(t)
+		s = sha256compression(u[0..256],u[256..512])
+
+
+		t = ORDEREDCONCAT216x216(orderD[28], s[40..256], d28b[40..256])
+		u = shaPad432To512(t)
+		s = sha256compression(u[0..256],u[256..512])
+
+
+		t = ORDEREDCONCAT216x216(orderD[27], s[40..256], d27b[40..256])
+		u = shaPad432To512(t)
+		s = sha256compression(u[0..256],u[256..512])
+
+
+		t = ORDEREDCONCAT216x216(orderD[26], s[40..256], d26b[40..256])
+		u = shaPad432To512(t)
+		s = sha256compression(u[0..256],u[256..512])
+
+
+		t = ORDEREDCONCAT216x216(orderD[25], s[40..256], d25b[40..256])
+		u = shaPad432To512(t)
+		s = sha256compression(u[0..256],u[256..512])
+
+
+		t = ORDEREDCONCAT216x216(orderD[24], s[40..256], d24b[40..256])
+		u = shaPad432To512(t)
+		s = sha256compression(u[0..256],u[256..512])
+
+
+		t = ORDEREDCONCAT216x216(orderD[23], s[40..256], d23b[40..256])
+		u = shaPad432To512(t)
+		s = sha256compression(u[0..256],u[256..512])
+
+
+		t = ORDEREDCONCAT216x216(orderD[22], s[40..256], d22b[40..256])
+		u = shaPad432To512(t)
+		s = sha256compression(u[0..256],u[256..512])
+
+
+		t = ORDEREDCONCAT216x216(orderD[21], s[40..256], d21b[40..256])
+		u = shaPad432To512(t)
+		s = sha256compression(u[0..256],u[256..512])
+
+
+		t = ORDEREDCONCAT216x216(orderD[20], s[40..256], d20b[40..256])
+		u = shaPad432To512(t)
+		s = sha256compression(u[0..256],u[256..512])
+
+
+		t = ORDEREDCONCAT216x216(orderD[19], s[40..256], d19b[40..256])
+		u = shaPad432To512(t)
+		s = sha256compression(u[0..256],u[256..512])
+
+
+		t = ORDEREDCONCAT216x216(orderD[18], s[40..256], d18b[40..256])
+		u = shaPad432To512(t)
+		s = sha256compression(u[0..256],u[256..512])
+
+
+		t = ORDEREDCONCAT216x216(orderD[17], s[40..256], d17b[40..256])
+		u = shaPad432To512(t)
+		s = sha256compression(u[0..256],u[256..512])
+
+
+		t = ORDEREDCONCAT216x216(orderD[16], s[40..256], d16b[40..256])
+		u = shaPad432To512(t)
+		s = sha256compression(u[0..256],u[256..512])
+
+
+		t = ORDEREDCONCAT216x216(orderD[15], s[40..256], d15b[40..256])
+		u = shaPad432To512(t)
+		s = sha256compression(u[0..256],u[256..512])
+
+
+		t = ORDEREDCONCAT216x216(orderD[14], s[40..256], d14b[40..256])
+		u = shaPad432To512(t)
+		s = sha256compression(u[0..256],u[256..512])
+
+
+		t = ORDEREDCONCAT216x216(orderD[13], s[40..256], d13b[40..256])
+		u = shaPad432To512(t)
+		s = sha256compression(u[0..256],u[256..512])
+
+
+		t = ORDEREDCONCAT216x216(orderD[12], s[40..256], d12b[40..256])
+		u = shaPad432To512(t)
+		s = sha256compression(u[0..256],u[256..512])
+
+
+		t = ORDEREDCONCAT216x216(orderD[11], s[40..256], d11b[40..256])
+		u = shaPad432To512(t)
+		s = sha256compression(u[0..256],u[256..512])
+
+
+		t = ORDEREDCONCAT216x216(orderD[10], s[40..256], d10b[40..256])
+		u = shaPad432To512(t)
+		s = sha256compression(u[0..256],u[256..512])
+
+
+		t = ORDEREDCONCAT216x216(orderD[9], s[40..256], d9b[40..256])
+		u = shaPad432To512(t)
+		s = sha256compression(u[0..256],u[256..512])
+
+
+		t = ORDEREDCONCAT216x216(orderD[8], s[40..256], d8b[40..256])
+		u = shaPad432To512(t)
+		s = sha256compression(u[0..256],u[256..512])
+
+
+		t = ORDEREDCONCAT216x216(orderD[7], s[40..256], d7b[40..256])
+		u = shaPad432To512(t)
+		s = sha256compression(u[0..256],u[256..512])
+
+
+		t = ORDEREDCONCAT216x216(orderD[6], s[40..256], d6b[40..256])
+		u = shaPad432To512(t)
+		s = sha256compression(u[0..256],u[256..512])
+
+
+		t = ORDEREDCONCAT216x216(orderD[5], s[40..256], d5b[40..256])
+		u = shaPad432To512(t)
+		s = sha256compression(u[0..256],u[256..512])
+
+
+		t = ORDEREDCONCAT216x216(orderD[4], s[40..256], d4b[40..256])
+		u = shaPad432To512(t)
+		s = sha256compression(u[0..256],u[256..512])
+
+
+		t = ORDEREDCONCAT216x216(orderD[3], s[40..256], d3b[40..256])
+		u = shaPad432To512(t)
+		s = sha256compression(u[0..256],u[256..512])
+
+
+		t = ORDEREDCONCAT216x216(orderD[2], s[40..256], d2b[40..256])
+		u = shaPad432To512(t)
+		s = sha256compression(u[0..256],u[256..512])
+
+
+		t = ORDEREDCONCAT216x216(orderD[1], s[40..256], d1b[40..256])
+		u = shaPad432To512(t)
+		s = sha256compression(u[0..256],u[256..512])
+
+	// concat with the 32nd sibling. This should equal the root.
+
+		t = ORDEREDCONCAT216x216(orderD[0], s[40..256], d0b[40..256])
+		u = shaPad432To512(t)
+		field[256] rd = sha256compression(u[0..256],u[256..512])
+
+
+//*************Next up - prove that E is in Ze and F is in Zf
+
+	//work out ze = H(E|PkB|Se)
+
+		d = CONCAT128x216x216(E, PkB[40..256], Se[40..256])
+		//this is too big to handle in a single sha round and our sha can't handle multiple rounds
+		//as a work-around, we will split d, hash both parts and then hash the result - remember to do this in Node too!
+		//first 432 bits (432 is 216*2 - a convenient number in our 216 bit scheme)
+		q = shaPad432To512(d[128..560])
+		s = sha256compression(q[0..256],q[256..512])
+		//remaining 128 bits
+		u = shaPad128To512(d[0..128])
+		v = sha256compression(u[0..256],u[256..512])
+		//then concat the results msb first
+		t = CONCAT216x216(v[40..256], s[40..256])
+		//and hash the result
+		q = shaPad432To512(t)
+		field[256] ze = sha256compression(q[0..256],q[256..512]) //ze
+
+	//and zf
+
+		d = CONCAT128x216x216(F, PkA[40..256], Sf[40..256])
+		//this is too big to handle in a single sha round and our sha can't handle multiple rounds
+		//as a work-around, we will split d, hash both parts and then hash the result - remember to do this in Node too!
+		//first 432 bits (432 is 216*2 - a convenient number in our 216 bit scheme)
+		q = shaPad432To512(d[128..560])
+		s = sha256compression(q[0..256],q[256..512])
+		//remaining 128 bits
+		u = shaPad128To512(d[0..128])
+		v = sha256compression(u[0..256],u[256..512])
+		//then concat the results msb first
+		t = CONCAT216x216(v[40..256], s[40..256])
+		//and hash the result
+		q = shaPad432To512(t)
+		field[256] zf = sha256compression(q[0..256],q[256..512]) //zf
+
+//*************sum check C+D = E+F - we don't want anyone to create money.
+
+	field sumIn = pC + pD
+	field sumOut = pE + pF
+
+//**************Now test the proofs
+
+Nd[40..256] == nd[40..256]
+Nc[40..256] == nc[40..256]
+R[40..256] == rd[40..256]
+R[40..256] == rc[40..256]
+Ze[40..256] == ze[40..256]
+Zf[40..256] == zf[40..256]
+sumIn == sumOut
+C[0] == 0 //overflow prevention
+D[0] == 0
+E[0] == 0
+F[0] == 0
+return 1
