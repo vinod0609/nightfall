@@ -84,7 +84,7 @@ for security. This step can take a while, depending on your hardware. Before you
 more that you have provisioned enough memory for Docker, as described above:
 
 ```sh
-npm run setupAll
+make zkp-setup
 ```
 
 Note that this is a completely automated run: although questions will be asked by the script they
@@ -106,11 +106,11 @@ If you have pulled new changes from the repo, then first run
 docker-compose build
 ```
 
-If any of the `.pcode` or `.code` files have been modified by new changes then, before anything
-else, you will need to re-run
+If any of the `.code` files have been modified by new changes then, before anything else, you will
+need to re-run
 
 ```sh
-npm run setupAll
+make zkp-setup
 ```
 
 :night_with_stars: We're ready to go! Be sure to be in the main directory and run the demo:
