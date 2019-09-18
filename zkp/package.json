@@ -22,6 +22,7 @@
   ],
   "license": "CC0-1.0",
   "dependencies": {
+    "@eyblockchain/zokrates.js": "^1.1.0",
     "beepbeep": "1.2.2",
     "bignumber.js": "^8.0.2",
     "body-parser": "^1.19.0",

@@ -65,6 +65,8 @@ services:
     build:
       context: ./zkp
       dockerfile: Dockerfile
+      args:
+        - NPM_TOKEN
     restart: on-failure
     depends_on:
       - ganache

@@ -15,3 +15,6 @@ zkp-start:
 
 zkp-test:
 	docker-compose run --rm zkp npm t
+
+zkp-setup:
+	docker-compose run zkp npm run setup-all
