@@ -35,9 +35,14 @@ if (!(a0 === undefined || a0 === '')) {
   a1 = null;
 }
 
+/**
+ * Promise wrapper around fs.readdir. Returns a Promise that resolves into an array of files.
+ * @param {String} _path
+ * @returns {Promise}
+ */
 function readdirAsync(_path) {
-  return new Promise(function prm(resolve, reject) {
-    fs.readdir(_path, function rdr(error, result) {
+  return new Promise((resolve, reject) => {
+    fs.readdir(_path, (error, result) => {
       if (error) {
         reject(error);
       } else {
