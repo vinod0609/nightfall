@@ -18,23 +18,6 @@ const getDirectories = source =>
     .map(name => path.join(source, name))
     .filter(isDirectory);
 
-let container;
-
-// SORT THROUGH ARGS:
-
-// arguments to the command line:
-// i - filename
-const { i } = argv; // file name - //pass the my-code.code file as the '-i' parameter
-
-// a - arguments for compute-witness
-const a0 = argv.a; // arguments for compute-witness (within quotes "")
-let a1 = [];
-if (!(a0 === undefined || a0 === '')) {
-  a1 = a0.split(' ');
-} else {
-  a1 = null;
-}
-
 /**
  * Promise wrapper around fs.readdir. Returns a Promise that resolves into an array of files.
  * @param {String} _path
@@ -100,9 +83,8 @@ async function generateZokratesFiles(directoryPath) {
 
 /**
  * Calls zokrates' compile, setup, and export-verifier on all directories in `/zkp/code/gm17`.
- * @param {*} a
  */
-async function runSetupAll(a) {
+async function runSetupAll() {
   // Directory that contains all the code directories.
   const gm17Directory = `${process.cwd()}/code/gm17`;
   // Array of directories.
@@ -117,33 +99,4 @@ async function runSetupAll(a) {
   console.log('done');
 }
 
-async function allOrOne() {
-  if (!i) {
-    console.log(
-      "The '-i' option has not been specified.\nThat's OK, we can go ahead and loop through every .code or .pcode file.\nHOWEVER, if you wanted to choose just one file, cancel this process, and instead use option -i, e.g.: 'node src/tools-tar-create.js -i my-code.code'",
-    );
-    console.log('Be warned, this could take up to an hour!');
-
-    // beep(2);
-    const carryOn = await inquirer.prompt([
-      {
-        type: 'yesno',
-        name: 'continue',
-        message: 'Continue?',
-        choices: ['y', 'n'],
-      },
-    ]);
-    if (carryOn.continue !== 'y') return;
-
-    try {
-      runSetupAll(a1); // we'll do all .code (or .pcode) files if no option is specified
-    } catch (err) {
-      throw new Error(`${err}Trusted setup failed.`);
-    }
-  } else {
-    await runSetup(a1);
-  }
-}
-
-// RUN
-allOrOne().catch(err => console.log(err));
+runSetupAll().catch(err => console.log(err));
