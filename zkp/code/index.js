@@ -1,15 +1,14 @@
 /**
-@module
-@author iAmMichaelConnor
-@desc Run from within nightfall/zkp/code
-E.g. node src/tools-trusted-setup.js
-*/
+ * @module
+ * @author iAmMichaelConnor
+ * @desc Handles the setup for .code files found in `zkp/code/gm17`
+ */
 
-import { argv } from 'yargs';
 import fs from 'fs';
 import path from 'path';
-import inquirer from 'inquirer';
 import { compile, setup, exportVerifier } from '@eyblockchain/zokrates.js';
+
+import keyExtractor from './keyExtractor';
 
 const isDirectory = source => fs.lstatSync(source).isDirectory();
 const getDirectories = source =>
@@ -57,7 +56,6 @@ async function generateZokratesFiles(directoryPath) {
 
   // Generate out.code and out in the same directory.
   await compile(`${directoryWithSlash}${codeFile}`, directoryWithSlash);
-
   console.log('Finished compiling at', directoryPath);
 
   // Generate verification.key and proving.key
@@ -68,7 +66,6 @@ async function generateZokratesFiles(directoryPath) {
     'verification.key',
     'proving.key',
   );
-
   console.log('Finished setup at', directoryPath);
 
   await exportVerifier(
@@ -77,8 +74,17 @@ async function generateZokratesFiles(directoryPath) {
     'verifier.sol',
     'gm17',
   );
-
   console.log('Finished export-verifier at', directoryPath);
+
+  const vkJson = await keyExtractor(`${directoryWithSlash}verifier.sol`, true);
+
+  // Create a JSON with the file name but without .code
+  fs.writeFileSync(`${directoryWithSlash}${codeFile.split('.')[0]}-vk.json`, vkJson, err => {
+    if (err) {
+      console.error(err);
+    }
+  });
+  console.log(directoryPath, 'is done setting up.');
 }
 
 /**
@@ -87,16 +93,14 @@ async function generateZokratesFiles(directoryPath) {
 async function runSetupAll() {
   // Directory that contains all the code directories.
   const gm17Directory = `${process.cwd()}/code/gm17`;
+
   // Array of directories.
   const codeDirectories = getDirectories(gm17Directory);
 
-  await Promise.all(
-    codeDirectories.map(directory => {
-      return generateZokratesFiles(directory);
-    }),
-  );
-
-  console.log('done');
+  // The files don't compile correctly when we Promise.all these, so we're doing sequentially.
+  for (let i = 0; i < codeDirectories.length; i++) {
+    await generateZokratesFiles(codeDirectories[i]);
+  }
 }
 
 runSetupAll().catch(err => console.log(err));
