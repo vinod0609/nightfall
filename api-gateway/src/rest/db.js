@@ -21,7 +21,7 @@ export default {
   // insert user data intro user collection
   createAccount(body) {
     const options = {
-      url: `${host}/createAccount`,
+      url: `${host}/users`,
       method: 'POST',
       json: true,
       body,
@@ -30,11 +30,10 @@ export default {
   },
 
   // verify password while fetching from user collection
-  login(body) {
+  login({name}) {
     const options = {
-      url: `${host}/login`,
-      method: 'POST',
-      body,
+      url: `${host}/users/${name}`,
+      method: 'GET',
       json: true,
     };
     return requestWrapper(options);
