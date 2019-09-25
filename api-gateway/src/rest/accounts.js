@@ -1,8 +1,7 @@
 import request from 'request';
-import { getProps } from '../config/config';
+import config from 'config';
 
-const { accounts } = getProps();
-const host = `${accounts.host}:${accounts.port}`;
+const url = config.get('accounts.url');
 
 const requestWrapper = options =>
   new Promise(function promiseHandler(resolve, reject) {
