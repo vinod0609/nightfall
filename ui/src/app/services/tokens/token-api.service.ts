@@ -155,7 +155,7 @@ export class TokenApiService {
 
     const body = { tokenURI };
 
-    const url = config.apiGateway.root + 'nft/mint';
+    const url = config.apiGateway.root + 'mintNFToken';
 
     return this.http
       .post(url, body, httpOptions)
@@ -173,7 +173,7 @@ export class TokenApiService {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
     };
     const body = { tokenID: nftToken.token_id, uri: nftToken.uri, receiver_name, contractAddress: nftToken.shield_contract_address};
-    const url = config.apiGateway.root + 'nft/transfer';
+    const url = config.apiGateway.root + 'transferNFToken';
     return this.http
       .post(url, body, httpOptions)
       .pipe(tap(data => console.log(`Token minted `)), catchError(this.handleError('mintNFToken', [])));
@@ -190,7 +190,7 @@ export class TokenApiService {
     };
 
     const body = { tokenID: nftToken.token_id, uri: nftToken.uri, contractAddress: nftToken.shield_contract_address};
-    const url = config.apiGateway.root + 'nft/burn';
+    const url = config.apiGateway.root + 'burnNFToken';
 
     return this.http
       .post(url, body, httpOptions)

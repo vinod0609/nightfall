@@ -1,10 +1,16 @@
 import express from 'express';
-import { mintFToken, transferFToken, burnFToken } from '../services/ft';
+import {
+  mintFToken,
+  transferFToken,
+  burnFToken,
+  getFTokenAddress,
+  getFTokenInfo,
+} from '../services/ft';
 
 const router = express.Router();
 
 /**
- * @api {post} /ft/mint Mint a ERC-20 token
+ * @api {post} /mintFToken Mint a ERC-20 token
  * @apiVersion 1.0.0
  * @apiName Mint fungible token
  * @apiGroup ERC-20
@@ -28,10 +34,10 @@ const router = express.Router();
  *		"message": "Mint Successful"
  *	  }
  */
-router.route('/mint').post(mintFToken);
+router.route('/mintFToken').post(mintFToken);
 
 /**
- * @api {post} /ft/transfer Transfer a ERC-20 token
+ * @api {post} /transferFToken Transfer a ERC-20 token
  * @apiVersion 1.0.0
  * @apiName  Transfer fungible token
  * @apiGroup ERC-20
@@ -57,10 +63,10 @@ router.route('/mint').post(mintFToken);
  *		"message": "transfer Successful"
  *	  }
  */
-router.route('/transfer').post(transferFToken);
+router.route('/transferFToken').post(transferFToken);
 
 /**
- * @api {post} /ft/burn Burn a ERC-20 token
+ * @api {post} /burnFToken Burn a ERC-20 token
  * @apiVersion 1.0.0
  * @apiName  Burn fungible token
  * @apiGroup ERC-20
@@ -84,6 +90,54 @@ router.route('/transfer').post(transferFToken);
  *		"message": "Burn Successful"
  *	  }
  */
-router.route('/burn').post(burnFToken);
+router.route('/burnFToken').post(burnFToken);
+
+/**
+ * @api {get} /getFTokenAddress Retrieve fungible token address
+ * @apiVersion 1.0.0
+ * @apiName  Retrieve fungible token address
+ * @apiGroup ERC-20
+ *
+ * $http.get(url, data)
+ *   .success((res, status) => doSomethingHere())
+ *   .error((err, status) => doSomethingHere());
+ *
+ * @apiSuccess (Success 200) address of ERC-20 tokens.
+ *
+ * @apiSuccessExample {json} Success response:
+ *  HTTPS 200 OK
+ *	 {
+ *	   "data":
+ *        {
+ *          "address": "0x3915e408fd5cff354fd73549d31a4bc66f7335db59bc4e84001473"
+ *        }
+ *	 }
+ */
+router.route('/getFTokenAddress').get(getFTokenAddress);
+
+/**
+ * @api {get} /getFTokenInfo Retrieve fungible token address
+ * @apiVersion 1.0.0
+ * @apiName  Retrieve fungible token address
+ * @apiGroup ERC-20
+ *
+ * $http.get(url, data)
+ *   .success((res, status) => doSomethingHere())
+ *   .error((err, status) => doSomethingHere());
+ *
+ * @apiSuccess (Success 200) address of ERC-20 tokens.
+ *
+ * @apiSuccessExample {json} Success response:
+ *  HTTPS 200 OK
+ *	 {
+ *	   "data":
+ *        {
+ *          "balance": 0,
+ *          "symbol" : 0,
+ *          "name" : "samplecoin",
+ *        }
+ *	 }
+ */
+router.route('/getFTokenInfo').get(getFTokenInfo);
 
 export default router;

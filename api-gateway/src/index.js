@@ -44,7 +44,7 @@ app.use('/', unlockAccount, router);
 app.use('/', rootRouter);
 app.use('/token', nftCommitmentRoutes);
 app.use('/coin', ftCommitmentRoutes);
-app.use('/ft', ftRoutes);
+app.use('/', ftRoutes);
 app.use('/nft', nftRoutes);
 app.use('/user', userRoutes);
 app.use('/shield', shieldRoutes);

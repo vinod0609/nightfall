@@ -29,7 +29,7 @@ export const config = {
     root: BaseUrl
   },
   zkp: {
-    root: BaseUrl + 'zkp/'
+    root: BaseUrl
   },
   offchain: {
     root: BaseUrl + 'offchain-service/'

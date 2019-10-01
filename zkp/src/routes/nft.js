@@ -80,10 +80,10 @@ async function getInfo(req, res, next) {
   }
 }
 
-router.route('/mint').post(mint);
-router.route('/transfer').post(transfer);
-router.route('/burn').post(burn);
-router.route('/address').get(getAddress);
-router.route('/details').get(getInfo);
+router.route('/mintNFToken').post(mint);
+router.route('/transferNFToken').post(transfer);
+router.route('/burnNFToken').post(burn);
+router.route('/getNFTokenAddress').get(getAddress);
+router.route('/getNFTokenInfo').get(getInfo);
 
 export default router;

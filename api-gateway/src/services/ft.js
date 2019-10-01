@@ -103,3 +103,34 @@ export async function burnFToken(req, res, next) {
     next(err);
   }
 }
+
+/**
+ * This function will retrieve the address of the fungible token.
+ * req.body { 
+    address : 0x3915e408fd5cff354fd73549d31a4bc66f7335db59bc4e84001473
+ }
+ * @param {*} req
+ * @param {*} res
+*/
+export async function getFTokenAddress(req, res, next) {
+  try {
+    res.data = await zkp.getFTokenAddress();
+    next();
+  } catch (err) {
+    next(err);
+  }
+}
+
+/**
+ * This function will retrieve information of the fungible token.
+ * @param {*} req
+ * @param {*} res
+ */
+export async function getFTokenInfo(req, res, next) {
+  try {
+    res.data = await zkp.getFTokenInfo();
+    next();
+  } catch (err) {
+    next(err);
+  }
+}

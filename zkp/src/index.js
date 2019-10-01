@@ -35,8 +35,8 @@ app.use(bodyParser.json());
 
 app.use('/token', nftCommitmentRoutes);
 app.use('/coin', ftCommitmentRoutes);
-app.use('/ft', ftRoutes);
-app.use('/nft', nftRoutes);
+app.use('/', ftRoutes);
+app.use('/', nftRoutes);
 
 app.route('/vk').post(async function runVkController(req, res, next) {
   try {

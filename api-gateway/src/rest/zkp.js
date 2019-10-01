@@ -107,7 +107,7 @@ export default {
   // mint non-fungible token
   mintNFToken({ address }, body) {
     const options = {
-      url: `${url}/nft/mint`,
+      url: `${url}/mintNFToken`,
       method: 'POST',
       json: true,
       headers: { address },
@@ -119,7 +119,7 @@ export default {
   // transfer non-fungible token
   transferNFToken({ address }, body) {
     const options = {
-      url: `${url}/nft/transfer`,
+      url: `${url}/transferNFToken`,
       method: 'POST',
       json: true,
       headers: { address },
@@ -131,7 +131,7 @@ export default {
   // burn non-fungible token
   burnNFToken({ address }, body) {
     const options = {
-      url: `${url}/nft/burn`,
+      url: `${url}/burnNFToken`,
       method: 'POST',
       json: true,
       headers: { address },
@@ -140,10 +140,32 @@ export default {
     return requestWrapper(options);
   },
 
+  // get non-fungible token address
+  getNFTokenAddress({ address }) {
+    const options = {
+      url: `${url}/getNFTokenAddress`,
+      method: 'GET',
+      json: true,
+      headers: { address },
+    };
+    return requestWrapper(options);
+  },
+
+  // get non-fungible token information
+  getNFTokenInfo({ address }) {
+    const options = {
+      url: `${url}/getNFTokenInfo`,
+      method: 'GET',
+      json: true,
+      headers: { address },
+    };
+    return requestWrapper(options);
+  },
+
   // mint fungible token
   mintFToken({ address }, body) {
     const options = {
-      url: `${url}/ft/mint`,
+      url: `${url}/mintFToken`,
       method: 'POST',
       json: true,
       headers: { address },
@@ -155,7 +177,7 @@ export default {
   // transfer fungible token
   transferFToken({ address }, body) {
     const options = {
-      url: `${url}/ft/transfer`,
+      url: `${url}/transferFToken`,
       method: 'POST',
       json: true,
       headers: { address },
@@ -167,11 +189,33 @@ export default {
   // burn fungible token
   burnFToken({ address }, body) {
     const options = {
-      url: `${url}/ft/burn`,
+      url: `${url}/burnFToken`,
       method: 'POST',
       json: true,
       headers: { address },
       body,
+    };
+    return requestWrapper(options);
+  },
+
+  // get fungible token address
+  getFTokenAddress({ address }) {
+    const options = {
+      url: `${url}/getFTokenAddress`,
+      method: 'GET',
+      json: true,
+      headers: { address },
+    };
+    return requestWrapper(options);
+  },
+
+  // get fungible token information
+  getFTokenInfo({ address }) {
+    const options = {
+      url: `${url}/getFTokenInfo`,
+      method: 'GET',
+      json: true,
+      headers: { address },
     };
     return requestWrapper(options);
   },

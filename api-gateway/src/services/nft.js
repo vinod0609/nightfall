@@ -156,3 +156,31 @@ export async function getNFTokens(req, res, next) {
     next(err);
   }
 }
+
+/**
+ * This function will get the address of a non-fungible token.
+ * @param {*} req
+ * @param {*} res
+ */
+export async function getNFTokenAddress(req, res, next) {
+  try {
+    res.data = await zkp.getNFTokenAddress();
+    next();
+  } catch (err) {
+    next(err);
+  }
+}
+
+/**
+ * This function will get the address of a non-fungible token.
+ * @param {*} req
+ * @param {*} res
+ */
+export async function getNFTokenInfo(req, res, next) {
+  try {
+    res.data = await zkp.getNFTokenInfo();
+    next();
+  } catch (err) {
+    next(err);
+  }
+}
