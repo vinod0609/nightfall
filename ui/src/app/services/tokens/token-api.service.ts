@@ -34,7 +34,7 @@ export class TokenApiService {
       contractAddress: token.shield_contract_address
     };
 
-    const url = config.apiGateway.root + 'token/mint';
+    const url = config.apiGateway.root + 'mintNFTCommitment';
 
     return this.http
       .post(url, body, httpOptions)
@@ -67,7 +67,7 @@ export class TokenApiService {
       receiver_name,
       z_A_index
     };
-    const url = config.apiGateway.root + 'token/transfer';
+    const url = config.apiGateway.root + 'transferNFTCommitment';
 
     return this.http
       .post(url, body, httpOptions)
@@ -97,7 +97,7 @@ export class TokenApiService {
       z_A_index,
       payTo
     };
-    const url = config.apiGateway.root + 'token/burn';
+    const url = config.apiGateway.root + 'burnNFTCommitment';
     return this.http
       .post(url, body, httpOptions)
       .pipe(tap(data => console.log(data)), catchError(this.handleError('burnToken', [])));

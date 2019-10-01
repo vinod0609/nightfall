@@ -31,7 +31,7 @@ export class CoinApiService {
     pk_A
   };
 
-  const url = config.apiGateway.root + 'coin/mint';
+  const url = config.apiGateway.root + 'mintFTCommitment';
 
   return this.http
       .post(url, body, httpOptions)
@@ -147,7 +147,7 @@ export class CoinApiService {
       z_A,
       payTo
     };
-    const url = config.apiGateway.root + 'coin/burn';
+    const url = config.apiGateway.root + 'burnFTCommitment';
     return this.http
       .post(url, body, httpOptions)
       .pipe(tap(data => console.log(data)), catchError(this.handleError('BurnCoin', [])));
@@ -208,7 +208,7 @@ export class CoinApiService {
       receiver_name
     };
 
-    const url = config.apiGateway.root + 'coin/transfer';
+    const url = config.apiGateway.root + 'transferFTCommitment';
     return this.http
       .post(url, body, httpOptions)
       .pipe(tap(data => console.log(data)), catchError(this.handleError('spendCoin', [])));

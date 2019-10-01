@@ -42,10 +42,10 @@ app.use('/offchain-service', unlockAccount, proxy(config.offchain.url));
 
 app.use('/', unlockAccount, router);
 app.use('/', rootRouter);
-app.use('/token', nftCommitmentRoutes);
-app.use('/coin', ftCommitmentRoutes);
+app.use('/', nftCommitmentRoutes);
+app.use('/', ftCommitmentRoutes);
 app.use('/', ftRoutes);
-app.use('/nft', nftRoutes);
+app.use('/', nftRoutes);
 app.use('/user', userRoutes);
 app.use('/shield', shieldRoutes);
 

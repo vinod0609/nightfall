@@ -33,8 +33,8 @@ app.use(
 
 app.use(bodyParser.json());
 
-app.use('/token', nftCommitmentRoutes);
-app.use('/coin', ftCommitmentRoutes);
+app.use('/', nftCommitmentRoutes);
+app.use('/', ftCommitmentRoutes);
 app.use('/', ftRoutes);
 app.use('/', nftRoutes);
 
