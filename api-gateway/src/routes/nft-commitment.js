@@ -86,7 +86,7 @@ router.route('/mintNFTCommitment').post(mintToken);
  *		"z_B_index":"1"
  *	  }
  */
-router.route('/transfer').post(transferToken);
+router.route('/transferNFTCommitment').post(transferToken);
 
 /**
  * @api {post} /burnNFTCommitment Burn a ERC-721 commitment
