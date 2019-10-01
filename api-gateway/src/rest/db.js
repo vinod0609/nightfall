@@ -31,7 +31,7 @@ export default {
 
   configureDBconnection(body) {
     const options = {
-      url: `${host}/dbConnection`,
+      url: `${host}/db-connection`,
       method: 'POST',
       body,
       json: true,
@@ -42,43 +42,30 @@ export default {
   // fetch logged in user info from. user collection
   fetchUser({ name }) {
     const options = {
-      url: `${host}/users`,
+      url: `${host}/users/${name}`,
       method: 'GET',
       json: true,
-      headers: { name },
     };
     return requestWrapper(options);
   },
 
-  // add anonymous one time used account to user collection
-  updateUserWithPrivateAccount({ name }, body) {
+  // update user info in user collection
+  updateUser({ name }, body) {
     const options = {
-      url: `${host}/privateAccount`,
-      method: 'POST',
-      headers: { name },
+      url: `${host}/users/${name}`,
+      method: 'PATCH',
       json: true,
       body,
     };
     return requestWrapper(options);
   },
 
-  // get user's whisper key from user collection
-  getWhisperIdentity({ name }) {
-    const options = {
-      url: `${host}/user/whisperIdentity`,
-      method: 'GET',
-      headers: { name },
-      json: true,
-    };
-    return requestWrapper(options);
-  },
 
-  // update user's whisper key in user collection
-  updateWhisperIdentity({ name }, body) {
+  // add anonymous one time used account to user collection
+  updateUserWithPrivateAccount({ name }, body) {
     const options = {
-      url: `${host}/user/whisperIdentity`,
-      method: 'PATCH',
-      headers: { name },
+      url: `${host}/users/${name}/private-accounts`,
+      method: 'POST',
       json: true,
       body,
     };
@@ -86,37 +73,25 @@ export default {
   },
 
   // insert non-fungible token info in nft collection
-  addNFToken({ name }, body) {
+  insertNFToken({ name }, body) {
     const options = {
-      url: `${host}/nft`,
+      url: `${host}/nfts`,
       method: 'POST',
       json: true,
-      headers: { name },
+      headers: { loggedInUsername: name },
       body,
     };
     return requestWrapper(options);
   },
 
   // update non-fungible token info in nft collection
-  updateNFToken({ name }, body) {
+  updateNFTokenByTokenId({ name }, tokenId, body) {
     const options = {
-      url: `${host}/nft`,
+      url: `${host}/nfts/${tokenId}`,
       method: 'PATCH',
       json: true,
-      headers: { name },
+      headers: { loggedInUsername: name},
       body,
-    };
-    return requestWrapper(options);
-  },
-
-  // fetch non-fungible token by tokenId.
-  getNFTokenByTokenId({ name }, tokenId) {
-    const options = {
-      url: `${host}/nft/`,
-      method: 'GET',
-      json: true,
-      headers: { name },
-      qs: { tokenId },
     };
     return requestWrapper(options);
   },
@@ -124,79 +99,100 @@ export default {
   // fetch non-fungible tokens
   getNFTokens({ name }, qs) {
     const options = {
-      url: `${host}/nft`,
+      url: `${host}/nfts`,
       method: 'GET',
       json: true,
-      headers: { name },
+      headers: { loggedInUsername: name },
       qs,
     };
     return requestWrapper(options);
   },
 
+
   // insert non-fungible token commitment info in nft_commitment collection
-  addToken({ name }, body) {
+  insertNFTCommitment({ name }, body) {
     const options = {
-      url: `${host}/token`,
+      url: `${host}/nft-commitments`,
       method: 'POST',
       json: true,
-      headers: { name },
+      headers: { loggedInUsername: name },
       body,
     };
     return requestWrapper(options);
   },
 
   // update non-fungible token commitment info in nft_commitment collection
-  updateToken({ name }, body) {
+  updateNFTCommitmentByTokenId({ name }, tokenId, body) {
     const options = {
-      url: `${host}/token`,
+      url: `${host}/nft-commitments/${tokenId}`,
       method: 'PATCH',
       json: true,
-      headers: { name },
+      headers: { loggedInUsername: name },
       body,
     };
     return requestWrapper(options);
   },
 
-  // insert fungible token trantion info in ft_transaction collection
-  addFTTransaction({ name }, body) {
+  getNFTCommitments({ name }) {
     const options = {
-      url: `${host}/ft/transaction`,
+      url: `${host}/nft-commitments`,
+      method: 'GET',
+      json: true,
+      headers: { loggedInUsername: name },
+    };
+    return requestWrapper(options);
+  },
+
+  // insert fungible token trantion info in ft_transaction collection
+  insertFTTransaction({ name }, body) {
+    const options = {
+      url: `${host}/fts/transactions`,
       method: 'POST',
       json: true,
-      headers: { name },
+      headers: { loggedInUsername: name },
       body,
     };
     return requestWrapper(options);
   },
 
   // insert fungible token commitment info in ft_commitment collection
-  addCoin({ name }, body) {
+  insertFTCommitment({ name }, body) {
     const options = {
-      url: `${host}/coin`,
+      url: `${host}/ft-commitments`,
       method: 'POST',
       json: true,
-      headers: { name },
+      headers: { loggedInUsername: name },
       body,
     };
     return requestWrapper(options);
   },
 
   // update fungible token commitment info in ft_commitment collection
-  updateCoin({ name }, body) {
+  updateFTCommitmentByCommitmentHash({ name }, commitmentHash, body) {
     const options = {
-      url: `${host}/coin`,
+      url: `${host}/ft-commitments/${commitmentHash}`,
       method: 'PATCH',
       json: true,
-      headers: { name },
+      headers: { loggedInUsername: name },
       body,
     };
     return requestWrapper(options);
   },
 
-  // insert fungible token commitment transaction info in ft_commitment_transaction collection
-  addCoinTransaction({ name }, body) {
+  getFTCommitments({ name }) {
     const options = {
-      url: `${host}/coin/transaction`,
+      url: `${host}/ft-commitments`,
+      method: 'GET',
+      json: true,
+      headers: { loggedInUsername: name },
+    };
+    return requestWrapper(options);
+  },
+
+  // insert fungible token commitment transaction info in ft_commitment_transaction collection
+  insertFTCommitmentTransaction({ name }, body) {
+    const options = {
+      url: `${host}/ft-commitments/transactions`,
       method: 'POST',
       json: true,
       headers: { name },
