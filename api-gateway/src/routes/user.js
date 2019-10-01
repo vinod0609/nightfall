@@ -1,5 +1,5 @@
 import express from 'express';
-import { addContract, updateContract, deleteContract } from '../services/api-gateway';
+import { addContract, updateContract, deleteContract, getUserDetails } from '../services/api-gateway';
 
 const router = express.Router();
 
@@ -97,5 +97,8 @@ router.route('/contractAddress').put(updateContract);
  *	  }
  */
 router.route('/contractAddress').delete(deleteContract);
+
+router.get('/getUserDetails', getUserDetails);
+
 
 export default router;
