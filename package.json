@@ -10,7 +10,8 @@
     "format": "prettier --write \"**/*.{json,css,scss,md,html}\"",
     "lint": "eslint .",
     "ui:lint": "cd ui/ && npm ci && npm run lint",
-    "lint:md": "markdownlint -i node_modules -i build ."
+    "lint:md": "markdownlint -i node_modules -i build .",
+    "prepare": "npm run setupAll && ./nightfall" 
   },
   "repository": {
     "type": "git",
