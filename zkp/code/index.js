@@ -10,7 +10,7 @@ import fs from 'fs';
 import path from 'path';
 import inquirer from 'inquirer';
 import config from 'config';
-
+import _ from 'lodash';
 import keyExtractor from './key-extractor';
 
 import zokrates from '../src/zokrates';
@@ -137,6 +137,7 @@ async function setup(codeFile, outputDirPath, backend, a) {
       `To connect to the ${codeFileName}`,
       ` container manually: 'docker exec -ti ${container.id} bash'`,
     );
+    
 
     console.group('\nCompile', codeFileName, '...');
     // compile .code file
@@ -457,6 +458,10 @@ async function runSetupAll(a) {
 
       let files = await checkForOldFiles(dir2); // eslint-disable-line no-await-in-loop
       if (files !== []) {
+        //check if build artifacts are already present
+        if(files.length === 7){
+         continue;
+        }
         await rmOldFiles(dir2, files); // eslint-disable-line no-await-in-loop
         files = await readdirAsync(dir2); // eslint-disable-line no-await-in-loop
         // filter all files for ones with extension .code
@@ -504,6 +509,7 @@ async function allOrOne() {
     if (carryOn.continue !== 'y') return;
 
     try {
+      
       runSetupAll(a1); // we'll do all .code files if no option is specified
     } catch (err) {
       throw new Error(`${err}Trusted setup failed.`);
